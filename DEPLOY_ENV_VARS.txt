@@ -1,0 +1,127 @@
+================================================================================
+DEPLOY ENVIRONMENT VARIABLES — DigitalVault (Vercel)
+================================================================================
+Set these in: Vercel → your project → Settings → Environment Variables
+This file contains PLACEHOLDERS ONLY. No real secret belongs in this file.
+Delete this file once the variables are set in the Vercel dashboard.
+
+SCOPE legend
+  [Prod+Prev] = set for both Production and Preview  (needed in both)
+  [Prod]      = Production only
+  [Optional]  = feature stays off until you set it
+
+--------------------------------------------------------------------------------
+REQUIRED
+--------------------------------------------------------------------------------
+
+DATABASE_URL                         [Prod+Prev]  *** SECRET ***
+  Supabase pooled connection (port 5432) used by the running app.
+  Placeholder:
+    postgres://postgres.PROJECT_REF:PASSWORD@aws-0-REGION.pooler.supabase.com:5432/postgres?pgbouncer=true&connection_limit=1
+  Why connection_limit=1 — each serverless instance opens its own pool; without
+  this you exhaust Supabase's connection budget quickly and the site starts
+  throwing "too many connections".
+
+DIRECT_URL                           [Prod+Prev]  *** SECRET ***
+  Supabase direct (non-pooled) connection, used for schema pushes/migrations.
+  Placeholder:
+    postgres://postgres.PROJECT_REF:PASSWORD@aws-0-REGION.supabase.com:5432/postgres
+  Required because prisma/schema.prisma declares directUrl = env("DIRECT_URL").
+  Migrations must bypass the pooler or they hang.
+
+SESSION_SECRET                       [Prod+Prev]  *** SECRET ***
+  HMAC key that signs every session cookie. Anyone who reads it can forge an
+  admin session, so treat a leak as a full compromise.
+  Generate a fresh one — do NOT reuse the local value:
+    openssl rand -base64 48
+    (or: bun -e "console.log(crypto.randomUUID()+crypto.randomUUID())")
+  Placeholder:
+    GENERATE_A_FRESH_RANDOM_STRING_AT_LEAST_32_CHARS_LONG
+  The app deliberately REFUSES TO BOOT in production if this is missing, shorter
+  than 32 chars, or equal to a known placeholder such as
+  "dev-secret-change-me-in-production-please" or
+  "local-dev-only-secret-do-not-ship". If the deployed site 500s on every
+  request, this is the first thing to check.
+
+NEXT_PUBLIC_SITE_URL                  [Prod+Prev]  *** PUBLIC — not a secret ***
+  The real origin of the deployed site, no trailing slash:
+    https://your-app.vercel.app
+  NEXT_PUBLIC_* values are INLINED INTO THE BROWSER BUNDLE AT BUILD TIME, so
+  changing this requires a REDEPLOY to take effect (a restart is not enough).
+  Used for: Google OAuth redirect_uri, sitemap.xml, robots.txt, canonical
+  <link> tags, OpenGraph URLs, admin-generated set-password links.
+  This is the variable whose absence caused links to point at localhost:3000.
+
+--------------------------------------------------------------------------------
+OPTIONAL
+--------------------------------------------------------------------------------
+
+SITE_URL                             [Prod+Prev]  not a secret
+  Server-only override that takes priority over NEXT_PUBLIC_SITE_URL.
+  Only needed if server-generated links should differ from the public value
+  (e.g. an internal canonical host). Leave unset unless you know you need it.
+
+GOOGLE_CLIENT_ID                     [Prod+Prev]  not a secret
+  From Google Cloud Console → APIs & Services → Credentials → OAuth client.
+  Without it, "Continue with Google" shows a friendly error and no OAuth starts.
+  The Authorized redirect URI must be exactly:
+    https://your-app.vercel.app/api/auth/google/callback
+  (matching the path, scheme and host — Google compares it byte for byte)
+
+GOOGLE_CLIENT_SECRET                 [Prod+Prev]  *** SECRET ***
+  Same OAuth client. Never commit it.
+
+GOOGLE_SITE_VERIFICATION             [Prod]      not a secret
+  The google-site-verification meta token, used only for Search Console
+  ownership. Plain text, e.g. abc123def456...
+
+CRON_SECRET                          [Prod+Prev]  *** SECRET ***
+  Bearer token for POST /api/admin/chat/autoclose. The route also accepts an
+  authenticated admin session; this secret exists so you can call it from a
+  Vercel Cron job without a browser session. Any long random string.
+
+API_RATE_LIMIT_PER_MIN               [Prod+Prev]  not a secret
+  Overrides the global API limiter (defaults to 300 requests/minute in
+  production). Leave unset for the default. Note: in-memory counters reset on
+  every cold start and are per-instance — see the audit's INFO note on moving
+  these to Redis if you run more than a few instances.
+
+ANALYZE                             [build-time only]  not a secret
+  Set to "true" only for a one-off bundle-analysis build. Leave unset.
+  next.config.ts reads it to write a bundle report.
+
+--------------------------------------------------------------------------------
+DO NOT SET — managed by the platform
+--------------------------------------------------------------------------------
+
+NODE_ENV            Vercel sets this to "production" for you.
+VERCEL_URL          Vercel sets this automatically to the deployment host
+                    (e.g. "my-app-abc123.vercel.app"). The app uses it as a
+                    safety net: if NEXT_PUBLIC_SITE_URL is ever missing, links
+                    degrade to the real deployment host instead of localhost.
+
+--------------------------------------------------------------------------------
+SEEDING — local only, NOT needed on Vercel
+--------------------------------------------------------------------------------
+
+ADMIN_SEED_PASSWORD                 Local only. Run `bun run db:push` then the
+                                    seeder against your Supabase DB. If unset,
+                                    the seeder mints a random 20-character
+                                    password and prints it exactly once.
+BUYER_SEED_PASSWORD                 Same, for the demo buyer account.
+
+The seeder refuses to run when NODE_ENV=production, so it cannot be used to
+seed a live database by accident.
+
+================================================================================
+CHECKLIST
+================================================================================
+[ ] DATABASE_URL set (Prod + Preview) with pgbouncer=true&connection_limit=1
+[ ] DIRECT_URL set (Prod + Preview), non-pooled
+[ ] SESSION_SECRET freshly generated, 48+ chars
+[ ] NEXT_PUBLIC_SITE_URL set to the real origin, then REDEPLOYED
+[ ] Google OAuth Authorized redirect URI registered (if using Google sign-in)
+[ ] Schema pushed to Supabase:  bun run db:push
+[ ] Site loads, /sitemap.xml and /robots.txt show the real domain
+[ ] Sign in works
+[ ] THIS FILE DELETED before you commit or share the folder

@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Environment
+.env
+.env.local
+.env*.local
+.env.production
+.env.development
+
+# Database
+prisma/*.db
+prisma/*.db-journal
+
+# Uploads
+public/uploads/
+
+# Vercel
+.vercel/
+
+# Security artifacts
+security-audit/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
