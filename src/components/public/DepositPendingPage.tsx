@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { CopyButton } from '@/components/shared/CopyButton'
 import { formatMoney } from '@/lib/format'
 import { toast } from 'sonner'
+import { BrandLock } from '@/components/shared/BrandName'
 import {
   ArrowRight, Clock, Bitcoin, Send, MessageCircle, CheckCircle2, XCircle, Loader2,
 } from 'lucide-react'
@@ -31,7 +32,7 @@ interface Props {
 // 10-minute countdown — the user expects admin verification within this window.
 const COUNTDOWN_MS = 10 * 60 * 1000 // 10 minutes
 
-export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegramUrl, supportEmail }: Props) {
+export function DepositPendingPage({ deposit, siteName = 'AccsPoint', telegramUrl, supportEmail }: Props) {
   const router = useRouter()
   const [now, setNow] = useState(() => Date.now())
   const [status, setStatus] = useState(deposit.status)
@@ -89,8 +90,7 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
       <header className="sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur">
         <div className="max-w-3xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white" aria-hidden="true">D</div>
-            <span className="font-bold hidden sm:inline">{siteName}</span>
+            <BrandLock />
           </div>
           <Button variant="outline" size="sm" onClick={() => router.push('/')}>
             <ArrowRight className="w-4 h-4 rotate-180" />
@@ -103,14 +103,14 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
       <main className="flex-1 max-w-2xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-10">
         {/* Status banner */}
         {isApproved ? (
-          <Card className="mb-6 border-emerald-300 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-950/20">
+          <Card className="mb-6 border-red-300 dark:border-red-800 bg-red-50/50 dark:bg-red-950/20">
             <CardContent className="p-5 sm:p-6 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="font-semibold text-emerald-800 dark:text-emerald-200">Deposit approved!</h2>
-                <p className="text-sm text-emerald-700/80 dark:text-emerald-400/80">Your balance has been credited. You can now shop the marketplace.</p>
+                <h2 className="font-semibold text-red-800 dark:text-red-200">Deposit approved!</h2>
+                <p className="text-sm text-red-700/80 dark:text-red-400/80">Your balance has been credited. You can now shop the marketplace.</p>
               </div>
             </CardContent>
           </Card>
@@ -130,7 +130,7 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Clock className="w-5 h-5 text-emerald-600" /> Waiting for verification
+                <Clock className="w-5 h-5 text-red-600" /> Waiting for verification
               </CardTitle>
               <CardDescription>
                 Your deposit has been submitted. An admin will verify it shortly.
@@ -151,13 +151,13 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
                       stroke="currentColor"
                       strokeWidth="6"
                       strokeLinecap="round"
-                      className={isExpired ? 'text-red-500' : 'text-emerald-600'}
+                      className={isExpired ? 'text-red-500' : 'text-red-600'}
                       strokeDasharray={2 * Math.PI * 45}
                       strokeDashoffset={2 * Math.PI * 45 * (1 - progress / 100)}
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <div className={`text-3xl font-bold tabular-nums ${isExpired ? 'text-red-500' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                    <div className={`text-3xl font-bold tabular-nums ${isExpired ? 'text-red-500' : 'text-red-600 dark:text-red-400'}`}>
                       {isExpired ? '00:00' : formatted}
                     </div>
                     <div className="text-[10px] text-zinc-500 mt-1">
@@ -183,7 +183,7 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
           <CardContent>
             <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800">
               <InfoRow label="Status" value={statusLabel(status)} />
-              <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-emerald-600" />} />
+              <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
               <InfoRow label="Amount" value={`$${deposit.amount.toFixed(2)} USD`} copyValue={deposit.amount.toFixed(2)} />
               <InfoRow label="Network" value={deposit.network} />
               {deposit.walletAddress && (
@@ -220,7 +220,7 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
             {/* Direct Chat — opens the floating chat widget by triggering its session */}
             <Button
               variant="outline"
-              className="h-auto py-3 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+              className="h-auto py-3 border-red-300 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/30"
               onClick={() => {
                 // Dispatch a global event that the ChatWidget listens for to open itself
                 if (typeof window !== 'undefined') {
@@ -236,7 +236,7 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
           </CardContent>
           {supportEmail && (
             <CardContent className="pt-0 text-xs text-zinc-500 text-center">
-              Or email us at <a href={`mailto:${supportEmail}`} className="text-emerald-600 hover:underline">{supportEmail}</a>
+              Or email us at <a href={`mailto:${supportEmail}`} className="text-red-600 hover:underline">{supportEmail}</a>
             </CardContent>
           )}
         </Card>
@@ -246,7 +246,7 @@ export function DepositPendingPage({ deposit, siteName = 'DigitalVault', telegra
           <Button variant="outline" className="flex-1" onClick={() => router.push('/deposit')}>
             Submit another deposit
           </Button>
-          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white flex-1" onClick={() => router.push('/')}>
+          <Button className="bg-red-600 hover:bg-red-700 text-white flex-1" onClick={() => router.push('/')}>
             Back to marketplace
           </Button>
         </div>

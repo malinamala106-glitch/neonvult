@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { BrandLock } from '@/components/shared/BrandName'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from '@/components/ui/dialog'
@@ -46,7 +47,7 @@ const NETWORKS = [
 
 type NetworkKey = typeof NETWORKS[number]['key']
 
-export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVault', usdtAddresses, telegramUrl }: Props) {
+export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint', usdtAddresses, telegramUrl }: Props) {
   const router = useRouter()
 
   // Flow state
@@ -129,14 +130,13 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
       <header className="sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur">
         <div className="max-w-5xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white" aria-hidden="true">D</div>
-            <span className="font-bold hidden sm:inline">{siteName}</span>
+            <BrandLock />
           </div>
           <div className="flex items-center gap-3">
             <TelegramButton />
             <div className="text-right">
               <div className="text-xs text-zinc-500">Balance</div>
-              <div className="font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(user.balance)}</div>
+              <div className="font-bold text-red-600 dark:text-red-400">{formatMoney(user.balance)}</div>
             </div>
             <Button variant="outline" size="sm" onClick={() => router.push('/')}>
               <ArrowRight className="w-4 h-4 rotate-180" />
@@ -154,7 +154,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
           <div className="lg:col-span-2 space-y-6">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
-                <ArrowDownCircle className="w-7 h-7 text-emerald-600" /> Deposit USDT
+                <ArrowDownCircle className="w-7 h-7 text-red-600" /> Deposit USDT
               </h1>
               <p className="text-sm text-zinc-500 mt-1">
                 We accept only USDT across 4 networks: BEP20, ERC20, TRX20, and Polygon20.
@@ -207,7 +207,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
                     <Button
                       onClick={proceedToNetwork}
                       disabled={!amountValid}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white flex-1"
+                      className="bg-red-600 hover:bg-red-700 text-white flex-1"
                     >
                       Continue
                     </Button>
@@ -234,12 +234,12 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
                           disabled={!hasAddress}
                           className={`text-left px-4 py-3 rounded-lg border-2 transition-all ${
                             hasAddress
-                              ? 'border-zinc-200 dark:border-zinc-700 hover:border-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20'
+                              ? 'border-zinc-200 dark:border-zinc-700 hover:border-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20'
                               : 'border-zinc-200 dark:border-zinc-800 opacity-50 cursor-not-allowed'
                           }`}
                         >
                           <div className="flex items-center gap-2 mb-1">
-                            <Bitcoin className="w-4 h-4 text-emerald-600" />
+                            <Bitcoin className="w-4 h-4 text-red-600" />
                             <span className="font-semibold text-sm">{n.key}</span>
                           </div>
                           <div className="text-xs text-zinc-500">{n.label}</div>
@@ -265,12 +265,12 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">3. Review deposit info</CardTitle>
-                  <CardDescription>Send exactly <span className="font-semibold text-emerald-700 dark:text-emerald-300">${numericAmount.toFixed(2)}</span> worth of USDT to the address below.</CardDescription>
+                  <CardDescription>Send exactly <span className="font-semibold text-red-700 dark:text-red-300">${numericAmount.toFixed(2)}</span> worth of USDT to the address below.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   {/* Deposit info table */}
                   <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800">
-                    <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-emerald-600" />} />
+                    <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
                     <InfoRow
                       label="Amount"
                       value={`$${numericAmount.toFixed(2)} USD`}
@@ -328,7 +328,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
                     </Button>
                     <Button
                       onClick={openConfirmDialog}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white sm:flex-1"
+                      className="bg-red-600 hover:bg-red-700 text-white sm:flex-1"
                     >
                       Confirm Deposit
                     </Button>
@@ -345,7 +345,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
                 <CardTitle className="text-base">Your balance</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(user.balance)}</div>
+                <div className="text-3xl font-bold text-red-600 dark:text-red-400">{formatMoney(user.balance)}</div>
                 <p className="text-xs text-zinc-500 mt-1">Available to spend</p>
               </CardContent>
             </Card>
@@ -356,35 +356,35 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
               </CardHeader>
               <CardContent className="space-y-3 text-sm">
                 <div className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xs font-bold">1</div>
+                  <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">1</div>
                   <div>
                     <div className="font-medium">Enter amount</div>
                     <p className="text-xs text-zinc-500">Minimum ${Math.max(1, minDeposit).toFixed(2)} USD.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xs font-bold">2</div>
+                  <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">2</div>
                   <div>
                     <div className="font-medium">Pick network</div>
                     <p className="text-xs text-zinc-500">BEP20, ERC20, TRX20, or Polygon20.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xs font-bold">3</div>
+                  <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">3</div>
                   <div>
                     <div className="font-medium">Send USDT</div>
                     <p className="text-xs text-zinc-500">Send to the address shown (or scan QR).</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xs font-bold">4</div>
+                  <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">4</div>
                   <div>
                     <div className="font-medium">Confirm with TRX ID</div>
                     <p className="text-xs text-zinc-500">Enter the transaction hash and submit.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xs font-bold">5</div>
+                  <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">5</div>
                   <div>
                     <div className="font-medium">Admin verifies</div>
                     <p className="text-xs text-zinc-500">Balance credited after manual approval.</p>
@@ -393,12 +393,12 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
               </CardContent>
             </Card>
 
-            <Card className="bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900">
+            <Card className="bg-red-50/50 dark:bg-red-950/20 border-red-200 dark:border-red-900">
               <CardContent className="p-4 space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                <div className="flex items-center gap-2 text-sm font-medium text-red-700 dark:text-red-400">
                   <ShieldCheck className="w-4 h-4" /> Manual verification
                 </div>
-                <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80">
+                <p className="text-xs text-red-700/80 dark:text-red-400/80">
                   Every deposit is reviewed by an admin. Don't worry if it takes a few minutes — your balance will be credited once approved.
                 </p>
               </CardContent>
@@ -414,7 +414,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
         <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600" /> Confirm your deposit
+              <CheckCircle2 className="w-5 h-5 text-red-600" /> Confirm your deposit
             </DialogTitle>
             <DialogDescription>
               Enter the transaction ID (TRX hash) from your wallet. We'll send all deposit info to the admin for verification.
@@ -423,7 +423,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
 
           {/* Deposit summary inside the dialog */}
           <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800 text-sm w-full overflow-hidden">
-            <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-emerald-600" />} />
+            <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
             <InfoRow label="Amount" value={`$${numericAmount.toFixed(2)} USD`} />
             <InfoRow label="Network" value={selectedNetwork?.label || network} />
             <InfoRow label="Address" value={depositAddress} copyValue={depositAddress} mono />
@@ -449,7 +449,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
             <Button
               onClick={submitDeposit}
               disabled={submitting || !txHash.trim()}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
               {submitting ? (
                 <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Submitting…</>
@@ -468,9 +468,9 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'DigitalVaul
 
 function StepBadge({ active, done, number, label }: { active: boolean; done: boolean; number: number; label: string }) {
   return (
-    <div className={`flex items-center gap-2 ${active || done ? 'text-emerald-700 dark:text-emerald-400' : 'text-zinc-400'}`}>
+    <div className={`flex items-center gap-2 ${active || done ? 'text-red-700 dark:text-red-400' : 'text-zinc-400'}`}>
       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-        done ? 'bg-emerald-600 text-white' : active ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-2 border-emerald-500' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400'
+        done ? 'bg-red-600 text-white' : active ? 'bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 border-2 border-red-500' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400'
       }`}>
         {done ? <CheckCircle2 className="w-3.5 h-3.5" /> : number}
       </div>

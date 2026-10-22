@@ -47,7 +47,7 @@ export default async function Page() {
       user={toUserProps(user)}
       wallets={wallets.map(toWalletProps)}
       minDeposit={parseFloat(settingsMap.minDepositAmount ?? '0') || 0}
-      siteName={settingsMap.siteName ?? 'DigitalVault'}
+      siteName={settingsMap.siteName ?? 'AccsPoint'}
       usdtAddresses={{
         usdtWalletBEP20: settingsMap.usdtWalletBEP20 ?? '',
         usdtWalletERC20: settingsMap.usdtWalletERC20 ?? '',

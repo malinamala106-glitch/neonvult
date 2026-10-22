@@ -38,7 +38,7 @@ export function statusBadgeClass(status: string): string {
     case 'APPROVED':
     case 'COMPLETED':
     case 'AVAILABLE':
-      return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900'
+      return 'bg-red-100 text-red-800 dark:bg-red-950/50 dark:text-red-300 border-red-200 dark:border-red-900'
     case 'REJECTED':
     case 'FAILED':
     case 'SOLD':

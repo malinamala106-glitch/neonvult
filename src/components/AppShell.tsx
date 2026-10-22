@@ -28,7 +28,7 @@ const BuyerApp = dynamic(
 function ShellFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white dark:bg-zinc-950">
-      <div className="h-8 w-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" role="status" aria-label="Loading" />
+      <div className="h-8 w-8 rounded-full border-2 border-red-500 border-t-transparent animate-spin" role="status" aria-label="Loading" />
     </div>
   )
 }
@@ -122,7 +122,7 @@ export function AppShell({ initialUser, initialProducts, initialSettings }: Prop
         <PublicStorefront
           onAuthenticated={handleAuthenticated}
           initialProducts={initialProducts}
-          siteName={settings?.siteName ?? 'DigitalVault'}
+          siteName={settings?.siteName ?? 'AccsPoint'}
           content={settings?.content}
           externalAuthOpen={authOpen}
           externalAuthTab={authTab}

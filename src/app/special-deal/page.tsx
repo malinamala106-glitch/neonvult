@@ -25,7 +25,7 @@ export default async function Page() {
     db.setting.findMany({ where: { key: { in: [...CONTENT_SETTING_KEYS, 'siteName'] } } }),
   ])
 
-  const siteName = settingsRows.find((r) => r.key === 'siteName')?.value || 'DigitalVault'
+  const siteName = settingsRows.find((r) => r.key === 'siteName')?.value || 'AccsPoint'
 
   return (
     <SpecialDealsPage

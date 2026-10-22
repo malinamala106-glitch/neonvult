@@ -140,21 +140,21 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
           <button
             type="button"
             onClick={() => setMode('upload')}
-            className={`px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 transition-colors ${mode === 'upload' ? 'bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}
+            className={`px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 transition-colors ${mode === 'upload' ? 'bg-white dark:bg-zinc-900 text-red-600 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}
           >
             <Upload className="w-3 h-3" /> Upload
           </button>
           <button
             type="button"
             onClick={() => setMode('url')}
-            className={`px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 transition-colors ${mode === 'url' ? 'bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}
+            className={`px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 transition-colors ${mode === 'url' ? 'bg-white dark:bg-zinc-900 text-red-600 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}
           >
             <LinkIcon className="w-3 h-3" /> URL
           </button>
           <button
             type="button"
             onClick={() => setMode('emoji')}
-            className={`px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 transition-colors ${mode === 'emoji' ? 'bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}
+            className={`px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 transition-colors ${mode === 'emoji' ? 'bg-white dark:bg-zinc-900 text-red-600 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}
           >
             <Smile className="w-3 h-3" /> Emoji
           </button>
@@ -170,8 +170,8 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
           onClick={() => fileInputRef.current?.click()}
           className={`rounded-lg border-2 border-dashed p-6 text-center cursor-pointer transition-colors ${
             dragOver
-              ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20'
-              : 'border-zinc-300 dark:border-zinc-700 hover:border-emerald-400 hover:bg-zinc-50 dark:hover:bg-zinc-900'
+              ? 'border-red-500 bg-red-50 dark:bg-red-950/20'
+              : 'border-zinc-300 dark:border-zinc-700 hover:border-red-400 hover:bg-zinc-50 dark:hover:bg-zinc-900'
           }`}
         >
           <input
@@ -183,7 +183,7 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
           />
           {uploading ? (
             <div className="flex flex-col items-center gap-2">
-              <Loader2 className="w-6 h-6 animate-spin text-emerald-600" />
+              <Loader2 className="w-6 h-6 animate-spin text-red-600" />
               <span className="text-xs text-zinc-500">Uploading…</span>
             </div>
           ) : (

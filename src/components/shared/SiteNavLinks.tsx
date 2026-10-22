@@ -5,8 +5,8 @@ import { useSiteContent } from '@/components/shared/use-site-content'
 import { resolveNavBarLinks } from '@/lib/site-content'
 import type { SiteContent } from '@/lib/types'
 
-const ACTIVE_CLASSES = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300'
-const IDLE_CLASSES = 'border-transparent text-zinc-600 dark:text-zinc-400 hover:border-emerald-300 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 hover:text-emerald-700 dark:hover:text-emerald-300'
+const ACTIVE_CLASSES = 'border-red-500 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300'
+const IDLE_CLASSES = 'border-transparent text-zinc-600 dark:text-zinc-400 hover:border-red-300 hover:bg-red-50/50 dark:hover:bg-red-950/20 hover:text-red-700 dark:hover:text-red-300'
 
 interface SiteNavLinksProps {
   /** Admin-editable site content when the page already loaded it server-side. */

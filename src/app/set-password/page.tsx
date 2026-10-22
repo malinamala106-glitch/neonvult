@@ -73,10 +73,10 @@ export default function SetPasswordPage() {
             </CardContent>
           ) : done ? (
             <CardContent className="py-12 text-center">
-              <CheckCircle2 className="w-10 h-10 mx-auto mb-3 text-emerald-500" />
+              <CheckCircle2 className="w-10 h-10 mx-auto mb-3 text-red-500" />
               <CardTitle className="text-lg mb-1">Password set</CardTitle>
               <p className="text-sm text-zinc-500 mb-4">You can now sign in with your email and new password.</p>
-              <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white"><a href="/?signin=1">Go to sign in</a></Button>
+              <Button asChild className="bg-red-600 hover:bg-red-700 text-white"><a href="/?signin=1">Go to sign in</a></Button>
             </CardContent>
           ) : (
             <>
@@ -130,7 +130,7 @@ export default function SetPasswordPage() {
 
                   {error && <p className="text-sm text-red-500">{error}</p>}
 
-                  <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={!canSubmit}>
+                  <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={!canSubmit}>
                     {loading ? <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Saving…</> : 'Set password'}
                   </Button>
                 </form>

@@ -19,6 +19,7 @@ import { SiteNavLinks } from '@/components/shared/SiteNavLinks'
 import { formatMoney } from '@/lib/format'
 import { useDebounce } from '@/hooks/use-debounce'
 import { toast } from 'sonner'
+import { BrandLock } from '@/components/shared/BrandName'
 import {
   ShoppingCart, Package, Search, Loader2, Lock, ArrowRight,
   Eye, EyeOff, CheckCircle2, AlertCircle,
@@ -59,7 +60,7 @@ function MultilineHeading({ text, className }: { text: string; className?: strin
 export function PublicStorefront({
   onAuthenticated,
   initialProducts,
-  siteName = 'DigitalVault',
+  siteName = 'AccsPoint',
   content,
   externalAuthOpen,
   externalAuthTab,
@@ -141,8 +142,7 @@ export function PublicStorefront({
       <header className="sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white" aria-hidden="true">D</div>
-            <span className="font-bold hidden sm:inline">{siteName}</span>
+            <BrandLock />
           </div>
           <div className="flex-1" />
           <TelegramButton />
@@ -156,7 +156,7 @@ export function PublicStorefront({
           </Button>
           <Button
             size="sm"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0"
+            className="bg-red-600 hover:bg-red-700 text-white shrink-0"
             onClick={() => { setPendingPurchase(undefined); setAuthTab('register'); setAuthOpen(true) }}
           >
             <span className="hidden sm:inline">Sign up</span>
@@ -168,7 +168,7 @@ export function PublicStorefront({
       </header>
 
       {/* Hero section — visible without login */}
-      <section className="border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-emerald-950/30 dark:via-zinc-950 dark:to-zinc-950">
+      <section className="border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-red-50 via-white to-rose-50 dark:from-red-950/30 dark:via-zinc-950 dark:to-zinc-950">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-10 sm:py-14 lg:py-20">
           <div className="max-w-3xl">
             <MultilineHeading
@@ -276,7 +276,7 @@ const PublicProductCard = memo(function PublicProductCard({ product, onBuy }: { 
   const productUrl = `/product-details-page?id=${product.id}`
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-md transition-shadow border-zinc-200 dark:border-zinc-800">
-      <a href={productUrl} className="aspect-video bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl overflow-hidden" aria-label={`View details for ${product.name}`}>
+      <a href={productUrl} className="aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl overflow-hidden" aria-label={`View details for ${product.name}`}>
         {isImageUrl ? (
           <Image
             src={product.image!}
@@ -292,10 +292,10 @@ const PublicProductCard = memo(function PublicProductCard({ product, onBuy }: { 
       </a>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <a href={productUrl} className="hover:text-emerald-600 transition-colors">
+          <a href={productUrl} className="hover:text-red-600 transition-colors">
             <CardTitle className="text-base">{product.name}</CardTitle>
           </a>
-          <Badge variant="outline" className={outOfStock ? 'border-zinc-300 text-zinc-500' : 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400'}>
+          <Badge variant="outline" className={outOfStock ? 'border-zinc-300 text-zinc-500' : 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400'}>
             {outOfStock ? 'Sold out' : `${product.stock} in stock`}
           </Badge>
         </div>
@@ -328,16 +328,16 @@ const PublicProductCard = memo(function PublicProductCard({ product, onBuy }: { 
               Show "$X – $Y" when there's a range. Fall back to plain price
               when only one batch / no batch pricing. */}
           {product.hasBatchPricing && typeof product.fromPrice === 'number' && typeof product.maxPrice === 'number' && product.fromPrice !== product.maxPrice ? (
-            <div className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">
               <span className="text-xs text-zinc-500 font-normal">From </span>{formatMoney(product.fromPrice)}
               <span className="text-xs text-zinc-400 font-normal"> – </span>{formatMoney(product.maxPrice)}
             </div>
           ) : product.hasBatchPricing && typeof product.fromPrice === 'number' && product.fromPrice !== product.price ? (
-            <div className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">
               <span className="text-xs text-zinc-500 font-normal">From </span>{formatMoney(product.fromPrice)}
             </div>
           ) : (
-            <div className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(product.price)}</div>
+            <div className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">{formatMoney(product.price)}</div>
           )}
         </div>
         <div className="flex gap-1 shrink-0">
@@ -350,7 +350,7 @@ const PublicProductCard = memo(function PublicProductCard({ product, onBuy }: { 
             size="sm"
             onClick={onBuy}
             disabled={outOfStock}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="bg-red-600 hover:bg-red-700 text-white"
           >
             <ShoppingCart className="w-3.5 h-3.5" />
             <span className="hidden sm:inline ml-1">Buy</span>
@@ -654,10 +654,10 @@ function AuthTabs({ onAuthenticated, initialTab, pendingPurchase, onContact }: {
           {/* Remember me + Forgot password */}
           <div className="flex items-center justify-between text-xs">
             <label className="flex items-center gap-1.5 cursor-pointer">
-              <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-4 h-4 accent-emerald-600" />
+              <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-4 h-4 accent-red-600" />
               <span className="text-zinc-600 dark:text-zinc-400">Remember me</span>
             </label>
-            <button type="button" onClick={() => setForgotOpen(true)} className="text-emerald-600 hover:underline">
+            <button type="button" onClick={() => setForgotOpen(true)} className="text-red-600 hover:underline">
               Forgot password?
             </button>
           </div>
@@ -674,9 +674,9 @@ function AuthTabs({ onAuthenticated, initialTab, pendingPurchase, onContact }: {
                   className={`py-2 rounded-md text-sm font-medium border-2 transition-all ${
                     captchaSelected === opt
                       ? opt === captcha.answer
-                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300'
+                        ? 'border-red-500 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300'
                         : 'border-red-500 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300'
-                      : 'border-zinc-200 dark:border-zinc-700 hover:border-emerald-300 text-zinc-600 dark:text-zinc-400'
+                      : 'border-zinc-200 dark:border-zinc-700 hover:border-red-300 text-zinc-600 dark:text-zinc-400'
                   }`}
                 >
                   {opt}
@@ -684,12 +684,12 @@ function AuthTabs({ onAuthenticated, initialTab, pendingPurchase, onContact }: {
               ))}
             </div>
             {captchaError && <p className="text-xs text-red-500">Wrong answer — try the new question</p>}
-            {captchaSolved && <p className="text-xs text-emerald-600 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Verified</p>}
+            {captchaSolved && <p className="text-xs text-red-600 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Verified</p>}
           </div>
 
           {error && <p className="text-sm text-red-500">{error}</p>}
 
-          <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={loading || !captchaSolved}>
+          <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={loading || !captchaSolved}>
             {loading ? <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Signing in…</> : 'Sign in'}
           </Button>
 
@@ -708,12 +708,12 @@ function AuthTabs({ onAuthenticated, initialTab, pendingPurchase, onContact }: {
 
           {/* Switch to the Google-only signup panel */}
           <p className="text-center text-xs text-zinc-500 pt-1">
-            New here? <button type="button" onClick={() => { setError(''); setMode('signup') }} className="text-emerald-600 hover:underline font-medium">Sign up with Google →</button>
+            New here? <button type="button" onClick={() => { setError(''); setMode('signup') }} className="text-red-600 hover:underline font-medium">Sign up with Google →</button>
           </p>
 
           {/* Contact for signup issues */}
           <p className="text-center text-xs text-zinc-500">
-            Having trouble signing up? <button type="button" onClick={onContact} className="text-emerald-600 hover:underline font-medium">Contact →</button>
+            Having trouble signing up? <button type="button" onClick={onContact} className="text-red-600 hover:underline font-medium">Contact →</button>
           </p>
         </form>
       ) : (
@@ -734,11 +734,11 @@ function AuthTabs({ onAuthenticated, initialTab, pendingPurchase, onContact }: {
           </div>
 
           <p className="text-center text-xs text-zinc-500">
-            Already have an account? <button type="button" onClick={() => { setError(''); setMode('login') }} className="text-emerald-600 hover:underline font-medium">Sign in →</button>
+            Already have an account? <button type="button" onClick={() => { setError(''); setMode('login') }} className="text-red-600 hover:underline font-medium">Sign in →</button>
           </p>
 
           <p className="text-center text-xs text-zinc-500">
-            Having trouble signing up? <button type="button" onClick={onContact} className="text-emerald-600 hover:underline font-medium">Contact →</button>
+            Having trouble signing up? <button type="button" onClick={onContact} className="text-red-600 hover:underline font-medium">Contact →</button>
           </p>
         </div>
       )}
@@ -757,7 +757,7 @@ function AuthTabs({ onAuthenticated, initialTab, pendingPurchase, onContact }: {
                 onChange={(e) => setEmail(e.target.value)}
                 autoFocus
               />
-              <Button onClick={handleForgotPassword} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={handleForgotPassword} className="w-full bg-red-600 hover:bg-red-700 text-white">
                 Send reset link
               </Button>
               <Button variant="outline" className="w-full" onClick={() => setForgotOpen(false)}>Cancel</Button>

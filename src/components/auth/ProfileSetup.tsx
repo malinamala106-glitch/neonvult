@@ -130,7 +130,7 @@ export function ProfileSetup({ user, onDone, onSignOut }: Props) {
                   autoComplete="username"
                   autoFocus
                   className={
-                    usernameStatus === 'available' ? 'border-emerald-400'
+                    usernameStatus === 'available' ? 'border-red-400'
                       : usernameStatus === 'taken' || usernameStatus === 'invalid' ? 'border-red-400'
                         : ''
                   }
@@ -139,7 +139,7 @@ export function ProfileSetup({ user, onDone, onSignOut }: Props) {
                   <p className="text-xs text-zinc-400 flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Checking availability…</p>
                 )}
                 {usernameStatus === 'available' && (
-                  <p className="text-xs text-emerald-600 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Available</p>
+                  <p className="text-xs text-red-600 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Available</p>
                 )}
                 {usernameStatus === 'taken' && <p className="text-xs text-red-500">That username is already taken</p>}
                 {usernameStatus === 'invalid' && (
@@ -203,7 +203,7 @@ export function ProfileSetup({ user, onDone, onSignOut }: Props) {
 
               {error && <p className="text-sm text-red-500">{error}</p>}
 
-              <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={!canSubmit}>
+              <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={!canSubmit}>
                 {loading ? <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Saving…</> : 'Save and continue'}
               </Button>
             </form>

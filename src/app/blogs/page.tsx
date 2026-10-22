@@ -13,7 +13,7 @@ const baseUrl = serverSiteUrl()
 export const metadata: Metadata = {
   title: 'Blog — Buying Guides, Crypto Help & Weekly Deals',
   description:
-    'Guides for buying digital accounts safely, crypto deposit tutorials, weekly deal roundups, and platform updates from the DigitalVault team.',
+    'Guides for buying digital accounts safely, crypto deposit tutorials, weekly deal roundups, and platform updates from the AccsPoint team.',
   alternates: { canonical: '/blogs' },
 }
 
@@ -25,7 +25,7 @@ export default async function Page() {
     getCachedContentSettings([...CONTENT_SETTING_KEYS, 'siteName']),
   ])
 
-  const siteName = settingsRows.find((r) => r.key === 'siteName')?.value || 'DigitalVault'
+  const siteName = settingsRows.find((r) => r.key === 'siteName')?.value || 'AccsPoint'
 
   // ItemList structured data for the blog index.
   const jsonLd = {

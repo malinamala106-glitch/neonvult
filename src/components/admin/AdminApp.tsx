@@ -163,9 +163,9 @@ export function AdminApp({ user, onUserChange, onLogout }: Props) {
       {/* Sidebar */}
       <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
         <div className="px-4 py-4 border-b border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
-          <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white">D</div>
+          <div className="w-8 h-8 rounded-md bg-red-600 flex items-center justify-center font-bold text-white">D</div>
           <div>
-            <div className="text-sm font-bold leading-tight">DigitalVault</div>
+            <div className="text-sm font-bold leading-tight">AccsPoint</div>
             <div className="text-[10px] text-zinc-500 uppercase tracking-wider">Admin</div>
           </div>
         </div>
@@ -206,8 +206,8 @@ export function AdminApp({ user, onUserChange, onLogout }: Props) {
         <header className="md:hidden sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white">D</div>
-              <span className="font-bold">DigitalVault Admin</span>
+              <div className="w-8 h-8 rounded-md bg-red-600 flex items-center justify-center font-bold text-white">D</div>
+              <span className="font-bold">AccsPoint Admin</span>
             </div>
             <Button variant="ghost" size="sm" onClick={onLogout}><LogOut className="w-4 h-4" /></Button>
           </div>
@@ -269,7 +269,7 @@ export function AdminApp({ user, onUserChange, onLogout }: Props) {
       {view !== 'support' && (
         <button
           onClick={() => setView('support')}
-          className="fixed bottom-12 sm:bottom-14 right-5 sm:right-6 z-50 group flex items-center justify-center w-[3.6rem] h-[3.6rem] sm:w-[4.2rem] sm:h-[4.2rem] rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl ring-2 ring-emerald-600/20 transition-all hover:scale-105 hover:shadow-2xl"
+          className="fixed bottom-12 sm:bottom-14 right-5 sm:right-6 z-50 group flex items-center justify-center w-[3.6rem] h-[3.6rem] sm:w-[4.2rem] sm:h-[4.2rem] rounded-full bg-red-600 hover:bg-red-700 text-white shadow-xl ring-2 ring-red-600/20 transition-all hover:scale-105 hover:shadow-2xl"
           aria-label="Open chat support"
         >
           <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -290,7 +290,7 @@ function SideButton({ active, onClick, icon, label, badge, compact }: { active: 
       onClick={onClick}
       className={`relative w-full inline-flex items-center gap-2 px-3 ${compact ? 'py-1.5 text-xs' : 'py-2 text-sm'} rounded-md font-medium whitespace-nowrap transition-colors ${
         active
-          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300'
+          ? 'bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300'
           : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800'
       }`}
     >
@@ -319,7 +319,7 @@ function DashboardView({ stats, deposits, orders, products }: { stats: AdminStat
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Total sales" value={formatMoney(stats.totalSales)} accent="emerald" />
+        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Total sales" value={formatMoney(stats.totalSales)} accent="red" />
         <StatCard icon={<ShoppingBag className="w-5 h-5" />} label="Orders" value={stats.orders} accent="zinc" />
         <StatCard icon={<Users className="w-5 h-5" />} label="Users" value={stats.users} accent="zinc" />
         <StatCard icon={<Key className="w-5 h-5" />} label="Available keys" value={stats.availableKeys} accent="zinc" />
@@ -347,7 +347,7 @@ function DashboardView({ stats, deposits, orders, products }: { stats: AdminStat
                       <div className="text-xs text-zinc-500">{d.network} · {formatDate(d.createdAt)}</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(d.amount)}</div>
+                      <div className="font-bold text-red-600 dark:text-red-400">{formatMoney(d.amount)}</div>
                     </div>
                   </div>
                 ))}
@@ -413,9 +413,9 @@ function DashboardView({ stats, deposits, orders, products }: { stats: AdminStat
   )
 }
 
-function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string | number; accent: 'emerald' | 'zinc' }) {
-  const accentClass = accent === 'emerald'
-    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string | number; accent: 'red' | 'zinc' }) {
+  const accentClass = accent === 'red'
+    ? 'bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400'
     : 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300'
   return (
     <Card>
@@ -531,7 +531,7 @@ function CreateProductDialog({ onCreated }: { onCreated: () => void }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button className="bg-red-600 hover:bg-red-700 text-white">
           <Plus className="w-4 h-4" /> New product
         </Button>
       </DialogTrigger>
@@ -640,7 +640,7 @@ function CreateProductDialog({ onCreated }: { onCreated: () => void }) {
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={submit} disabled={submitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={submit} disabled={submitting} className="bg-red-600 hover:bg-red-700 text-white">
             {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
             Create product
           </Button>
@@ -707,7 +707,7 @@ function AdminProductCard({ product, onRefresh }: { product: Product; onRefresh:
 
   return (
     <Card>
-      <div className="aspect-video bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
+      <div className="aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
         {product.image ? (
           (product.image.startsWith('http://') || product.image.startsWith('https://') || product.image.startsWith('/')) ? (
             <Image
@@ -736,14 +736,14 @@ function AdminProductCard({ product, onRefresh }: { product: Product; onRefresh:
             <CardTitle className="text-base">{product.name}</CardTitle>
             <CardDescription className="text-xs">{product.category}</CardDescription>
           </div>
-          <Badge variant="outline" className={product.isActive ? 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400' : 'border-zinc-300 text-zinc-500'}>
+          <Badge variant="outline" className={product.isActive ? 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400' : 'border-zinc-300 text-zinc-500'}>
             {product.isActive ? 'Active' : 'Hidden'}
           </Badge>
         </div>
       </CardHeader>
       <CardContent className="pb-2">
         <div className="flex items-baseline gap-2">
-          <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(product.price)}</span>
+          <span className="text-lg font-bold text-red-600 dark:text-red-400">{formatMoney(product.price)}</span>
           <span className="text-xs text-zinc-500">· {product.stock} in stock</span>
         </div>
       </CardContent>
@@ -755,7 +755,7 @@ function AdminProductCard({ product, onRefresh }: { product: Product; onRefresh:
             Total Upload <span className="ml-1 font-bold text-zinc-700 dark:text-zinc-300">{totalKeys}</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => setEntriesMode('available')} className="h-7 text-xs">
-            Stock <span className="ml-1 font-bold text-emerald-600 dark:text-emerald-400">{product.stock}</span>
+            Stock <span className="ml-1 font-bold text-red-600 dark:text-red-400">{product.stock}</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => setEntriesMode('sold')} className="h-7 text-xs">
             Sold <span className="ml-1 font-bold text-zinc-500">{soldCount}</span>
@@ -960,7 +960,7 @@ function EditProductDialog({ product, open, setOpen, onSaved }: { product: Produ
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={save} disabled={submitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={save} disabled={submitting} className="bg-red-600 hover:bg-red-700 text-white">
             {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
             Save changes
           </Button>
@@ -1092,13 +1092,13 @@ function KeysDialog({ product, open, setOpen, onRefresh }: { product: Product; o
           <div className="flex gap-1 p-1 rounded-md bg-zinc-100 dark:bg-zinc-800 w-fit">
             <button
               onClick={() => setMode('single')}
-              className={`px-3 py-1.5 text-xs font-medium rounded ${mode === 'single' ? 'bg-white dark:bg-zinc-900 text-emerald-700 dark:text-emerald-300 shadow-sm' : 'text-zinc-500'}`}
+              className={`px-3 py-1.5 text-xs font-medium rounded ${mode === 'single' ? 'bg-white dark:bg-zinc-900 text-red-700 dark:text-red-300 shadow-sm' : 'text-zinc-500'}`}
             >
               Single batch
             </button>
             <button
               onClick={() => setMode('multiple')}
-              className={`px-3 py-1.5 text-xs font-medium rounded ${mode === 'multiple' ? 'bg-white dark:bg-zinc-900 text-emerald-700 dark:text-emerald-300 shadow-sm' : 'text-zinc-500'}`}
+              className={`px-3 py-1.5 text-xs font-medium rounded ${mode === 'multiple' ? 'bg-white dark:bg-zinc-900 text-red-700 dark:text-red-300 shadow-sm' : 'text-zinc-500'}`}
             >
               Multiple batches
             </button>
@@ -1186,7 +1186,7 @@ function KeysDialog({ product, open, setOpen, onRefresh }: { product: Product; o
 
           <div className="flex justify-end gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-700">
             <Button variant="outline" onClick={() => setOpen(false)} disabled={submitting}>Cancel</Button>
-            <Button onClick={upload} disabled={submitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={upload} disabled={submitting} className="bg-red-600 hover:bg-red-700 text-white">
               {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Plus className="w-4 h-4 mr-1" />}
               Upload entries
             </Button>
@@ -1265,7 +1265,7 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
               <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Primary" />
             </div>
           </div>
-          <Button onClick={add} disabled={submitting} className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={add} disabled={submitting} className="mt-4 bg-red-600 hover:bg-red-700 text-white">
             {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Plus className="w-4 h-4 mr-1" />}
             Add wallet
           </Button>
@@ -1288,7 +1288,7 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-md bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-md bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center">
                       <Bitcoin className="w-5 h-5" />
                     </div>
                     <div>
@@ -1296,7 +1296,7 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
                       {w.label && <div className="text-xs text-zinc-500">{w.label}</div>}
                     </div>
                   </div>
-                  <Badge variant="outline" className={w.isActive ? 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400' : ''}>
+                  <Badge variant="outline" className={w.isActive ? 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400' : ''}>
                     {w.isActive ? 'Active' : 'Inactive'}
                   </Badge>
                 </div>
@@ -1306,7 +1306,7 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" onClick={() => toggle(w)}>
-                    <span className={`inline-block w-3 h-3 rounded-full ${w.isActive ? 'bg-emerald-500' : 'bg-zinc-300 dark:bg-zinc-600'}`} />
+                    <span className={`inline-block w-3 h-3 rounded-full ${w.isActive ? 'bg-red-500' : 'bg-zinc-300 dark:bg-zinc-600'}`} />
                     <span className="ml-1">{w.isActive ? 'Disable' : 'Enable'}</span>
                   </Button>
                   <Button variant="outline" size="sm" onClick={() => remove(w)} className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
@@ -1378,11 +1378,11 @@ function AdminDepositsView({ deposits, loading, onRefresh }: { deposits: Deposit
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="space-y-1 min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className={`font-bold ${isDebit ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                      <span className={`font-bold ${isDebit ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'}`}>
                         {isDebit ? '-' : '+'}{formatMoney(d.amount)}
                       </span>
                       {d.type === 'ADMIN_CREDIT' && (
-                        <Badge variant="outline" className="border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400">
+                        <Badge variant="outline" className="border-red-300 text-red-700 dark:border-red-800 dark:text-red-400">
                           <ArrowUpCircle className="w-3 h-3 mr-1" /> Admin credit
                         </Badge>
                       )}
@@ -1433,7 +1433,7 @@ function AdminDepositsView({ deposits, loading, onRefresh }: { deposits: Deposit
                   </div>
                   {d.status === 'PENDING' && !isAdminAdj && (
                     <div className="flex gap-2">
-                      <Button size="sm" onClick={() => process(d, 'approve')} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                      <Button size="sm" onClick={() => process(d, 'approve')} className="bg-red-600 hover:bg-red-700 text-white">
                         <CheckCircle2 className="w-4 h-4 mr-1" /> Approve
                       </Button>
                       <Button size="sm" variant="outline" onClick={() => process(d, 'reject')} className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
@@ -1519,7 +1519,7 @@ function AdminOrdersView({ orders, loading }: { orders: Order[]; loading: boolea
 
   function orderStatusLabel(s: string): { label: string; color: string } {
     switch (s) {
-      case 'COMPLETED': return { label: '🟢 Delivered', color: 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400' }
+      case 'COMPLETED': return { label: '🟢 Delivered', color: 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400' }
       case 'PENDING': return { label: '🟡 Pending', color: 'border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-400' }
       case 'REFUNDED': return { label: '🔵 Refunded', color: 'border-sky-300 text-sky-700 dark:border-sky-800 dark:text-sky-400' }
       case 'DISPUTED': return { label: '🔴 Disputed', color: 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400' }
@@ -1606,12 +1606,12 @@ function AdminOrdersView({ orders, loading }: { orders: Order[]; loading: boolea
                     <tr key={o.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/50">
                       <td className="px-4 py-3 whitespace-nowrap text-xs">{formatDate(o.createdAt)}</td>
                       <td className="px-4 py-3">
-                        <button onClick={() => toast.info(`Go to Users → click ${o.user?.email} to view profile`)} className="text-emerald-600 hover:underline text-left">
+                        <button onClick={() => toast.info(`Go to Users → click ${o.user?.email} to view profile`)} className="text-red-600 hover:underline text-left">
                           {o.user?.email}
                         </button>
                       </td>
                       <td className="px-4 py-3">
-                        <a href={`/product-details-page?id=${o.productId}`} target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 hover:underline">
+                        <a href={`/product-details-page?id=${o.productId}`} target="_blank" rel="noopener noreferrer" className="hover:text-red-600 hover:underline">
                           {o.product?.name}
                         </a>
                       </td>
@@ -1625,7 +1625,7 @@ function AdminOrdersView({ orders, loading }: { orders: Order[]; loading: boolea
                         )}
                       </td>
                       <td className="px-4 py-3">{o.quantity}</td>
-                      <td className="px-4 py-3 font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(o.totalAmount)}</td>
+                      <td className="px-4 py-3 font-bold text-red-600 dark:text-red-400">{formatMoney(o.totalAmount)}</td>
                       <td className="px-4 py-3">
                         <span title={o.id} className="cursor-help">
                           <code className="text-xs font-mono">#{o.shortId ?? o.id.slice(0, 8)}</code>
@@ -1636,7 +1636,7 @@ function AdminOrdersView({ orders, loading }: { orders: Order[]; loading: boolea
                       </td>
                       <td className="px-4 py-3">
                         {o.keys && o.keys.length > 0 ? (
-                          <button onClick={() => setSelectedOrder(o)} className="text-emerald-600 hover:underline cursor-pointer text-xs">
+                          <button onClick={() => setSelectedOrder(o)} className="text-red-600 hover:underline cursor-pointer text-xs">
                             {o.keys.length} key{o.keys.length > 1 ? 's' : ''}
                           </button>
                         ) : (
@@ -1806,7 +1806,7 @@ function UsersView({ users: initialUsers, onRefresh, currentAdminId }: { users: 
 
   function statusBadge(status: string) {
     switch (status) {
-      case 'ACTIVE': return <Badge variant="outline" className="text-[10px] border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30">🟢 Active</Badge>
+      case 'ACTIVE': return <Badge variant="outline" className="text-[10px] border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30">🟢 Active</Badge>
       case 'MUTED': return <Badge variant="outline" className="text-[10px] border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30">🟡 Muted</Badge>
       case 'BANNED': return <Badge variant="outline" className="text-[10px] border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30">🔴 Banned</Badge>
       case 'PENDING': return <Badge variant="outline" className="text-[10px] border-zinc-300 text-zinc-500">⚪ Pending</Badge>
@@ -1827,16 +1827,16 @@ function UsersView({ users: initialUsers, onRefresh, currentAdminId }: { users: 
   // hide the button instead of showing it.
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 sm:flex-row sm:items-center sm:justify-between md:sticky md:top-0 md:z-20 dark:border-emerald-900/60 dark:bg-emerald-950">
+      <div className="flex flex-col gap-3 rounded-xl border border-red-200 bg-red-50 p-4 sm:flex-row sm:items-center sm:justify-between md:sticky md:top-0 md:z-20 dark:border-red-900/60 dark:bg-red-950">
         <div>
           <h1 className="text-2xl font-bold">Users</h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            All registered users. Use <span className="font-semibold text-emerald-700 dark:text-emerald-300">New user</span> to create an account manually.
+            All registered users. Use <span className="font-semibold text-red-700 dark:text-red-300">New user</span> to create an account manually.
           </p>
         </div>
         <Button
           size="lg"
-          className="w-full shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm sm:ml-auto sm:w-auto"
+          className="w-full shrink-0 bg-red-600 hover:bg-red-700 text-white shadow-sm sm:ml-auto sm:w-auto"
           onClick={() => setAddOpen(true)}
         >
           <UserPlus className="w-4 h-4 mr-1" /> New user
@@ -1891,8 +1891,8 @@ function UsersView({ users: initialUsers, onRefresh, currentAdminId }: { users: 
 
       {/* Bulk actions bar */}
       {selected.size > 0 && (
-        <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
-          <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">{selected.size} selected</span>
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800">
+          <span className="text-sm font-medium text-red-700 dark:text-red-300">{selected.size} selected</span>
           <Button variant="outline" size="sm" onClick={() => bulkStatus('MUTED')} className="h-7 text-xs border-amber-300 text-amber-700">Mute</Button>
           <Button variant="outline" size="sm" onClick={() => bulkStatus('BANNED')} className="h-7 text-xs border-red-300 text-red-700">Ban</Button>
           <Button variant="ghost" size="sm" onClick={() => setSelected(new Set())} className="h-7 text-xs ml-auto">✕ Clear</Button>
@@ -1908,7 +1908,7 @@ function UsersView({ users: initialUsers, onRefresh, currentAdminId }: { users: 
           <p>No users found.</p>
           <Button
             size="sm"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white mt-4"
+            className="bg-red-600 hover:bg-red-700 text-white mt-4"
             onClick={() => setAddOpen(true)}
           >
             <UserPlus className="w-4 h-4 mr-1" /> New user
@@ -1921,7 +1921,7 @@ function UsersView({ users: initialUsers, onRefresh, currentAdminId }: { users: 
               <thead className="bg-zinc-50 dark:bg-zinc-900 text-xs uppercase text-zinc-500 sticky top-0">
                 <tr>
                   <th className="px-3 py-3 w-10">
-                    <input type="checkbox" checked={selected.size === usersData.length && usersData.length > 0} onChange={toggleAll} className="w-4 h-4 accent-emerald-600" />
+                    <input type="checkbox" checked={selected.size === usersData.length && usersData.length > 0} onChange={toggleAll} className="w-4 h-4 accent-red-600" />
                   </th>
                   <th className="text-left px-3 py-3">Email</th>
                   <th className="text-left px-3 py-3">Name</th>
@@ -1935,22 +1935,22 @@ function UsersView({ users: initialUsers, onRefresh, currentAdminId }: { users: 
               </thead>
               <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
                 {usersData.map((u) => (
-                  <tr key={u.id} className={`hover:bg-zinc-50 dark:hover:bg-zinc-900/50 ${selected.has(u.id) ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : ''}`}>
+                  <tr key={u.id} className={`hover:bg-zinc-50 dark:hover:bg-zinc-900/50 ${selected.has(u.id) ? 'bg-red-50/50 dark:bg-red-950/20' : ''}`}>
                     <td className="px-3 py-3">
-                      <input type="checkbox" checked={selected.has(u.id)} onChange={() => toggleSelected(u.id)} className="w-4 h-4 accent-emerald-600" />
+                      <input type="checkbox" checked={selected.has(u.id)} onChange={() => toggleSelected(u.id)} className="w-4 h-4 accent-red-600" />
                     </td>
                     <td className="px-3 py-3">
-                      <button onClick={() => setProfileUserId(u.id)} className="text-emerald-600 hover:underline font-medium">{u.email}</button>
+                      <button onClick={() => setProfileUserId(u.id)} className="text-red-600 hover:underline font-medium">{u.email}</button>
                     </td>
                     <td className="px-3 py-3">
-                      <button onClick={() => setProfileUserId(u.id)} className="hover:text-emerald-600 hover:underline">{u.name || '—'}</button>
+                      <button onClick={() => setProfileUserId(u.id)} className="hover:text-red-600 hover:underline">{u.name || '—'}</button>
                     </td>
                     <td className="px-3 py-3">
-                      <Badge variant="outline" className={u.role === 'ADMIN' ? 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400' : ''}>{u.role}</Badge>
+                      <Badge variant="outline" className={u.role === 'ADMIN' ? 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400' : ''}>{u.role}</Badge>
                     </td>
                     <td className="px-3 py-3">{statusBadge(u.status)}</td>
                     <td className="px-3 py-3">
-                      <button onClick={() => setProfileUserId(u.id)} className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer">{formatMoney(u.balance)}</button>
+                      <button onClick={() => setProfileUserId(u.id)} className="font-bold text-red-600 dark:text-red-400 hover:underline cursor-pointer">{formatMoney(u.balance)}</button>
                     </td>
                     <td className="px-3 py-3">{u._count?.orders ?? 0}</td>
                     <td className="px-3 py-3 whitespace-nowrap text-xs">{formatDate(u.createdAt)}</td>
@@ -2069,7 +2069,7 @@ function AddMemberModal({ onClose, onCreated }: { onClose: () => void; onCreated
             </div>
             <p className="text-xs text-zinc-500">Email delivery isn&apos;t configured, so nothing was sent automatically.</p>
             <div className="flex justify-end">
-              <Button onClick={onClose} className="bg-emerald-600 hover:bg-emerald-700 text-white">Done</Button>
+              <Button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white">Done</Button>
             </div>
           </div>
         ) : (
@@ -2127,7 +2127,7 @@ function AddMemberModal({ onClose, onCreated }: { onClose: () => void; onCreated
             </div>
 
             <label className="flex items-center gap-2 cursor-pointer text-sm">
-              <input type="checkbox" checked={sendWelcomeEmail} onChange={(e) => setSendWelcomeEmail(e.target.checked)} className="w-4 h-4 accent-emerald-600" />
+              <input type="checkbox" checked={sendWelcomeEmail} onChange={(e) => setSendWelcomeEmail(e.target.checked)} className="w-4 h-4 accent-red-600" />
               <span className="text-zinc-600 dark:text-zinc-400">Send welcome email to user</span>
             </label>
 
@@ -2135,7 +2135,7 @@ function AddMemberModal({ onClose, onCreated }: { onClose: () => void; onCreated
 
             <DialogFooter className="pt-1">
               <Button type="button" variant="outline" onClick={onClose} disabled={submitting}>Cancel</Button>
-              <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white" disabled={!canSubmit}>
+              <Button type="submit" className="bg-red-600 hover:bg-red-700 text-white" disabled={!canSubmit}>
                 {submitting ? <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Creating…</> : 'Create'}
               </Button>
             </DialogFooter>
@@ -2180,7 +2180,7 @@ function AdjustBalanceModal({ user, onClose, onAdjusted }: { user: any; onClose:
         <div className="space-y-4">
           <div className="rounded-md bg-zinc-50 dark:bg-zinc-900 p-3 text-sm flex items-center justify-between">
             <span className="text-zinc-500">Current balance</span>
-            <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(user.balance)}</span>
+            <span className="font-bold text-red-600 dark:text-red-400">{formatMoney(user.balance)}</span>
           </div>
           <div className="space-y-2">
             <Label htmlFor="adjAmount">Amount (USD)</Label>
@@ -2190,11 +2190,11 @@ function AdjustBalanceModal({ user, onClose, onAdjusted }: { user: any; onClose:
             <Label>Type</Label>
             <div className="flex gap-3">
               <label className="flex items-center gap-1.5 cursor-pointer">
-                <input type="radio" checked={type === 'credit'} onChange={() => setType('credit')} className="accent-emerald-600" />
+                <input type="radio" checked={type === 'credit'} onChange={() => setType('credit')} className="accent-red-600" />
                 <span className="text-sm">Credit (+)</span>
               </label>
               <label className="flex items-center gap-1.5 cursor-pointer">
-                <input type="radio" checked={type === 'debit'} onChange={() => setType('debit')} className="accent-emerald-600" />
+                <input type="radio" checked={type === 'debit'} onChange={() => setType('debit')} className="accent-red-600" />
                 <span className="text-sm">Debit (−)</span>
               </label>
             </div>
@@ -2207,7 +2207,7 @@ function AdjustBalanceModal({ user, onClose, onAdjusted }: { user: any; onClose:
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={submitting}>Cancel</Button>
-          <Button onClick={submit} disabled={submitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={submit} disabled={submitting} className="bg-red-600 hover:bg-red-700 text-white">
             {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
             Save
           </Button>
@@ -2322,7 +2322,7 @@ function SiteContentView({ settings, onSaved }: { settings: PublicSettings | nul
             Marketplace branding.
           </p>
         </div>
-        <Button onClick={save} disabled={saving} className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0">
+        <Button onClick={save} disabled={saving} className="bg-red-600 hover:bg-red-700 text-white shrink-0">
           {saving ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
           Save content
         </Button>
@@ -2384,7 +2384,7 @@ function SiteContentView({ settings, onSaved }: { settings: PublicSettings | nul
       ))}
 
       <div className="flex justify-end">
-        <Button onClick={save} disabled={saving} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={save} disabled={saving} className="bg-red-600 hover:bg-red-700 text-white">
           {saving ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
           Save content
         </Button>
@@ -2470,9 +2470,9 @@ function NavLinksEditor({ links, onChange }: { links: NavLinkInput[]; onChange: 
           onDragEnd={onDragEnd}
           className={`grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_1fr_auto_auto] gap-2 items-center rounded-lg border p-2 transition-colors ${
             dragIndex === i
-              ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 opacity-60'
+              ? 'border-red-400 bg-red-50 dark:bg-red-950/30 opacity-60'
               : overIndex === i && dragIndex !== null && dragIndex !== i
-                ? 'border-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/20'
+                ? 'border-red-400 bg-red-50/50 dark:bg-red-950/20'
                 : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900'
           }`}
         >
@@ -2517,7 +2517,7 @@ function NavLinksEditor({ links, onChange }: { links: NavLinkInput[]; onChange: 
               aria-label={`Link ${i + 1} show in nav bar`}
               checked={link.nav}
               onChange={(e) => update(i, { nav: e.target.checked })}
-              className="w-4 h-4 rounded accent-emerald-600"
+              className="w-4 h-4 rounded accent-red-600"
             />
           </span>
 
@@ -2655,7 +2655,7 @@ function FooterEditor({
             <Input
               id="footer-logo-text"
               maxLength={60}
-              placeholder="DigitalVault"
+              placeholder="AccsPoint"
               value={config.brand.logo_text}
               onChange={(e) => patchBrand({ logo_text: e.target.value })}
             />
@@ -2689,7 +2689,7 @@ function FooterEditor({
             type="checkbox"
             checked={config.nav_visible}
             onChange={(e) => patch({ nav_visible: e.target.checked })}
-            className="w-4 h-4 accent-emerald-600"
+            className="w-4 h-4 accent-red-600"
           />
           Show navigation zone
         </label>
@@ -2720,7 +2720,7 @@ function FooterEditor({
             type="checkbox"
             checked={config.social_visible}
             onChange={(e) => patch({ social_visible: e.target.checked })}
-            className="w-4 h-4 accent-emerald-600"
+            className="w-4 h-4 accent-red-600"
           />
           Show social zone
         </label>
@@ -2784,7 +2784,7 @@ function FooterEditor({
             type="checkbox"
             checked={config.bottom_bar_visible}
             onChange={(e) => patch({ bottom_bar_visible: e.target.checked })}
-            className="w-4 h-4 accent-emerald-600"
+            className="w-4 h-4 accent-red-600"
           />
           Show bottom bar
         </label>
@@ -2795,7 +2795,7 @@ function FooterEditor({
               <Input
                 id="footer-copyright"
                 maxLength={200}
-                placeholder={`© ${new Date().getFullYear()} DigitalVault · All rights reserved`}
+                placeholder={`© ${new Date().getFullYear()} AccsPoint · All rights reserved`}
                 value={config.copyright}
                 onChange={(e) => patch({ copyright: e.target.value })}
               />
@@ -2830,7 +2830,7 @@ function FooterEditor({
                       aria-label={`Legal link ${i + 1} visible`}
                       checked={l.visible}
                       onChange={(e) => updateLegal(i, { visible: e.target.checked })}
-                      className="w-4 h-4 accent-emerald-600"
+                      className="w-4 h-4 accent-red-600"
                     />
                   </span>
                   <span className="flex items-center gap-0.5 justify-end">
@@ -2949,7 +2949,7 @@ function CannedResponsesCard() {
           <div className="rounded-md border border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800">
             {items.map((it) => (
               <div key={it.id} className="flex items-start gap-3 px-3 py-2 text-sm">
-                <span className="font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400 shrink-0 pt-0.5">{it.shortcut}</span>
+                <span className="font-mono text-xs font-semibold text-red-600 dark:text-red-400 shrink-0 pt-0.5">{it.shortcut}</span>
                 <span className="flex-1 min-w-0 text-zinc-600 dark:text-zinc-300 break-words">{it.body}</span>
                 <button
                   onClick={() => remove(it.id)}
@@ -2986,7 +2986,7 @@ function CannedResponsesCard() {
               className="text-sm"
             />
           </div>
-          <Button onClick={save} disabled={busy || !shortcut.trim() || !body.trim()} className="bg-emerald-600 hover:bg-emerald-700 text-white sm:mt-6">
+          <Button onClick={save} disabled={busy || !shortcut.trim() || !body.trim()} className="bg-red-600 hover:bg-red-700 text-white sm:mt-6">
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Add'}
           </Button>
         </div>
@@ -3077,7 +3077,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
     try {
       await api.updateSettings({
         minDepositAmount: amt,
-        siteName: siteName.trim() || 'DigitalVault',
+        siteName: siteName.trim() || 'AccsPoint',
         supportEmail: supportEmail.trim(),
       })
       toast.success('Settings saved')
@@ -3151,7 +3151,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
       </Card>
 
       <div className="flex justify-end gap-2">
-        <Button onClick={save} disabled={saving} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={save} disabled={saving} className="bg-red-600 hover:bg-red-700 text-white">
           {saving ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
           Save settings
         </Button>
@@ -3183,7 +3183,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
                     type="checkbox"
                     checked={trackingEnabled}
                     onChange={(e) => setTrackingEnabled(e.target.checked)}
-                    className="w-4 h-4 rounded accent-emerald-600"
+                    className="w-4 h-4 rounded accent-red-600"
                   />
                   <span className="text-sm font-medium">Enable tracking</span>
                   <span className="text-xs text-zinc-400">— Master on/off</span>
@@ -3192,7 +3192,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
                     type="checkbox"
                     checked={trackingProdOnly}
                     onChange={(e) => setTrackingProdOnly(e.target.checked)}
-                    className="w-4 h-4 rounded accent-emerald-600"
+                    className="w-4 h-4 rounded accent-red-600"
                   />
                   <span className="text-sm font-medium">Production only</span>
                   <span className="text-xs text-zinc-400">— Skip in dev/staging</span>
@@ -3220,7 +3220,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
                   value={trackingHeadScripts}
                   onChange={(e) => setTrackingHeadScripts(e.target.value)}
                   placeholder={`<!-- Google Tag Manager -->\n<script>(function(w,d,s,l,i){...})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>`}
-                  className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-y"
+                  className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-red-500/20 resize-y"
                 />
                 <p className="text-xs text-zinc-500">
                   Paste the full script tag(s) exactly as provided by Google / Meta. Do not include surrounding <code>&lt;head&gt;</code> tags.
@@ -3238,7 +3238,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
                   value={trackingBodyScripts}
                   onChange={(e) => setTrackingBodyScripts(e.target.value)}
                   placeholder={`<!-- Google Tag Manager (noscript) -->\n<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`}
-                  className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-y"
+                  className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-xs font-mono text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-red-500/20 resize-y"
                 />
                 <p className="text-xs text-zinc-500">
                   Paste noscript tags or other scripts that go before <code>&lt;/body&gt;</code>.
@@ -3261,7 +3261,7 @@ function SettingsView({ settings, onSaved }: { settings: PublicSettings | null; 
 
               {/* Save button for tracking */}
               <div className="flex justify-end">
-                <Button onClick={saveTracking} disabled={trackingSaving} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                <Button onClick={saveTracking} disabled={trackingSaving} className="bg-red-600 hover:bg-red-700 text-white">
                   {trackingSaving ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
                   Save tracking settings
                 </Button>
@@ -3373,7 +3373,7 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
           <h1 className="text-2xl font-bold">Special Deals</h1>
           <p className="text-sm text-zinc-500">Create + manage auction deals. Users bid on these; highest bidder wins.</p>
         </div>
-        <Button onClick={() => setCreateOpen(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={() => setCreateOpen(true)} className="bg-red-600 hover:bg-red-700 text-white">
           <Plus className="w-4 h-4 mr-1" /> New Deal
         </Button>
       </div>
@@ -3390,10 +3390,10 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
               <Card key={a.id}>
                 <CardHeader className="pb-2">
                   <div className="flex items-start justify-between gap-2">
-                    <a href={`/special-deal/${a.slug}`} target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600">
+                    <a href={`/special-deal/${a.slug}`} target="_blank" rel="noopener noreferrer" className="hover:text-red-600">
                       <CardTitle className="text-base">{a.title}</CardTitle>
                     </a>
-                    <Badge variant="outline" className={ended ? 'border-zinc-300 text-zinc-500 text-[10px]' : 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 text-[10px]'}>
+                    <Badge variant="outline" className={ended ? 'border-zinc-300 text-zinc-500 text-[10px]' : 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 text-[10px]'}>
                       {ended ? 'Ended' : 'Live'}
                     </Badge>
                   </div>
@@ -3401,7 +3401,7 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
                 </CardHeader>
                 <CardContent className="text-xs space-y-1">
                   <div className="flex justify-between"><span className="text-zinc-500">Asking:</span><span className="font-medium">{formatMoney(a.askingPrice)}</span></div>
-                  <div className="flex justify-between"><span className="text-zinc-500">Current bid:</span><span className="font-medium text-emerald-600 dark:text-emerald-400">{formatMoney(a.currentBid)}</span></div>
+                  <div className="flex justify-between"><span className="text-zinc-500">Current bid:</span><span className="font-medium text-red-600 dark:text-red-400">{formatMoney(a.currentBid)}</span></div>
                   <div className="flex justify-between"><span className="text-zinc-500">Bids:</span><span className="font-medium">{a._count?.bids ?? 0}</span></div>
                   <div className="flex justify-between"><span className="text-zinc-500">Ends:</span><span className="font-medium">{formatDate(a.endsAt)}</span></div>
                 </CardContent>
@@ -3465,7 +3465,7 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
-            <Button onClick={createAuction} disabled={creating} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={createAuction} disabled={creating} className="bg-red-600 hover:bg-red-700 text-white">
               {creating ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null} Create deal
             </Button>
           </DialogFooter>
@@ -3548,7 +3548,7 @@ function BlogView() {
           <h1 className="text-2xl font-bold">Blog</h1>
           <p className="text-sm text-zinc-500">Write + manage blog posts. Published posts appear on /blogs immediately.</p>
         </div>
-        <Button onClick={openCreate} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={openCreate} className="bg-red-600 hover:bg-red-700 text-white">
           <Plus className="w-4 h-4 mr-1" /> New Post
         </Button>
       </div>
@@ -3569,7 +3569,7 @@ function BlogView() {
                       <Badge
                         variant="outline"
                         className={post.isPublished
-                          ? 'text-[10px] border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400'
+                          ? 'text-[10px] border-red-300 text-red-700 dark:border-red-800 dark:text-red-400'
                           : 'text-[10px] border-zinc-300 text-zinc-500'}
                       >
                         {post.isPublished ? 'Published' : 'Draft'}
@@ -3755,7 +3755,7 @@ function BlogPostDialog({ post, open, setOpen, onSaved }: { post: BlogPost | nul
               type="checkbox"
               checked={form.isPublished}
               onChange={(e) => setForm({ ...form, isPublished: e.target.checked })}
-              className="w-4 h-4 rounded accent-emerald-600"
+              className="w-4 h-4 rounded accent-red-600"
             />
             <span className="text-sm font-medium">Published</span>
             <span className="text-xs text-zinc-400">— uncheck to save as a draft</span>
@@ -3763,7 +3763,7 @@ function BlogPostDialog({ post, open, setOpen, onSaved }: { post: BlogPost | nul
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)} disabled={saving}>Cancel</Button>
-          <Button onClick={save} disabled={saving} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={save} disabled={saving} className="bg-red-600 hover:bg-red-700 text-white">
             {saving ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
             {isEdit ? 'Save changes' : 'Create post'}
           </Button>
@@ -3880,7 +3880,7 @@ function CouponsView() {
           <h1 className="text-2xl font-bold">Coupons</h1>
           <p className="text-sm text-zinc-500">Create discount codes users can apply at checkout.</p>
         </div>
-        <Button onClick={() => setCreateOpen(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={() => setCreateOpen(true)} className="bg-red-600 hover:bg-red-700 text-white">
           <Plus className="w-4 h-4 mr-1" /> New Coupon
         </Button>
       </div>
@@ -3913,7 +3913,7 @@ function CouponsView() {
                     <td className="px-4 py-3 text-zinc-500">{c.usedCount} / {c.maxUses === 0 ? '∞' : c.maxUses}</td>
                     <td className="px-4 py-3 text-zinc-500">{c.expiresAt ? formatDate(c.expiresAt) : 'Never'}</td>
                     <td className="px-4 py-3">
-                      <Badge variant="outline" className={c.isActive ? 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 text-[10px]' : 'border-zinc-300 text-zinc-500 text-[10px]'}>
+                      <Badge variant="outline" className={c.isActive ? 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 text-[10px]' : 'border-zinc-300 text-zinc-500 text-[10px]'}>
                         {c.isActive ? 'Active' : 'Inactive'}
                       </Badge>
                     </td>
@@ -3974,7 +3974,7 @@ function CouponsView() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
-            <Button onClick={createCoupon} disabled={creating} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={createCoupon} disabled={creating} className="bg-red-600 hover:bg-red-700 text-white">
               {creating ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null} Create coupon
             </Button>
           </DialogFooter>
@@ -4034,8 +4034,8 @@ function BidCancellationsView() {
           <p className="text-sm text-zinc-500">Approve or reject user requests to cancel their bids. Approving refunds their locked funds.</p>
         </div>
         <div className="flex gap-1 bg-zinc-100 dark:bg-zinc-800 rounded-md p-1">
-          <button onClick={() => setFilter('PENDING')} className={`px-3 py-1 rounded text-xs font-medium ${filter === 'PENDING' ? 'bg-white dark:bg-zinc-900 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}>Pending</button>
-          <button onClick={() => setFilter('ALL')} className={`px-3 py-1 rounded text-xs font-medium ${filter === 'ALL' ? 'bg-white dark:bg-zinc-900 text-emerald-700 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}>All</button>
+          <button onClick={() => setFilter('PENDING')} className={`px-3 py-1 rounded text-xs font-medium ${filter === 'PENDING' ? 'bg-white dark:bg-zinc-900 text-red-700 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}>Pending</button>
+          <button onClick={() => setFilter('ALL')} className={`px-3 py-1 rounded text-xs font-medium ${filter === 'ALL' ? 'bg-white dark:bg-zinc-900 text-red-700 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}>All</button>
         </div>
       </div>
 
@@ -4052,7 +4052,7 @@ function BidCancellationsView() {
                   <div className="min-w-0">
                     <div className="font-medium text-sm">
                       {b.auction?.title || 'Auction'}
-                      <a href={b.auction?.slug ? `/special-deal/${b.auction.slug}` : '/special-deal'} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-emerald-600 hover:underline">view</a>
+                      <a href={b.auction?.slug ? `/special-deal/${b.auction.slug}` : '/special-deal'} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-red-600 hover:underline">view</a>
                     </div>
                     <div className="text-xs text-zinc-500 mt-0.5">
                       Bid: <span className="font-semibold text-zinc-700 dark:text-zinc-300">{formatMoney(b.amount)}</span> · by {b.user?.email || 'Unknown'}
@@ -4063,7 +4063,7 @@ function BidCancellationsView() {
                     </div>
                   </div>
                   <div className="shrink-0">
-                    {b.cancelStatus === 'NONE' && <Badge variant="outline" className="border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 text-[10px]">Active</Badge>}
+                    {b.cancelStatus === 'NONE' && <Badge variant="outline" className="border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 text-[10px]">Active</Badge>}
                     {b.cancelStatus === 'PENDING' && <Badge variant="outline" className="border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-400 text-[10px]">Cancel pending</Badge>}
                     {b.cancelStatus === 'APPROVED' && <Badge variant="outline" className="border-zinc-300 text-zinc-500 text-[10px]">Cancelled</Badge>}
                     {b.cancelStatus === 'REJECTED' && <Badge variant="outline" className="border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 text-[10px]">Cancel rejected</Badge>}
@@ -4071,7 +4071,7 @@ function BidCancellationsView() {
                 </div>
                 {b.cancelStatus === 'PENDING' ? (
                   <div className="flex gap-2">
-                    <Button size="sm" onClick={() => decide(b.id, 'approve')} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                    <Button size="sm" onClick={() => decide(b.id, 'approve')} className="bg-red-600 hover:bg-red-700 text-white">
                       <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Approve (refund)
                     </Button>
                     <Button size="sm" variant="outline" onClick={() => decide(b.id, 'reject')} className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400">
@@ -4183,7 +4183,7 @@ function SocialLinksView() {
           <h1 className="text-2xl font-bold">Social Links</h1>
           <p className="text-sm text-zinc-500">Manage contact buttons shown in the footer + top nav. Add Telegram, Facebook, Instagram, Reddit, Email, etc.</p>
         </div>
-        <Button onClick={() => setCreateOpen(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Button onClick={() => setCreateOpen(true)} className="bg-red-600 hover:bg-red-700 text-white">
           <Plus className="w-4 h-4 mr-1" /> Add Link
         </Button>
       </div>
@@ -4212,7 +4212,7 @@ function SocialLinksView() {
                     <td className="px-4 py-3 text-zinc-500 truncate max-w-xs" title={l.url}>{l.url}</td>
                     <td className="px-4 py-3 text-zinc-500">{l.order}</td>
                     <td className="px-4 py-3">
-                      <Badge variant="outline" className={l.isActive ? 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 text-[10px]' : 'border-zinc-300 text-zinc-500 text-[10px]'}>
+                      <Badge variant="outline" className={l.isActive ? 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 text-[10px]' : 'border-zinc-300 text-zinc-500 text-[10px]'}>
                         {l.isActive ? 'Active' : 'Hidden'}
                       </Badge>
                     </td>
@@ -4262,7 +4262,7 @@ function SocialLinksView() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
-            <Button onClick={createLink} disabled={creating} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={createLink} disabled={creating} className="bg-red-600 hover:bg-red-700 text-white">
               {creating ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null} Add link
             </Button>
           </DialogFooter>

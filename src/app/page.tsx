@@ -12,9 +12,9 @@ import type { Metadata } from 'next'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'DigitalVault — Buy License Keys, Software Keys & Digital Accounts',
+  title: 'AccsPoint — Buy Social Media Marketing Assets at One Place',
   description:
-    'Browse digital goods freely — software license keys, VPN subscriptions, streaming accounts and gift cards. Crypto deposits, instant delivery, no account needed to browse.',
+    'Buy all types of social media marketing assets in one place — hassle free. Crypto deposits, instant delivery, no account needed to browse.',
   alternates: { canonical: '/' },
 }
 
@@ -25,7 +25,7 @@ function buildSettings(rows: { key: string; value: string }[]): PublicSettings {
   for (const r of rows) map[r.key] = r.value
   return {
     minDepositAmount: parseFloat(map.minDepositAmount ?? '0') || 0,
-    siteName: map.siteName ?? 'DigitalVault',
+    siteName: map.siteName ?? 'AccsPoint',
     supportEmail: map.supportEmail ?? '',
     content: buildContent(rows),
   }

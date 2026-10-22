@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { BrandLock } from '@/components/shared/BrandName'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from '@/components/ui/dialog'
@@ -116,7 +117,7 @@ function suggestedNextBid(auction: Auction): number {
   return Math.round((auction.currentBid + step) * 100) / 100
 }
 
-export function SpecialDealsPage({ auctions: initialAuctions, content, siteName = 'DigitalVault' }: Props) {
+export function SpecialDealsPage({ auctions: initialAuctions, content, siteName = 'AccsPoint' }: Props) {
   const copy = (key: string) => contentValue(content, key)
   const [auctions, setAuctions] = useState<Auction[]>(initialAuctions)
   const [bidModalAuction, setBidModalAuction] = useState<Auction | null>(null)
@@ -164,8 +165,7 @@ export function SpecialDealsPage({ auctions: initialAuctions, content, siteName 
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 shrink-0">
             <a href="/" className="flex items-center gap-2" aria-label="Go home">
-              <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white" aria-hidden="true">D</div>
-              <span className="font-bold hidden sm:inline">{siteName}</span>
+              <BrandLock />
             </a>
           </div>
           <div className="flex items-center gap-2">
@@ -180,11 +180,11 @@ export function SpecialDealsPage({ auctions: initialAuctions, content, siteName 
       </header>
 
       {/* Hero */}
-      <section className="border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-emerald-950/30 dark:via-zinc-950 dark:to-zinc-950">
+      <section className="border-b border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-red-50 via-white to-rose-50 dark:from-red-950/30 dark:via-zinc-950 dark:to-zinc-950">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-10 sm:py-14">
           <div className="max-w-3xl">
             {copy('specialDeal.badge') && (
-              <Badge variant="outline" className="mb-3 border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400">
+              <Badge variant="outline" className="mb-3 border-red-300 text-red-700 dark:border-red-800 dark:text-red-400">
                 <Gavel className="w-3 h-3 mr-1" /> {copy('specialDeal.badge')}
               </Badge>
             )}
@@ -300,7 +300,7 @@ function AuctionCard({ auction, myBid, onBid }: { auction: Auction; myBid: { id:
           <div>
             <div className="flex justify-between items-start mb-1 gap-2">
               <a href={`/special-deal/${auction.slug}`} className="min-w-0">
-                <h3 className="text-lg font-bold text-slate-900 leading-tight hover:text-emerald-600 transition-colors">{auction.title}</h3>
+                <h3 className="text-lg font-bold text-slate-900 leading-tight hover:text-red-600 transition-colors">{auction.title}</h3>
               </a>
               <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded whitespace-nowrap">{auction.category}</span>
             </div>
@@ -342,7 +342,7 @@ function AuctionCard({ auction, myBid, onBid }: { auction: Auction; myBid: { id:
               <div className={`mt-3 rounded-lg p-2.5 text-xs flex items-center justify-between gap-2 border ${
                 myBid!.cancelStatus === 'PENDING'
                   ? 'bg-amber-50 border-amber-200 text-amber-700'
-                  : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                  : 'bg-red-50 border-red-200 text-red-700'
               }`}>
                 <span className="font-bold">Your bid: {formatMoney(myBid!.amount)}</span>
                 {myBid!.cancelStatus === 'PENDING' && <span className="text-[10px] font-semibold">Cancel pending</span>}
@@ -423,7 +423,7 @@ function BidModal({ auction, onClose, onPlaced }: { auction: Auction; onClose: (
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Gavel className="w-5 h-5 text-emerald-600" /> Place a bid
+            <Gavel className="w-5 h-5 text-red-600" /> Place a bid
           </DialogTitle>
           <DialogDescription>
             Enter your bid for <span className="font-semibold">{auction.title}</span>. You can bid any amount — even lower than the current highest. The bid amount will be locked from your wallet.
@@ -438,7 +438,7 @@ function BidModal({ auction, onClose, onPlaced }: { auction: Auction; onClose: (
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-zinc-500">Current highest bid</span>
-              <span className="font-medium text-emerald-600 dark:text-emerald-400">{formatMoney(auction.currentBid)}</span>
+              <span className="font-medium text-red-600 dark:text-red-400">{formatMoney(auction.currentBid)}</span>
             </div>
           </div>
 
@@ -482,7 +482,7 @@ function BidModal({ auction, onClose, onPlaced }: { auction: Auction; onClose: (
           <Button
             onClick={submitBid}
             disabled={submitting}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="bg-red-600 hover:bg-red-700 text-white"
           >
             {submitting ? <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Placing bid…</> : <>Place Bid</>}
           </Button>
@@ -503,7 +503,7 @@ interface BidWithUser {
   user?: { email: string | null; name: string | null } | null
 }
 
-export function SpecialDealDetailPage({ auction: initial, content, siteName = 'DigitalVault' }: { auction: Auction & { bids?: BidWithUser[] }; content?: SiteContent | null; siteName?: string }) {
+export function SpecialDealDetailPage({ auction: initial, content, siteName = 'AccsPoint' }: { auction: Auction & { bids?: BidWithUser[] }; content?: SiteContent | null; siteName?: string }) {
   const copy = (key: string) => contentValue(content, key)
   const [auction, setAuction] = useState(initial)
   const [bidModalOpen, setBidModalOpen] = useState(false)
@@ -579,7 +579,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
 
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
         <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 flex items-center justify-between gap-3">
-          <a href="/special-deal" className="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 inline-flex items-center gap-2">
+          <a href="/special-deal" className="text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400 inline-flex items-center gap-2">
             <ArrowRight className="w-4 h-4 rotate-180" /> Back to all special deals
           </a>
           <TelegramButton />
@@ -591,7 +591,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
       <main className="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {/* Image */}
-          <div className="aspect-square bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl">
+          <div className="aspect-square bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl">
             {isImageUrl ? (
               <Image
                 src={auction.image!}
@@ -611,7 +611,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
           <div className="flex flex-col">
             <div className="flex items-center gap-2 mb-3 flex-wrap">
               <Badge variant="outline" className="text-xs">{auction.category}</Badge>
-              <Badge variant="outline" className={isEnded ? 'border-zinc-300 text-zinc-500' : 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400'}>
+              <Badge variant="outline" className={isEnded ? 'border-zinc-300 text-zinc-500' : 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400'}>
                 {isEnded ? 'Ended' : 'Live now'}
               </Badge>
             </div>
@@ -619,30 +619,30 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
             <h1 className="text-2xl sm:text-3xl font-bold mb-3">{auction.title}</h1>
 
             {/* Countdown — large */}
-            <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 p-4 mb-4">
-              <div className="text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-1.5">
+            <div className="rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 p-4 mb-4">
+              <div className="text-[10px] uppercase tracking-wider text-red-700 dark:text-red-400 mb-2 flex items-center gap-1.5">
                 <Clock className="w-3 h-3" /> Time remaining
               </div>
               <div className="flex items-center gap-2 font-mono font-bold">
                 {time.days > 0 && (
                   <div className="text-center">
-                    <div className="text-2xl sm:text-3xl text-emerald-700 dark:text-emerald-300">{time.days}</div>
+                    <div className="text-2xl sm:text-3xl text-red-700 dark:text-red-300">{time.days}</div>
                     <div className="text-[9px] uppercase text-zinc-500">days</div>
                   </div>
                 )}
-                {time.days > 0 && <span className="text-xl text-emerald-700 dark:text-emerald-300">:</span>}
+                {time.days > 0 && <span className="text-xl text-red-700 dark:text-red-300">:</span>}
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl text-emerald-700 dark:text-emerald-300">{String(time.hours).padStart(2, '0')}</div>
+                  <div className="text-2xl sm:text-3xl text-red-700 dark:text-red-300">{String(time.hours).padStart(2, '0')}</div>
                   <div className="text-[9px] uppercase text-zinc-500">hrs</div>
                 </div>
-                <span className="text-xl text-emerald-700 dark:text-emerald-300">:</span>
+                <span className="text-xl text-red-700 dark:text-red-300">:</span>
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl text-emerald-700 dark:text-emerald-300">{String(time.minutes).padStart(2, '0')}</div>
+                  <div className="text-2xl sm:text-3xl text-red-700 dark:text-red-300">{String(time.minutes).padStart(2, '0')}</div>
                   <div className="text-[9px] uppercase text-zinc-500">min</div>
                 </div>
-                <span className="text-xl text-emerald-700 dark:text-emerald-300">:</span>
+                <span className="text-xl text-red-700 dark:text-red-300">:</span>
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl text-emerald-700 dark:text-emerald-300">{String(time.seconds).padStart(2, '0')}</div>
+                  <div className="text-2xl sm:text-3xl text-red-700 dark:text-red-300">{String(time.seconds).padStart(2, '0')}</div>
                   <div className="text-[9px] uppercase text-zinc-500">sec</div>
                 </div>
               </div>
@@ -658,8 +658,8 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
 
             {/* Delivery format */}
             {auction.deliveryFormat && (
-              <div className="mb-4 rounded-md border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20 p-3">
-                <div className="text-xs font-medium text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-1">Delivery format</div>
+              <div className="mb-4 rounded-md border border-red-200 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 p-3">
+                <div className="text-xs font-medium text-red-700 dark:text-red-400 uppercase tracking-wider mb-1">Delivery format</div>
                 <div className="text-sm font-semibold">{auction.deliveryFormat}</div>
               </div>
             )}
@@ -672,7 +672,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
               </div>
               <div className="flex items-center justify-between px-4 py-3">
                 <span className="text-zinc-500">Current highest bid</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(auction.currentBid)}</span>
+                <span className="font-bold text-red-600 dark:text-red-400">{formatMoney(auction.currentBid)}</span>
               </div>
               <div className="flex items-center justify-between px-4 py-3">
                 <span className="text-zinc-500 flex items-center gap-1">
@@ -695,7 +695,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
                   ? 'bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300'
                   : myBid.cancelStatus === 'PENDING'
                   ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-200'
-                  : 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900 text-emerald-800 dark:text-emerald-200'
+                  : 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900 text-red-800 dark:text-red-200'
               }`}>
                 <div className="font-semibold mb-1">Your bid: {formatMoney(myBid.amount)}</div>
                 {myBid.cancelStatus === 'NONE' && <div className="text-xs">Active — funds locked from your wallet.</div>}
@@ -732,7 +732,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
                   onClick={() => setBidModalOpen(true)}
                   disabled={isEnded}
                   size="lg"
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white"
                 >
                   <Gavel className="w-5 h-5 mr-2" />
                   {isEnded ? 'Auction ended' : 'Place a new bid'}
@@ -742,7 +742,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
                   onClick={() => setBidModalOpen(true)}
                   disabled={isEnded}
                   size="lg"
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white"
                 >
                   <Gavel className="w-5 h-5 mr-2" />
                   {isEnded ? 'Auction ended' : 'Place a bid'}
@@ -773,7 +773,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
                         i === 0
-                          ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400'
+                          ? 'bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400'
                           : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'
                       }`}>
                         {i + 1}
@@ -781,7 +781,7 @@ export function SpecialDealDetailPage({ auction: initial, content, siteName = 'D
                       <div>
                         <div className="text-sm font-medium">
                           {bid.user?.name || bid.user?.email?.split('@')[0] || 'Anonymous'}
-                          {i === 0 && <span className="ml-2 text-xs text-emerald-600 dark:text-emerald-400 font-medium">Highest</span>}
+                          {i === 0 && <span className="ml-2 text-xs text-red-600 dark:text-red-400 font-medium">Highest</span>}
                           {bid.cancelStatus === 'PENDING' && <span className="ml-2 text-xs text-amber-600 dark:text-amber-400 font-medium">Cancel pending</span>}
                           {bid.cancelStatus === 'APPROVED' && <span className="ml-2 text-xs text-zinc-500 font-medium">Cancelled</span>}
                           {bid.cancelStatus === 'REJECTED' && <span className="ml-2 text-xs text-red-600 dark:text-red-400 font-medium">Cancel rejected</span>}

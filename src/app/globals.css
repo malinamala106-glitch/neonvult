@@ -121,7 +121,7 @@
   }
 }
 
-/* Soft emerald halo used by "hot" special-deal cards (auctions ending soon). */
+/* Soft red halo used by "hot" special-deal cards (auctions ending soon). */
 .glow-border {
   box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.2);
 }

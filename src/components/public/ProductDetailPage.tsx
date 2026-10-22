@@ -14,6 +14,7 @@ import { formatMoney } from '@/lib/format'
 import { sanitizeHtml } from '@/lib/sanitize'
 import { ShoppingCart, ArrowRight, Lock, AlertCircle, Package, Truck } from 'lucide-react'
 import type { Product } from '@/lib/types'
+import { BrandLock } from '@/components/shared/BrandName'
 
 export function ProductDetailPage({ product }: { product: Product }) {
   const outOfStock = product.stock === 0
@@ -28,12 +29,12 @@ export function ProductDetailPage({ product }: { product: Product }) {
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
         <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 flex items-center justify-between gap-3">
-          <Link href="/" className="flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400">
+          <Link href="/" className="flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400">
             <ArrowRight className="w-4 h-4 rotate-180" /> Back to marketplace
           </Link>
           <div className="flex items-center gap-2">
             <TelegramButton />
-            <div className="w-7 h-7 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white text-xs" aria-hidden="true">D</div>
+            <BrandLock compact />
           </div>
         </div>
         {/* Secondary nav: admin-editable page links (Site content → Navigation links) */}
@@ -43,7 +44,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
       <main className="flex-1 max-w-4xl mx-auto w-full px-3 sm:px-6 py-6 lg:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {/* Image */}
-          <div className="aspect-square bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl">
+          <div className="aspect-square bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl">
             {isImageUrl ? (
               // Product hero sits above the fold and is the LCP candidate —
               // next/image prioritizes it (no lazy loading on the first
@@ -76,7 +77,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                   ))
                 } catch { return null }
               })()}
-              <Badge variant="outline" className={outOfStock ? 'border-zinc-300 text-zinc-500' : 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400'}>
+              <Badge variant="outline" className={outOfStock ? 'border-zinc-300 text-zinc-500' : 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400'}>
                 {outOfStock ? 'Sold out' : `${product.stock} in stock`}
               </Badge>
             </div>
@@ -94,7 +95,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
                       [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-2 [&_h3]:mb-1 [&_h3]:text-zinc-800 dark:[&_h3]:text-zinc-200
                       [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2 [&_ul]:space-y-1
                       [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2 [&_ol]:space-y-1
-                      [&_a]:text-emerald-600 [&_a]:underline [&_a]:hover:text-emerald-700
+                      [&_a]:text-red-600 [&_a]:underline [&_a]:hover:text-red-700
                       [&_p]:my-1.5 [&_p]:leading-relaxed
                       [&_strong]:font-semibold [&_strong]:text-zinc-800 dark:[&_strong]:text-zinc-200"
                     // Admin-authored rich text — sanitized (DOMPurify) before it
@@ -114,8 +115,8 @@ export function ProductDetailPage({ product }: { product: Product }) {
 
             {/* Delivery format — shown to buyer before purchase */}
             {product.deliveryFormat && (
-              <div className="mb-6 rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20 p-4">
-                <div className="text-xs font-medium text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">What you'll receive</div>
+              <div className="mb-6 rounded-lg border border-red-200 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 p-4">
+                <div className="text-xs font-medium text-red-700 dark:text-red-400 uppercase tracking-wider mb-2">What you'll receive</div>
                 <code className="block text-sm font-mono text-zinc-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 rounded-md px-3 py-2 border border-zinc-200 dark:border-zinc-800">
                   {product.deliveryFormat}
                 </code>
@@ -128,14 +129,14 @@ export function ProductDetailPage({ product }: { product: Product }) {
             <div className="mt-auto">
               <div className="flex items-center justify-between gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
                 <div>
-                  <div className="text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(product.price)}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-red-600 dark:text-red-400">{formatMoney(product.price)}</div>
                   <div className="text-xs text-zinc-500">per unit</div>
                 </div>
                 <Button
                   onClick={handleBuy}
                   disabled={outOfStock}
                   size="lg"
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="bg-red-600 hover:bg-red-700 text-white"
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   {outOfStock ? 'Sold out' : 'Buy now'}

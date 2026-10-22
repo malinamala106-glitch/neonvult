@@ -528,7 +528,7 @@ export function ChatWidget() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-12 sm:bottom-14 right-5 sm:right-6 z-50 group flex items-center justify-center w-[3.6rem] h-[3.6rem] sm:w-[4.2rem] sm:h-[4.2rem] rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl ring-2 ring-emerald-600/20 transition-all hover:scale-105 hover:shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+          className="fixed bottom-12 sm:bottom-14 right-5 sm:right-6 z-50 group flex items-center justify-center w-[3.6rem] h-[3.6rem] sm:w-[4.2rem] sm:h-[4.2rem] rounded-full bg-red-600 hover:bg-red-700 text-white shadow-xl ring-2 ring-red-600/20 transition-all hover:scale-105 hover:shadow-2xl animate-in fade-in zoom-in-95 duration-200"
           aria-label="Open chat support"
         >
           <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -547,22 +547,22 @@ export function ChatWidget() {
           style={{ maxHeight: '80vh' }}
         >
           {/* Header */}
-          <div className="bg-emerald-600 text-white px-4 py-3 flex items-center justify-between gap-2 shrink-0">
+          <div className="bg-red-600 text-white px-4 py-3 flex items-center justify-between gap-2 shrink-0">
             <div className="flex items-center gap-2 min-w-0">
               <MessageCircle className="w-5 h-5 shrink-0" />
               <div className="min-w-0">
                 <div className="font-semibold text-sm truncate">{isComplete ? 'Conversation closed' : 'Support Chat'}</div>
-                <div className="text-[10px] text-emerald-100 truncate">
+                <div className="text-[10px] text-red-100 truncate">
                   {isComplete ? 'Start a new conversation or reopen this one' : 'We typically reply within a few hours'}
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-1 shrink-0">
-              <div className="flex items-center gap-0.5 bg-emerald-500/40 rounded-md p-0.5" role="group" aria-label="Adjust font size">
+              <div className="flex items-center gap-0.5 bg-red-500/40 rounded-md p-0.5" role="group" aria-label="Adjust font size">
                 <button
                   onClick={() => bumpFont(-1)}
                   disabled={!canDecrease}
-                  className="inline-flex items-center justify-center w-7 h-7 rounded text-white hover:bg-emerald-500/60 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="inline-flex items-center justify-center w-7 h-7 rounded text-white hover:bg-red-500/60 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   aria-label="Decrease font size"
                   title="Decrease font size"
                 >
@@ -570,7 +570,7 @@ export function ChatWidget() {
                 </button>
                 <button
                   onClick={resetFont}
-                  className="inline-flex items-center justify-center w-7 h-7 rounded text-white hover:bg-emerald-500/60 transition-colors"
+                  className="inline-flex items-center justify-center w-7 h-7 rounded text-white hover:bg-red-500/60 transition-colors"
                   aria-label={`Reset font size (currently ${fontPx}px)`}
                   title={`Reset font size (currently ${fontPx}px)`}
                 >
@@ -579,14 +579,14 @@ export function ChatWidget() {
                 <button
                   onClick={() => bumpFont(1)}
                   disabled={!canIncrease}
-                  className="inline-flex items-center justify-center w-7 h-7 rounded text-white hover:bg-emerald-500/60 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="inline-flex items-center justify-center w-7 h-7 rounded text-white hover:bg-red-500/60 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   aria-label="Increase font size"
                   title={`Increase font size (currently ${fontPx}px)`}
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
               </div>
-              <button onClick={() => setOpen(false)} className="hover:bg-emerald-700 rounded-md p-1" aria-label="Close chat">
+              <button onClick={() => setOpen(false)} className="hover:bg-red-700 rounded-md p-1" aria-label="Close chat">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -608,7 +608,7 @@ export function ChatWidget() {
                         key={t.value}
                         onClick={() => startWithTopic(t.value)}
                         disabled={starting}
-                        className="w-full text-left px-4 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors text-sm font-medium text-zinc-700 dark:text-zinc-200 disabled:opacity-50"
+                        className="w-full text-left px-4 py-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors text-sm font-medium text-zinc-700 dark:text-zinc-200 disabled:opacity-50"
                       >
                         {t.label}
                       </button>
@@ -617,7 +617,7 @@ export function ChatWidget() {
                   {conversation && (
                     <button
                       onClick={() => { setPickerOpen(false); setTimeout(() => inputRef.current?.focus(), 100) }}
-                      className="mt-4 text-xs text-zinc-500 hover:text-emerald-600 underline"
+                      className="mt-4 text-xs text-zinc-500 hover:text-red-600 underline"
                     >
                       Cancel — back to this conversation
                     </button>
@@ -637,7 +637,7 @@ export function ChatWidget() {
                 {/* Page context line (Bug 4) */}
                 {conversation?.context && (
                   <div className="text-center">
-                    <span className="inline-block text-[11px] text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded-full px-3 py-1">
+                    <span className="inline-block text-[11px] text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-full px-3 py-1">
                       Context: Order {conversation.context.shortId ? `#${conversation.context.shortId}` : ''}
                       {conversation.context.productName ? ` (${conversation.context.productName})` : ''}
                     </span>
@@ -670,19 +670,19 @@ export function ChatWidget() {
                           className={`max-w-[85%] rounded-2xl px-3 py-2 ${
                             msg.senderType === 'admin'
                               ? 'bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300'
-                              : 'bg-emerald-600 text-white'
+                              : 'bg-red-600 text-white'
                           } ${msg.pending ? 'opacity-60' : ''} ${msg.failed ? 'ring-2 ring-red-400' : ''}`}
                           style={{ fontSize: `${fontPx}px` }}
                         >
                           {msg.senderType === 'admin' && (
-                            <div className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 mb-0.5">Support</div>
+                            <div className="text-[10px] font-semibold text-red-600 dark:text-red-400 mb-0.5">Support</div>
                           )}
                           {msg.body && <p className="break-words whitespace-pre-wrap">{msg.body}</p>}
                           {msg.attachmentUrl && (
                             <ChatAttachment url={msg.attachmentUrl} meta={parseMeta(msg.attachmentMeta)} tone={msg.senderType === 'admin' ? 'in' : 'out'} fontPx={fontPx} />
                           )}
                           <div
-                            className={`mt-1 flex items-center gap-1 ${msg.senderType === 'admin' ? 'text-zinc-400' : 'text-emerald-100'} ${msg.senderType === 'admin' ? '' : 'justify-end'}`}
+                            className={`mt-1 flex items-center gap-1 ${msg.senderType === 'admin' ? 'text-zinc-400' : 'text-red-100'} ${msg.senderType === 'admin' ? '' : 'justify-end'}`}
                             style={{ fontSize: `${Math.max(10, fontPx - 4)}px` }}
                           >
                             <span>
@@ -691,7 +691,7 @@ export function ChatWidget() {
                             {/* Read receipts on the buyer's own messages (Bug 7) */}
                             {!msg.pending && !msg.failed && msg.senderType !== 'admin' && (
                               msg.readAt ? (
-                                <CheckCheck className="w-3.5 h-3.5 text-emerald-200" aria-label="Read" />
+                                <CheckCheck className="w-3.5 h-3.5 text-red-200" aria-label="Read" />
                               ) : msg.deliveredAt ? (
                                 <CheckCheck className="w-3.5 h-3.5 opacity-60" aria-label="Delivered" />
                               ) : (
@@ -741,7 +741,7 @@ export function ChatWidget() {
                       onClick={submitRating}
                       disabled={ratingStars < 1}
                       size="sm"
-                      className="mt-3 bg-emerald-600 hover:bg-emerald-700 text-white"
+                      className="mt-3 bg-red-600 hover:bg-red-700 text-white"
                     >
                       Submit
                     </Button>
@@ -758,7 +758,7 @@ export function ChatWidget() {
                   <div className="flex flex-col gap-2">
                     <Button
                       onClick={() => setPickerOpen(true)}
-                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                      className="w-full bg-red-600 hover:bg-red-700 text-white"
                       size="sm"
                     >
                       Start new conversation
@@ -777,7 +777,7 @@ export function ChatWidget() {
                           <Paperclip className="w-3 h-3 shrink-0" />
                           <span className="truncate flex-1">{upload.name}{upload.size ? ` · ${formatBytes(upload.size)}` : ''}</span>
                           {upload.error ? (
-                            <button onClick={() => uploadFile(upload.file)} className="text-emerald-600 hover:underline" aria-label="Retry upload">Retry</button>
+                            <button onClick={() => uploadFile(upload.file)} className="text-red-600 hover:underline" aria-label="Retry upload">Retry</button>
                           ) : upload.url ? null : (
                             <span className="tabular-nums">{upload.progress}%</span>
                           )}
@@ -787,7 +787,7 @@ export function ChatWidget() {
                           <p className="mt-1 flex items-center gap-1 text-[11px] text-red-500"><AlertCircle className="w-3 h-3" /> {upload.error}</p>
                         ) : (
                           <div className="mt-1 h-1 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
-                            <div className="h-full bg-emerald-600 transition-all" style={{ width: `${upload.url ? 100 : upload.progress}%` }} />
+                            <div className="h-full bg-red-600 transition-all" style={{ width: `${upload.url ? 100 : upload.progress}%` }} />
                           </div>
                         )}
                       </div>
@@ -807,7 +807,7 @@ export function ChatWidget() {
                       <button
                         onClick={() => fileInputRef.current?.click()}
                         disabled={!canType || !!upload}
-                        className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-md text-zinc-400 hover:text-emerald-600 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-40 transition-colors"
+                        className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-md text-zinc-400 hover:text-red-600 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-40 transition-colors"
                         aria-label="Attach a file (JPG, PNG, WebP, PDF or ZIP, max 5MB)"
                         title="Attach a file (JPG, PNG, WebP, PDF or ZIP, max 5MB)"
                       >
@@ -828,7 +828,7 @@ export function ChatWidget() {
                         onClick={send}
                         disabled={(!input.trim() && !upload?.url) || sending || !canType || (!!upload && !upload.url)}
                         size="icon"
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0 h-10 w-10 sm:h-11 sm:w-11 transition-transform active:scale-90"
+                        className="bg-red-600 hover:bg-red-700 text-white shrink-0 h-10 w-10 sm:h-11 sm:w-11 transition-transform active:scale-90"
                         aria-label="Send message"
                       >
                         {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}

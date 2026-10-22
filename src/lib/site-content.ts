@@ -129,7 +129,7 @@ export const CONTENT_SECTIONS: ContentSectionDef[] = [
     description:
       'Everything shown on the four static pages: title, subtitle and the page body. The body is formatted with simple Markdown — blank line between blocks, ## for section headings, - bullets, 1. numbered lists, **bold**, *italic* and [link text](https://example.com).',
     fields: [
-      { key: 'about.title', label: 'About — title', default: 'About DigitalVault', maxLength: 120 },
+      { key: 'about.title', label: 'About — title', default: 'About AccsPoint', maxLength: 120 },
       {
         key: 'about.subtitle',
         label: 'About — subtitle',
@@ -142,7 +142,7 @@ export const CONTENT_SECTIONS: ContentSectionDef[] = [
         default: [
           '## Our mission',
           '',
-          "DigitalVault was built to make buying and selling digital assets simple, transparent, and secure. Whether you're looking for a software license key, a VPN subscription, or a premium streaming account, our marketplace connects buyers with verified sellers — with crypto deposits and instant delivery.",
+          "AccsPoint was built to make buying and selling digital assets simple, transparent, and secure. Whether you're looking for a software license key, a VPN subscription, or a premium streaming account, our marketplace connects buyers with verified sellers — with crypto deposits and instant delivery.",
           '',
           '## What we offer',
           '',
@@ -159,7 +159,7 @@ export const CONTENT_SECTIONS: ContentSectionDef[] = [
           '3. **Buy instantly** — keys are delivered to your account immediately after purchase.',
           '4. **Or bid on special deals** — place a bid on a premium account auction. Highest bidder wins.',
           '',
-          '## Why choose DigitalVault?',
+          '## Why choose AccsPoint?',
           '',
           'We prioritize security and transparency. Every deposit is manually verified by our team. Funds locked for auction bids are protected — if your bid is outbid or you request a cancellation, your funds are returned to your wallet. Our support team is reachable via Telegram, email, and the in-site chat widget.',
         ].join('\n'),
@@ -216,7 +216,7 @@ export const CONTENT_SECTIONS: ContentSectionDef[] = [
       {
         key: 'terms.subtitle',
         label: 'Terms — subtitle',
-        default: 'Please read these terms carefully before using DigitalVault.',
+        default: 'Please read these terms carefully before using AccsPoint.',
         maxLength: 200,
       },
       {
@@ -225,7 +225,7 @@ export const CONTENT_SECTIONS: ContentSectionDef[] = [
         default: [
           '## 1. Acceptance of terms',
           '',
-          'By accessing or using DigitalVault (the "Service"), you agree to be bound by these Terms & Conditions. If you do not agree, please do not use the Service.',
+          'By accessing or using AccsPoint (the "Service"), you agree to be bound by these Terms & Conditions. If you do not agree, please do not use the Service.',
           '',
           '## 2. Eligibility',
           '',
@@ -262,7 +262,7 @@ export const CONTENT_SECTIONS: ContentSectionDef[] = [
           '',
           '## 9. Limitation of liability',
           '',
-          'DigitalVault is provided "as is" without warranties of any kind. We are not liable for indirect, incidental, or consequential damages arising from the use of the Service.',
+          'AccsPoint is provided "as is" without warranties of any kind. We are not liable for indirect, incidental, or consequential damages arising from the use of the Service.',
           '',
           '## 10. Changes to terms',
           '',

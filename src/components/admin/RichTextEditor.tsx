@@ -136,14 +136,14 @@ export function RichTextEditor({ value, onChange, placeholder = 'Describe your p
           <button
             type="button"
             onClick={() => mode === 'html' && switchToVisual()}
-            className={`px-2 py-1 rounded text-[10px] font-medium flex items-center gap-1 ${mode === 'visual' ? 'bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}
+            className={`px-2 py-1 rounded text-[10px] font-medium flex items-center gap-1 ${mode === 'visual' ? 'bg-white dark:bg-zinc-900 text-red-600 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}
           >
             <Eye className="w-3 h-3" /> Visual
           </button>
           <button
             type="button"
             onClick={() => mode === 'visual' && switchToHtml()}
-            className={`px-2 py-1 rounded text-[10px] font-medium flex items-center gap-1 ${mode === 'html' ? 'bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-zinc-500'}`}
+            className={`px-2 py-1 rounded text-[10px] font-medium flex items-center gap-1 ${mode === 'html' ? 'bg-white dark:bg-zinc-900 text-red-600 dark:text-red-400 shadow-sm' : 'text-zinc-500'}`}
           >
             <Code2 className="w-3 h-3" /> HTML
           </button>
@@ -170,7 +170,7 @@ export function RichTextEditor({ value, onChange, placeholder = 'Describe your p
             className="w-40 h-8 text-xs"
             onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); insertLink() } }}
           />
-          <Button type="button" size="sm" onClick={insertLink} className="h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button type="button" size="sm" onClick={insertLink} className="h-8 text-xs bg-red-600 hover:bg-red-700 text-white">
             Insert
           </Button>
         </div>
@@ -183,7 +183,7 @@ export function RichTextEditor({ value, onChange, placeholder = 'Describe your p
           contentEditable
           onInput={handleInput}
           onBlur={handleInput}
-          className="prose prose-sm dark:prose-invert max-w-none min-h-[120px] p-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 [&_h1]:text-xl [&_h1]:font-bold [&_h1]:mt-3 [&_h1]:mb-1 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mt-2 [&_h2]:mb-1 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-2 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-emerald-600 [&_a]:underline [&_p]:my-1 [&_p]:leading-relaxed"
+          className="prose prose-sm dark:prose-invert max-w-none min-h-[120px] p-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 [&_h1]:text-xl [&_h1]:font-bold [&_h1]:mt-3 [&_h1]:mb-1 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mt-2 [&_h2]:mb-1 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-2 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-red-600 [&_a]:underline [&_p]:my-1 [&_p]:leading-relaxed"
           style={{ minHeight: `${rows * 24 + 24}px` }}
           data-placeholder={placeholder}
           suppressContentEditableWarning
@@ -194,7 +194,7 @@ export function RichTextEditor({ value, onChange, placeholder = 'Describe your p
           onChange={(e) => { setHtmlValue(e.target.value); onChange(e.target.value) }}
           onBlur={() => { if (editorRef.current) { editorRef.current.innerHTML = htmlValue } }}
           rows={rows}
-          className="w-full p-3 text-xs font-mono text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-950 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 resize-y"
+          className="w-full p-3 text-xs font-mono text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-950 focus:outline-none focus:ring-2 focus:ring-red-500/20 resize-y"
           placeholder="<p>Enter HTML here...</p>"
           style={{ minHeight: `${rows * 24 + 24}px` }}
         />

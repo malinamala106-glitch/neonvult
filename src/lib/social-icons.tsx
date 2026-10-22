@@ -112,8 +112,8 @@ export function getSocialColor(platform: string): string {
   if (p.includes('discord')) return 'hover:bg-indigo-600 hover:text-white hover:border-indigo-600'
   if (p.includes('youtube')) return 'hover:bg-red-600 hover:text-white hover:border-red-600'
   if (p.includes('whatsapp')) return 'hover:bg-green-500 hover:text-white hover:border-green-500'
-  if (p.includes('email') || p.includes('mail')) return 'hover:bg-emerald-600 hover:text-white hover:border-emerald-600'
-  return 'hover:bg-emerald-600 hover:text-white hover:border-emerald-600'
+  if (p.includes('email') || p.includes('mail')) return 'hover:bg-red-600 hover:text-white hover:border-red-600'
+  return 'hover:bg-red-600 hover:text-white hover:border-red-600'
 }
 
 export function getSocialLabel(platform: string, fallback?: string): string {

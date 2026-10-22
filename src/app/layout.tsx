@@ -19,23 +19,19 @@ const geistMono = Geist_Mono({
 })
 
 const baseUrl = serverSiteUrl()
-const siteName = 'DigitalVault'
-const title = 'DigitalVault — License Key & Digital Asset Marketplace'
+const siteName = 'AccsPoint'
+const title = 'AccsPoint — Buy Social Media Marketing Assets at One Place'
 const description =
-  'Buy and sell license keys, product keys, VPN subscriptions, software licenses, and other digital assets. Crypto deposits, instant key delivery, bulk uploads, and admin-managed orders.'
+  'Buy all types of social media marketing assets in one place — hassle free. Aged accounts, PVA accounts, monetization-ready profiles and more, with crypto deposits and instant delivery.'
 const keywords = [
-  'license keys',
-  'product keys',
+  'social media assets',
+  'buy social media accounts',
+  'aged accounts',
+  'pva accounts',
+  'social media marketing',
   'digital assets marketplace',
-  'software keys',
-  'VPN subscriptions',
-  'buy software keys',
   'crypto marketplace',
-  'Windows 11 key',
-  'Office 2021 key',
-  'NordVPN',
-  'ChatGPT Plus',
-  'Steam gift card',
+  'instant delivery accounts',
 ]
 
 export const metadata: Metadata = {
@@ -46,9 +42,9 @@ export const metadata: Metadata = {
   },
   description,
   keywords,
-  authors: [{ name: 'DigitalVault' }],
-  creator: 'DigitalVault',
-  publisher: 'DigitalVault',
+  authors: [{ name: 'AccsPoint' }],
+  creator: 'AccsPoint',
+  publisher: 'AccsPoint',
   applicationName: siteName,
   category: 'shopping',
   alternates: {
@@ -77,7 +73,7 @@ export const metadata: Metadata = {
         url: '/opengraph-image.png',
         width: 1200,
         height: 630,
-        alt: 'DigitalVault — License keys & digital assets marketplace',
+        alt: 'AccsPoint — Buy social media marketing assets at one place',
         type: 'image/png',
       },
     ],
@@ -108,7 +104,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#059669',
+  themeColor: '#dc2626',
   colorScheme: 'light dark',
 }
 

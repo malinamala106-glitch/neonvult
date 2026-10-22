@@ -57,17 +57,17 @@ export function AuthScreen({ onLogin }: Props) {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left: hero / brand */}
-      <div className="lg:w-1/2 bg-gradient-to-br from-emerald-950 via-zinc-950 to-zinc-950 text-white p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden">
+      <div className="lg:w-1/2 bg-gradient-to-br from-red-950 via-zinc-950 to-zinc-950 text-white p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-emerald-500/30 blur-3xl" />
-          <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-teal-400/20 blur-3xl" />
+          <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-red-500/30 blur-3xl" />
+          <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-rose-400/20 blur-3xl" />
         </div>
         <div className="relative">
           <div className="flex items-center gap-2 mb-12">
-            <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center font-bold text-zinc-950">
+            <div className="w-10 h-10 rounded-lg bg-red-500 flex items-center justify-center font-bold text-zinc-950">
               D
             </div>
-            <span className="text-xl font-bold tracking-tight">DigitalVault</span>
+            <span className="text-xl font-bold tracking-tight">AccsPoint</span>
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-4">
             Sell license keys &amp; digital goods at scale.
@@ -83,7 +83,7 @@ export function AuthScreen({ onLogin }: Props) {
           </div>
         </div>
         <div className="relative text-xs text-zinc-400 mt-12">
-          © {new Date().getFullYear()} DigitalVault. Demo marketplace. Not for production use without proper audit.
+          © {new Date().getFullYear()} AccsPoint. Demo marketplace. Not for production use without proper audit.
         </div>
       </div>
 
@@ -135,7 +135,7 @@ export function AuthScreen({ onLogin }: Props) {
                       />
                     </div>
                     {error && <p className="text-sm text-red-500">{error}</p>}
-                    <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={loading}>
+                    <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={loading}>
                       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Sign in'}
                     </Button>
                   </form>
@@ -185,7 +185,7 @@ export function AuthScreen({ onLogin }: Props) {
                     </div>
                     {error && <p className="text-sm text-red-500">{error}</p>}
                     {notice && <p className="text-sm text-amber-600 dark:text-amber-400">{notice}</p>}
-                    <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={loading}>
+                    <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={loading}>
                       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create account'}
                     </Button>
                   </form>
@@ -202,7 +202,7 @@ export function AuthScreen({ onLogin }: Props) {
 function Feature({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="w-9 h-9 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+      <div className="w-9 h-9 rounded-md bg-red-500/20 text-red-400 flex items-center justify-center shrink-0">
         {icon}
       </div>
       <div>

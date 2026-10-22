@@ -44,7 +44,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ i
         createdAt: deposit.createdAt.toISOString(),
         walletAddress: deposit.wallet?.address ?? null,
       }}
-      siteName={settingsMap.siteName ?? 'DigitalVault'}
+      siteName={settingsMap.siteName ?? 'AccsPoint'}
       telegramUrl={settingsMap.telegramSupportUrl || null}
       supportEmail={settingsMap.supportEmail || null}
     />

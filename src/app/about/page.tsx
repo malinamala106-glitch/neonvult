@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Learn about DigitalVault — a marketplace for license keys, digital accounts, and other digital assets.',
+  description: 'Learn about AccsPoint — a marketplace for license keys, digital accounts, and other digital assets.',
   alternates: { canonical: '/about' },
 }
 
@@ -20,7 +20,7 @@ export default async function Page() {
 
   return (
     <StaticPage
-      title={page('title') || 'About DigitalVault'}
+      title={page('title') || 'About AccsPoint'}
       subtitle={page('subtitle')}
       body={page('body')}
     />

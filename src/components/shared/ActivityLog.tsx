@@ -40,7 +40,7 @@ function actionIcon(actionType: string): React.ReactNode {
 // Status → color class mapping
 function statusBadgeClass(status: string): string {
   switch (status) {
-    case 'SUCCESS': return 'border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30'
+    case 'SUCCESS': return 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30'
     case 'PENDING': return 'border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30'
     case 'FAILED': return 'border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30'
     case 'CANCELLED': return 'border-zinc-300 text-zinc-500 dark:border-zinc-700 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900'
@@ -198,7 +198,7 @@ export function ActivityLog({ admin = false }: Props) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
-            <FileText className="w-6 h-6 text-emerald-600" />
+            <FileText className="w-6 h-6 text-red-600" />
             {admin ? 'Audit Trail' : 'Activity Log'}
           </h1>
           <p className="text-sm text-zinc-500 mt-1">
@@ -340,7 +340,7 @@ export function ActivityLog({ admin = false }: Props) {
               <div className="shrink-0 text-right">
                 {typeof log.amount === 'number' && log.amount !== 0 && (
                   <div
-                    className={`text-sm font-semibold ${log.amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}
+                    className={`text-sm font-semibold ${log.amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-red-600 dark:text-red-400'}`}
                   >
                     {formatSignedUsd(log.amount)}
                   </div>
@@ -376,7 +376,7 @@ export function ActivityLog({ admin = false }: Props) {
                     <tr
                       key={log.id}
                       onClick={() => openLog(log)}
-                      className={`cursor-pointer hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-colors ${i % 2 === 1 ? 'bg-zinc-50/50 dark:bg-zinc-900/50' : ''}`}
+                      className={`cursor-pointer hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-colors ${i % 2 === 1 ? 'bg-zinc-50/50 dark:bg-zinc-900/50' : ''}`}
                     >
                       <td className="px-3 py-2 text-xs text-zinc-500 whitespace-nowrap">
                         {new Date(log.createdAt).toLocaleString('en-US', {
@@ -519,7 +519,7 @@ export function ActivityLog({ admin = false }: Props) {
                       onClick={() => setViewAs(mode)}
                       className={`px-2.5 py-1 text-xs rounded font-medium capitalize transition-colors ${
                         viewAs === mode
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-red-600 text-white'
                           : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                       }`}
                     >
@@ -660,7 +660,7 @@ function UserActivityPreview({ log }: { log: ActivityLogEntry }) {
           <div className="shrink-0 text-right">
             {typeof view.amount === 'number' && view.amount !== 0 && (
               <div
-                className={`text-sm font-semibold ${view.amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}
+                className={`text-sm font-semibold ${view.amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-red-600 dark:text-red-400'}`}
               >
                 {formatSignedUsd(view.amount)}
               </div>

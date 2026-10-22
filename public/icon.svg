@@ -1,4 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="96" fill="#059669"/>
-  <text x="256" y="340" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="280" font-weight="900" text-anchor="middle" fill="#ffffff">D</text>
+  <defs>
+    <linearGradient id="ap" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#F59E0B"/>
+      <stop offset="0.45" stop-color="#E11D48"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#ap)"/>
+  <rect x="52" y="52" width="408" height="408" rx="72" fill="none" stroke="#ffffff" stroke-width="28"/>
+  <text x="256" y="335" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="200" font-weight="900" text-anchor="middle" fill="#ffffff">AP</text>
 </svg>

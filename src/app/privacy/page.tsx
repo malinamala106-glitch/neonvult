@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How DigitalVault collects, uses, and protects your personal information.',
+  description: 'How AccsPoint collects, uses, and protects your personal information.',
   alternates: { canonical: '/privacy' },
 }
 

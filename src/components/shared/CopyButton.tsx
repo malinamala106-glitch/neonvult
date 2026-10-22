@@ -35,7 +35,7 @@ export function CopyButton({ value, label }: { value: string; label?: string }) 
       onClick={copy}
       className="gap-1 font-mono text-xs"
     >
-      {copied ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+      {copied ? <Check className="w-3 h-3 text-red-500" /> : <Copy className="w-3 h-3" />}
       {label ?? (copied ? 'Copied' : 'Copy')}
     </Button>
   )

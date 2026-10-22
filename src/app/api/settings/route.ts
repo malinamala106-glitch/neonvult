@@ -42,7 +42,7 @@ export async function GET() {
   for (const r of rows) map[r.key] = r.value
   return NextResponse.json({
     minDepositAmount: parseFloat(map.minDepositAmount ?? '0') || 0,
-    siteName: map.siteName ?? 'DigitalVault',
+    siteName: map.siteName ?? 'AccsPoint',
     supportEmail: map.supportEmail ?? '',
     telegramSupportUrl: map.telegramSupportUrl ?? '',
     content: buildContent(rows),
@@ -143,7 +143,7 @@ export async function PATCH(req: NextRequest) {
     for (const r of rows) map[r.key] = r.value
     return NextResponse.json({
       minDepositAmount: parseFloat(map.minDepositAmount ?? '0') || 0,
-      siteName: map.siteName ?? 'DigitalVault',
+      siteName: map.siteName ?? 'AccsPoint',
       supportEmail: map.supportEmail ?? '',
       telegramSupportUrl: map.telegramSupportUrl ?? '',
       content: buildContent(rows),

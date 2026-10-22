@@ -9,7 +9,7 @@ export const revalidate = 3600
 export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
   title: 'Contact',
-  description: 'Get in touch with the DigitalVault team — Telegram, email, or live chat.',
+  description: 'Get in touch with the AccsPoint team — Telegram, email, or live chat.',
 }
 
 export default async function Page() {

@@ -47,7 +47,7 @@ function SocialIcon({ platform, className }: { platform: string; className?: str
 // footer; the page links reuse the Navigation links list and the social
 // buttons reuse the Social Links manager. The optional bottom bar (copyright +
 // legal links) is off by default, matching the minimal reference design.
-export function SiteFooter({ siteName = 'DigitalVault', userEmail, tagline, content }: Props) {
+export function SiteFooter({ siteName = 'AccsPoint', userEmail, tagline, content }: Props) {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([])
   const resolved = useSiteContent(content)
   const config = resolveFooterConfig(resolved)

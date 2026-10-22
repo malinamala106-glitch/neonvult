@@ -290,7 +290,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
   function statusBadge(status: string | null | undefined) {
     const s = status || 'ACTIVE'
     switch (s) {
-      case 'ACTIVE': return <Badge variant="outline" className="border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30">🟢 Active</Badge>
+      case 'ACTIVE': return <Badge variant="outline" className="border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30">🟢 Active</Badge>
       case 'MUTED': return <Badge variant="outline" className="border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30">🟡 Muted</Badge>
       case 'BANNED': return <Badge variant="outline" className="border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30">🔴 Banned</Badge>
       case 'PENDING': return <Badge variant="outline" className="border-zinc-300 text-zinc-500">⚪ Pending</Badge>
@@ -307,7 +307,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
     return (
       <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={onClose}>
         <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-8" onClick={e => e.stopPropagation()}>
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-red-600" />
         </div>
       </div>
     )
@@ -349,7 +349,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
         {/* Header */}
         <div className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 flex items-start justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shrink-0">
+            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-lg shrink-0">
               {initials(u.name, u.email)}
             </div>
             <div className="min-w-0">
@@ -385,7 +385,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
               key={t}
               onClick={() => setTab(t)}
               className={`px-4 py-2.5 text-sm font-medium capitalize whitespace-nowrap border-b-2 transition-colors ${
-                tab === t ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : 'border-transparent text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
+                tab === t ? 'border-red-500 text-red-600 dark:text-red-400' : 'border-transparent text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
               }`}
             >
               {t}
@@ -512,7 +512,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                     <div className="space-y-2">
                       {activity.slice(0, 5).map((a: any) => (
                         <div key={a?.id || Math.random()} className="flex items-center gap-3 text-sm py-1.5">
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${(a?.status) === 'SUCCESS' ? 'bg-emerald-500' : (a?.status) === 'PENDING' ? 'bg-amber-500' : 'bg-red-500'}`} />
+                          <span className={`w-2 h-2 rounded-full shrink-0 ${(a?.status) === 'SUCCESS' ? 'bg-red-500' : (a?.status) === 'PENDING' ? 'bg-amber-500' : 'bg-red-500'}`} />
                           <span className="text-zinc-600 dark:text-zinc-400 truncate flex-1">{a?.description || a?.action || '—'}</span>
                           <span className="text-xs text-zinc-400 shrink-0">{safeFormatDate(a?.createdAt)}</span>
                         </div>
@@ -533,7 +533,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                   {orders.map((o: any) => (
                     <div key={o?.id || Math.random()} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-950/40 text-red-600 flex items-center justify-center shrink-0">
                           <ShoppingBag className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
@@ -542,7 +542,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                         </div>
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">{safeFormatMoney(o?.totalAmount)}</div>
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400">{safeFormatMoney(o?.totalAmount)}</div>
                         <div className="text-xs text-zinc-400">{o?.status ?? '—'}</div>
                       </div>
                     </div>
@@ -569,7 +569,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                           <div className="text-xs text-zinc-400">{safeFormatDate(d?.createdAt)}{d?.txHash ? ` · TX: ${String(d.txHash).slice(0, 16)}…` : ''}</div>
                         </div>
                       </div>
-                      <Badge variant="outline" className={`text-[10px] shrink-0 ${d?.status === 'APPROVED' ? 'border-emerald-300 text-emerald-700' : d?.status === 'PENDING' ? 'border-amber-300 text-amber-700' : 'border-red-300 text-red-700'}`}>
+                      <Badge variant="outline" className={`text-[10px] shrink-0 ${d?.status === 'APPROVED' ? 'border-red-300 text-red-700' : d?.status === 'PENDING' ? 'border-amber-300 text-amber-700' : 'border-red-300 text-red-700'}`}>
                         {d?.status ?? '—'}
                       </Badge>
                     </div>
@@ -587,7 +587,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                 <div className="space-y-2">
                   {activity.map((a: any) => (
                     <div key={a?.id || Math.random()} className="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${(a?.status) === 'SUCCESS' ? 'bg-emerald-500' : (a?.status) === 'PENDING' ? 'bg-amber-500' : 'bg-red-500'}`} />
+                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${(a?.status) === 'SUCCESS' ? 'bg-red-500' : (a?.status) === 'PENDING' ? 'bg-amber-500' : 'bg-red-500'}`} />
                       <div className="min-w-0 flex-1">
                         <div className="text-sm font-medium">{a?.action ?? '—'}</div>
                         <div className="text-xs text-zinc-500">{a?.description ?? ''}</div>
@@ -611,7 +611,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                 className="resize-y"
               />
               <div className="flex justify-end">
-                <Button onClick={saveNotes} disabled={savingNotes} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                <Button onClick={saveNotes} disabled={savingNotes} className="bg-red-600 hover:bg-red-700 text-white">
                   {savingNotes ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
                   Save notes
                 </Button>
@@ -625,7 +625,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/30 backdrop-blur-sm" onClick={() => setAdjustOpen(false)}>
             <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-6 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
               <h3 className="text-lg font-bold mb-1">Adjust balance</h3>
-              <p className="text-sm text-zinc-500 mb-4">{userName || userEmail} · Current: <span className="font-bold text-emerald-600">{safeFormatMoney(userBalance)}</span></p>
+              <p className="text-sm text-zinc-500 mb-4">{userName || userEmail} · Current: <span className="font-bold text-red-600">{safeFormatMoney(userBalance)}</span></p>
               <div className="space-y-3">
                 <div>
                   <Label>Amount (USD)</Label>
@@ -635,11 +635,11 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
                   <Label>Type</Label>
                   <div className="flex gap-3">
                     <label className="flex items-center gap-1.5 cursor-pointer">
-                      <input type="radio" checked={adjustType === 'credit'} onChange={() => setAdjustType('credit')} className="accent-emerald-600" />
+                      <input type="radio" checked={adjustType === 'credit'} onChange={() => setAdjustType('credit')} className="accent-red-600" />
                       <span className="text-sm">Credit (+)</span>
                     </label>
                     <label className="flex items-center gap-1.5 cursor-pointer">
-                      <input type="radio" checked={adjustType === 'debit'} onChange={() => setAdjustType('debit')} className="accent-emerald-600" />
+                      <input type="radio" checked={adjustType === 'debit'} onChange={() => setAdjustType('debit')} className="accent-red-600" />
                       <span className="text-sm">Debit (−)</span>
                     </label>
                   </div>
@@ -651,7 +651,7 @@ function UserProfileModalInner({ userId, currentAdminId, onClose, onRefresh }: P
               </div>
               <div className="flex justify-end gap-2 mt-4">
                 <Button variant="outline" onClick={() => setAdjustOpen(false)}>Cancel</Button>
-                <Button onClick={submitAdjust} disabled={adjustSubmitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                <Button onClick={submitAdjust} disabled={adjustSubmitting} className="bg-red-600 hover:bg-red-700 text-white">
                   {adjustSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
                   Save
                 </Button>
@@ -680,13 +680,13 @@ function StatCard({ icon, label, value, actionLabel, onAction }: { icon: React.R
     <Card className="rounded-2xl shadow-sm">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-7 h-7 rounded-md bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-md bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
             {icon}
           </div>
           <span className="text-xs text-zinc-500">{label}</span>
         </div>
         <div className="text-xl font-bold">{value}</div>
-        <button onClick={onAction} className="text-xs text-emerald-600 hover:underline mt-1">{actionLabel}</button>
+        <button onClick={onAction} className="text-xs text-red-600 hover:underline mt-1">{actionLabel}</button>
       </CardContent>
     </Card>
   )
@@ -881,7 +881,7 @@ function EditProfileModal({
               type="checkbox"
               checked={notify}
               onChange={(e) => setNotify(e.target.checked)}
-              className="w-4 h-4 accent-emerald-600"
+              className="w-4 h-4 accent-red-600"
             />
             <span>Send email notification to user</span>
           </label>
@@ -890,7 +890,7 @@ function EditProfileModal({
         {/* Footer */}
         <div className="flex justify-end gap-2 mt-5">
           <Button variant="outline" onClick={onClose} disabled={submitting}>Cancel</Button>
-          <Button onClick={submit} disabled={submitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={submit} disabled={submitting} className="bg-red-600 hover:bg-red-700 text-white">
             {submitting ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
             Save
           </Button>

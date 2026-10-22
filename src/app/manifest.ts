@@ -5,14 +5,14 @@ export const dynamic = 'force-static'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'DigitalVault — License Key & Digital Asset Marketplace',
-    short_name: 'DigitalVault',
+    name: 'AccsPoint — Social Media Marketing Assets',
+    short_name: 'AccsPoint',
     description:
-      'Buy and sell license keys, product keys, VPN subscriptions, and other digital assets. Crypto deposits, instant delivery, bulk keys.',
+      'Buy all types of social media marketing assets in one place — hassle free. Crypto deposits, instant delivery, admin-managed orders.',
     start_url: '/',
     display: 'standalone',
     background_color: '#fafafa',
-    theme_color: '#059669',
+    theme_color: '#dc2626',
     orientation: 'portrait-primary',
     categories: ['shopping', 'business', 'productivity'],
     icons: [

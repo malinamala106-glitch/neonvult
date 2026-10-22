@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
-  description: 'The terms and conditions for using DigitalVault.',
+  description: 'The terms and conditions for using AccsPoint.',
   alternates: { canonical: '/terms' },
 }
 

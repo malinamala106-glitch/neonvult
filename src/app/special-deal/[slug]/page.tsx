@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   // Site name + footer copy for the shared footer.
   const settingsRows = await db.setting.findMany({ where: { key: { in: [...CONTENT_SETTING_KEYS, 'siteName'] } } })
-  const siteName = settingsRows.find((r) => r.key === 'siteName')?.value || 'DigitalVault'
+  const siteName = settingsRows.find((r) => r.key === 'siteName')?.value || 'AccsPoint'
 
   return (
     <SpecialDealDetailPage

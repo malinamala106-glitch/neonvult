@@ -92,7 +92,7 @@ const TOPIC_LABELS: Record<string, string> = {
 
 const STATUS_META: Record<string, { label: string; dot: string; badge: string }> = {
   processing: { label: 'Processing', dot: '🟡', badge: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300' },
-  complete: { label: 'Complete', dot: '🟢', badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300' },
+  complete: { label: 'Complete', dot: '🟢', badge: 'bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300' },
   revoke: { label: 'Revoke', dot: '🔴', badge: 'bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300' },
 }
 
@@ -504,7 +504,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
         key={c.id}
         className={`group relative border-b border-zinc-100 dark:border-zinc-800 transition-colors ${
           pinnedRow ? 'bg-amber-50/70 dark:bg-amber-950/20' : c.isGuest ? 'bg-zinc-100/60 dark:bg-zinc-800/30' : ''
-        } ${selectedId === c.id ? 'ring-1 ring-inset ring-emerald-500/60 bg-emerald-50 dark:bg-emerald-950/30' : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/50'}`}
+        } ${selectedId === c.id ? 'ring-1 ring-inset ring-red-500/60 bg-red-50 dark:bg-red-950/30' : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/50'}`}
       >
         <button onClick={() => setSelectedId(c.id)} className="w-full text-left p-3 pr-16">
           <div className="flex items-center gap-2">
@@ -540,7 +540,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
               {TOPIC_LABELS[c.topic] ?? c.topic}
             </span>
             {isMine && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-300">Mine</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-300">Mine</span>
             )}
             {hasRatingBadge(c.id)}
           </div>
@@ -577,7 +577,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
               <button
                 key={k}
                 onClick={() => changeTopic(c, k)}
-                className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${c.topic === k ? 'text-emerald-600 dark:text-emerald-400 font-medium' : ''}`}
+                className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${c.topic === k ? 'text-red-600 dark:text-red-400 font-medium' : ''}`}
               >
                 {c.topic === k ? '✓ ' : ''}{label}
               </button>
@@ -597,7 +597,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
               <button
                 key={a.id}
                 onClick={() => assignTo(c, a.id)}
-                className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${c.assignedTo === a.id ? 'text-emerald-600 dark:text-emerald-400 font-medium' : ''}`}
+                className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${c.assignedTo === a.id ? 'text-red-600 dark:text-red-400 font-medium' : ''}`}
               >
                 {c.assignedTo === a.id ? '✓ ' : ''}{a.name || a.email}
               </button>
@@ -637,13 +637,13 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
             onClick={() => setTab(key)}
             className={`px-3 py-1.5 rounded-md font-medium transition-colors ${
               tab === key
-                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
+                ? 'bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-300'
                 : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'
             }`}
           >
             {label}
             {tabCounts[key] > 0 && (
-              <span className={`ml-1.5 inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full text-[11px] font-bold ${tab === key ? 'bg-emerald-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300'}`}>
+              <span className={`ml-1.5 inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full text-[11px] font-bold ${tab === key ? 'bg-red-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300'}`}>
                 {tabCounts[key]}
               </span>
             )}
@@ -741,7 +741,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                                 e.preventDefault()
                                 window.dispatchEvent(new CustomEvent('open-user-profile', { detail: { userId: selectedConvo.userId } }))
                               }}
-                              className="text-emerald-600 hover:underline"
+                              className="text-red-600 hover:underline"
                             >
                               {selectedConvo.email}
                             </a>
@@ -787,7 +787,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                           <button
                             key={k}
                             onClick={() => selectedConvo && changeTopic(selectedConvo, k)}
-                            className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${selectedConvo?.topic === k ? 'text-emerald-600 dark:text-emerald-400 font-medium' : ''}`}
+                            className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${selectedConvo?.topic === k ? 'text-red-600 dark:text-red-400 font-medium' : ''}`}
                           >
                             {selectedConvo?.topic === k ? '✓ ' : ''}{label}
                           </button>
@@ -810,7 +810,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                           <button
                             key={a.id}
                             onClick={() => assignTo(selectedConvo!, a.id)}
-                            className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${selectedConvo?.assignedTo === a.id ? 'text-emerald-600 dark:text-emerald-400 font-medium' : ''}`}
+                            className={`w-full text-left px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 ${selectedConvo?.assignedTo === a.id ? 'text-red-600 dark:text-red-400 font-medium' : ''}`}
                           >
                             {selectedConvo?.assignedTo === a.id ? '✓ ' : ''}{a.name || a.email}
                           </button>
@@ -830,7 +830,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                 {loadingOlder && <div className="text-center"><Loader2 className="w-4 h-4 mx-auto animate-spin text-zinc-400" /></div>}
                 {selectedConvo && (selectedConvo.contextOrderId || selectedConvo.contextProductId) && (
                   <div className="text-center">
-                    <span className="inline-block text-[11px] text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 rounded-full px-3 py-1">
+                    <span className="inline-block text-[11px] text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-full px-3 py-1">
                       Context: {selectedConvo.contextOrderId ? `Order ${selectedConvo.contextOrderId}` : ''}{selectedConvo.contextProductId ? ` Product ${selectedConvo.contextProductId}` : ''}
                     </span>
                   </div>
@@ -854,18 +854,18 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                         <div
                           className={`max-w-[75%] rounded-2xl px-3 py-2 ${
                             m.senderType === 'admin'
-                              ? 'bg-emerald-600 text-white'
+                              ? 'bg-red-600 text-white'
                               : 'bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300'
                           } ${m.pending ? 'opacity-60' : ''}`}
                         >
-                          <div className={`text-[10px] font-semibold mb-0.5 ${m.senderType === 'admin' ? 'text-emerald-100' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                          <div className={`text-[10px] font-semibold mb-0.5 ${m.senderType === 'admin' ? 'text-red-100' : 'text-red-600 dark:text-red-400'}`}>
                             {m.senderType === 'admin' ? 'Admin' : selectedConvo?.isGuest ? 'Guest' : (selectedConvo?.name ?? 'User')}
                           </div>
                           {m.body && <p className="text-sm break-words whitespace-pre-wrap">{m.body}</p>}
                           {m.attachmentUrl && (
                             <ChatAttachment url={m.attachmentUrl} meta={parseAttachmentMeta(m.attachmentMeta)} tone={m.senderType === 'admin' ? 'out' : 'in'} fontPx={13} />
                           )}
-                          <div className={`text-[10px] mt-1 flex items-center gap-1 ${m.senderType === 'admin' ? 'text-emerald-100 justify-end' : 'text-zinc-400'}`}>
+                          <div className={`text-[10px] mt-1 flex items-center gap-1 ${m.senderType === 'admin' ? 'text-red-100 justify-end' : 'text-zinc-400'}`}>
                             <span>{m.pending ? 'Sending…' : timeShort(m.createdAt)}</span>
                             {m.senderType === 'admin' && !m.pending && (
                               m.readAt ? <CheckCheck className="w-3 h-3" aria-label="Read" />
@@ -909,7 +909,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                       className="h-8 text-xs"
                       maxLength={2000}
                     />
-                    <Button size="sm" onClick={addNote} disabled={!noteInput.trim()} className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white">Add</Button>
+                    <Button size="sm" onClick={addNote} disabled={!noteInput.trim()} className="h-8 bg-red-600 hover:bg-red-700 text-white">Add</Button>
                   </div>
                 </div>
               )}
@@ -924,7 +924,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                         onClick={() => applyCanned(c)}
                         className="w-full text-left px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                       >
-                        <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">{c.shortcut}</span>
+                        <span className="text-xs font-semibold text-red-600 dark:text-red-400">{c.shortcut}</span>
                         <span className="text-xs text-zinc-500 ml-2 truncate inline-block max-w-[70%] align-bottom">{c.body}</span>
                       </button>
                     ))}
@@ -952,7 +952,7 @@ export function SupportConsoleView({ initialUserId, onConsumeInitial, onUnreadCh
                   <Button
                     onClick={send}
                     disabled={!input.trim() || sending}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0"
+                    className="bg-red-600 hover:bg-red-700 text-white shrink-0"
                     aria-label="Send message"
                   >
                     {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}

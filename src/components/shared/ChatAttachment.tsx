@@ -65,7 +65,7 @@ export function ChatAttachment({
         <button
           type="button"
           onClick={() => setLightbox(true)}
-          className="mt-1 block overflow-hidden rounded-lg border border-black/10 dark:border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+          className="mt-1 block overflow-hidden rounded-lg border border-black/10 dark:border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
           aria-label={`Open image ${name}`}
           title={name}
         >

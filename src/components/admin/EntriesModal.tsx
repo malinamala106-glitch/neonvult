@@ -223,7 +223,7 @@ export function EntriesModal({ product, mode, open, onClose, onRefresh }: Props)
   function statusBadge(status: string) {
     if (status === 'SOLD') return <Badge variant="outline" className="text-[10px] border-zinc-300 text-zinc-500 bg-zinc-50 dark:bg-zinc-900">SOLD</Badge>
     if (status === 'HOLD') return <Badge variant="outline" className="text-[10px] border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30">HOLD</Badge>
-    return <Badge variant="outline" className="text-[10px] border-emerald-300 text-emerald-700 dark:border-emerald-800 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30">UNSOLD</Badge>
+    return <Badge variant="outline" className="text-[10px] border-red-300 text-red-700 dark:border-red-800 dark:text-red-400 bg-red-50 dark:bg-red-950/30">UNSOLD</Badge>
   }
 
   const availableActions: { label: string; icon: React.ReactNode; onClick: () => void; color: string }[] = []
@@ -254,7 +254,7 @@ export function EntriesModal({ product, mode, open, onClose, onRefresh }: Props)
       label: 'Unsold',
       icon: <XCircle className="w-3.5 h-3.5" />,
       onClick: () => bulkAction('status', 'AVAILABLE'),
-      color: 'text-emerald-600 border-emerald-300 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-400',
+      color: 'text-red-600 border-red-300 hover:bg-red-50 dark:border-red-800 dark:text-red-400',
     })
   }
 
@@ -301,7 +301,7 @@ export function EntriesModal({ product, mode, open, onClose, onRefresh }: Props)
           <div className="flex flex-wrap gap-1.5">
             <button
               onClick={() => setActiveBatchId(null)}
-              className={`px-2.5 py-1 text-xs rounded-md border transition-colors ${activeBatchId === null ? 'bg-emerald-100 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
+              className={`px-2.5 py-1 text-xs rounded-md border transition-colors ${activeBatchId === null ? 'bg-red-100 dark:bg-red-950/40 border-red-300 dark:border-red-800 text-red-700 dark:text-red-300' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
             >
               All batches
             </button>
@@ -309,12 +309,12 @@ export function EntriesModal({ product, mode, open, onClose, onRefresh }: Props)
               <button
                 key={b.id}
                 onClick={() => setActiveBatchId(b.id)}
-                className={`px-2.5 py-1 text-xs rounded-md border transition-colors flex items-center gap-1.5 ${activeBatchId === b.id ? 'bg-emerald-100 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
+                className={`px-2.5 py-1 text-xs rounded-md border transition-colors flex items-center gap-1.5 ${activeBatchId === b.id ? 'bg-red-100 dark:bg-red-950/40 border-red-300 dark:border-red-800 text-red-700 dark:text-red-300' : 'border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
                 title={`${b.label} · ${formatMoney(b.effectivePrice)}`}
               >
                 <span className="font-medium">{b.label}</span>
                 <span className="text-[10px] text-zinc-500">{formatMoney(b.effectivePrice)}</span>
-                <span className="text-[10px] text-emerald-600 dark:text-emerald-400">{b.availableCount}/{b.totalCount}</span>
+                <span className="text-[10px] text-red-600 dark:text-red-400">{b.availableCount}/{b.totalCount}</span>
               </button>
             ))}
           </div>
@@ -389,7 +389,7 @@ export function EntriesModal({ product, mode, open, onClose, onRefresh }: Props)
                     )}
                     {batch && (
                       <span className="text-[10px] text-zinc-500 ml-auto flex items-center gap-2">
-                        <span className="text-emerald-600 dark:text-emerald-400">{batch.availableCount} avail</span>
+                        <span className="text-red-600 dark:text-red-400">{batch.availableCount} avail</span>
                         <span className="text-zinc-500">{batch.soldCount} sold</span>
                         {batch.holdCount > 0 && <span className="text-amber-600">{batch.holdCount} hold</span>}
                       </span>
@@ -460,7 +460,7 @@ function KeysList({
           type="checkbox"
           checked={keys.length > 0 && keys.every((k) => selected.has(k.id))}
           onChange={onToggleAll}
-          className="w-4 h-4 accent-emerald-600 shrink-0"
+          className="w-4 h-4 accent-red-600 shrink-0"
         />
         <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
           Status · Credential {mode === 'sold' && '· Buyer'}
@@ -470,13 +470,13 @@ function KeysList({
       {keys.map((k) => (
         <div
           key={k.id}
-          className={`flex items-center gap-2 px-3 py-2 border-b border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 ${selected.has(k.id) ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : ''}`}
+          className={`flex items-center gap-2 px-3 py-2 border-b border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 ${selected.has(k.id) ? 'bg-red-50/50 dark:bg-red-950/20' : ''}`}
         >
           <input
             type="checkbox"
             checked={selected.has(k.id)}
             onChange={() => onToggle(k.id)}
-            className="w-4 h-4 accent-emerald-600 shrink-0"
+            className="w-4 h-4 accent-red-600 shrink-0"
           />
           {statusBadge(k.status)}
           {editingId === k.id ? (
@@ -489,7 +489,7 @@ function KeysList({
                 onKeyDown={(e) => { if (e.key === 'Enter') onSaveEdit(k.id); if (e.key === 'Escape') onCancelEdit() }}
               />
               <Button size="icon" variant="outline" className="h-7 w-7 shrink-0" onClick={() => onSaveEdit(k.id)} disabled={actionLoading}>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <Check className="w-3.5 h-3.5 text-red-600" />
               </Button>
               <Button size="icon" variant="outline" className="h-7 w-7 shrink-0" onClick={onCancelEdit}>
                 <X className="w-3.5 h-3.5 text-zinc-400" />

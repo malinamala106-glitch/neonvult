@@ -14,6 +14,7 @@ import { MarkdownContent as Markdown } from '@/components/shared/MarkdownContent
 import { ArrowRight, Search, Calendar, Tag, ArrowLeft } from 'lucide-react'
 import type { BlogPost, SiteContent } from '@/lib/types'
 import { contentValue } from '@/lib/site-content'
+import { BrandLock } from '@/components/shared/BrandName'
 
 // ----- Blog list -----
 
@@ -27,7 +28,7 @@ interface BlogListPost {
   createdAt: string
 }
 
-export function BlogList({ posts: initial, content, siteName = 'DigitalVault' }: { posts: BlogListPost[]; content?: SiteContent | null; siteName?: string }) {
+export function BlogList({ posts: initial, content, siteName = 'AccsPoint' }: { posts: BlogListPost[]; content?: SiteContent | null; siteName?: string }) {
   const copy = (key: string) => contentValue(content, key)
   const [search, setSearch] = useState('')
   const [activeTag, setActiveTag] = useState<string | null>(null)
@@ -69,8 +70,7 @@ export function BlogList({ posts: initial, content, siteName = 'DigitalVault' }:
       <header className="sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-3">
           <a href="/" className="flex items-center gap-2 shrink-0" aria-label="Go home">
-            <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white" aria-hidden="true">D</div>
-            <span className="font-bold hidden sm:inline">{siteName}</span>
+            <BrandLock />
           </a>
           <div className="flex items-center gap-2">
             <TelegramButton />
@@ -159,8 +159,8 @@ function filterPillClass(active: boolean): string {
  * `category` column, so the primary tag stands in as the category.
  */
 const CATEGORY_COLORS: Record<string, string> = {
-  auctions: 'text-emerald-600',
-  'special-deals': 'text-emerald-600',
+  auctions: 'text-red-600',
+  'special-deals': 'text-red-600',
   crypto: 'text-blue-600',
   usdt: 'text-blue-600',
   deposits: 'text-blue-600',
@@ -262,8 +262,8 @@ const BlogCard = memo(function BlogCard({ post, variant }: { post: BlogListPost;
         <h2
           className={
             isHero
-              ? 'text-3xl font-bold text-slate-900 leading-tight mb-3 group-hover:text-emerald-600 transition-colors'
-              : 'text-lg font-bold text-slate-900 leading-snug mb-2 group-hover:text-emerald-600 transition-colors'
+              ? 'text-3xl font-bold text-slate-900 leading-tight mb-3 group-hover:text-red-600 transition-colors'
+              : 'text-lg font-bold text-slate-900 leading-snug mb-2 group-hover:text-red-600 transition-colors'
           }
         >
           {post.title}
@@ -285,7 +285,7 @@ const BlogCard = memo(function BlogCard({ post, variant }: { post: BlogListPost;
 
 // ----- Blog post view -----
 
-export function BlogPostView({ post, content, siteName = 'DigitalVault' }: { post: BlogPost; content?: SiteContent | null; siteName?: string }) {
+export function BlogPostView({ post, content, siteName = 'AccsPoint' }: { post: BlogPost; content?: SiteContent | null; siteName?: string }) {
   const copy = (key: string) => contentValue(content, key)
   const isImageUrl = isImageUrlValue(post.coverImage)
   const tags = post.tags ? post.tags.split(',').map((x) => x.trim()).filter(Boolean) : []
@@ -296,13 +296,13 @@ export function BlogPostView({ post, content, siteName = 'DigitalVault' }: { pos
 
       <header className="sticky top-0 z-30 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur">
         <div className="max-w-3xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-3">
-          <a href="/blogs" className="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 inline-flex items-center gap-2">
+          <a href="/blogs" className="text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400 inline-flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" /> Back to blog
           </a>
           <div className="flex items-center gap-2">
             <TelegramButton />
             <a href="/" className="flex items-center gap-2 shrink-0" aria-label="Go home">
-              <div className="w-8 h-8 rounded-md bg-emerald-600 flex items-center justify-center font-bold text-white" aria-hidden="true">D</div>
+              <BrandLock />
             </a>
           </div>
         </div>
@@ -312,7 +312,7 @@ export function BlogPostView({ post, content, siteName = 'DigitalVault' }: { pos
 
       <article className="flex-1 max-w-3xl w-full mx-auto px-3 sm:px-6 py-8 sm:py-12">
         {/* Cover */}
-        <div className="aspect-[2/1] bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl mb-6">
+        <div className="aspect-[2/1] bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl mb-6">
           {isImageUrl ? (
             // Article cover is above the fold and the LCP candidate.
             <Image
@@ -353,7 +353,7 @@ export function BlogPostView({ post, content, siteName = 'DigitalVault' }: { pos
 
         {/* Excerpt */}
         {post.excerpt && (
-          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6 italic border-l-4 border-emerald-400 dark:border-emerald-600 pl-4">
+          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6 italic border-l-4 border-red-400 dark:border-red-600 pl-4">
             {post.excerpt}
           </p>
         )}
@@ -366,7 +366,7 @@ export function BlogPostView({ post, content, siteName = 'DigitalVault' }: { pos
         {/* Footer CTA */}
         <div className="mt-12 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row gap-2 justify-between items-center">
           <p className="text-sm text-zinc-500">Found this helpful?</p>
-          <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button asChild className="bg-red-600 hover:bg-red-700 text-white">
             <a href="/">Browse the marketplace <ArrowRight className="w-4 h-4 ml-1" /></a>
           </Button>
         </div>

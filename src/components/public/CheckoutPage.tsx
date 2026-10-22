@@ -192,7 +192,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
       <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950">
         <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
           <div className="max-w-3xl mx-auto px-3 sm:px-6 py-4 flex items-center justify-between gap-3">
-            <a href="/" className="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 inline-flex items-center gap-2">
+            <a href="/" className="text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400 inline-flex items-center gap-2">
               <ArrowRight className="w-4 h-4 rotate-180" /> Back to marketplace
             </a>
             <TelegramButton />
@@ -201,7 +201,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
         <main className="flex-1 max-w-3xl w-full mx-auto px-3 sm:px-6 py-8">
           <Card>
             <CardContent className="p-6 sm:p-8 text-center">
-              <div className="w-14 h-14 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <div className="w-14 h-14 mx-auto rounded-full bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-7 h-7" />
               </div>
               <h1 className="text-2xl font-bold mb-2">Purchase successful!</h1>
@@ -239,7 +239,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
         <div className="max-w-3xl mx-auto px-3 sm:px-6 py-4 flex items-center justify-between gap-3">
-          <a href={`/product-details-page?id=${product.id}`} className="text-sm font-medium text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 inline-flex items-center gap-2">
+          <a href={`/product-details-page?id=${product.id}`} className="text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400 inline-flex items-center gap-2">
             <ArrowRight className="w-4 h-4 rotate-180" /> Back to product
           </a>
           <TelegramButton />
@@ -260,7 +260,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
             </CardHeader>
             <CardContent>
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-16 h-16 rounded-md bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-zinc-900 flex items-center justify-center text-3xl shrink-0 overflow-hidden">
+                <div className="w-16 h-16 rounded-md bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-3xl shrink-0 overflow-hidden">
                   {product.image && (product.image.startsWith('/') || product.image.startsWith('http')) ? (
                     <Image
                       src={product.image}
@@ -285,8 +285,8 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
                   <p className="text-xs text-zinc-500 mt-1">{formatMoney(unitPrice)} per unit</p>
                   {/* Delivery format — shown to buyer at checkout */}
                   {product.deliveryFormat && (
-                    <div className="mt-2 rounded-md border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20 px-3 py-2">
-                      <div className="text-[10px] font-medium text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">What you&apos;ll receive</div>
+                    <div className="mt-2 rounded-md border border-red-200 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 px-3 py-2">
+                      <div className="text-[10px] font-medium text-red-700 dark:text-red-400 uppercase tracking-wider">What you&apos;ll receive</div>
                       <code className="text-xs font-mono text-zinc-700 dark:text-zinc-300">{product.deliveryFormat}</code>
                       <div className="text-[10px] text-zinc-500 mt-0.5">Instantly delivered after purchase.</div>
                     </div>
@@ -363,21 +363,21 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
                   <Tag className="w-3.5 h-3.5" /> Coupon code
                 </Label>
                 {coupon?.valid ? (
-                  <div className="flex items-center justify-between gap-2 p-2 rounded-md bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+                  <div className="flex items-center justify-between gap-2 p-2 rounded-md bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800">
                     <div className="flex items-center gap-2 min-w-0">
-                      <Tag className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                      <Tag className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
                       <div className="min-w-0">
-                        <div className="text-sm font-medium text-emerald-800 dark:text-emerald-200 truncate">
+                        <div className="text-sm font-medium text-red-800 dark:text-red-200 truncate">
                           {coupon.code}
                         </div>
-                        <div className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80">
+                        <div className="text-[11px] text-red-700/80 dark:text-red-400/80">
                           − {formatMoney(coupon.discountValue)} ({coupon.message})
                         </div>
                       </div>
                     </div>
                     <button
                       onClick={removeCoupon}
-                      className="text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-emerald-100 shrink-0"
+                      className="text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 shrink-0"
                       aria-label="Remove coupon"
                     >
                       <X className="w-4 h-4" />
@@ -421,14 +421,14 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
                   <span className="font-medium">{formatMoney(originalTotal)}</span>
                 </div>
                 {coupon?.valid && (
-                  <div className="flex items-center justify-between text-emerald-700 dark:text-emerald-400">
+                  <div className="flex items-center justify-between text-red-700 dark:text-red-400">
                     <span>Discount</span>
                     <span className="font-medium">− {formatMoney(coupon.discountValue)}</span>
                   </div>
                 )}
                 <div className="flex items-center justify-between">
                   <span className="text-zinc-500">Your balance</span>
-                  <span className={`font-medium ${canAfford ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
+                  <span className={`font-medium ${canAfford ? 'text-red-600 dark:text-red-400' : 'text-red-600 dark:text-red-400'}`}>
                     {formatMoney(user.balance)}
                   </span>
                 </div>
@@ -447,12 +447,12 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
               <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4">
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-semibold">Total</span>
-                  <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(total)}</span>
+                  <span className="text-xl font-bold text-red-600 dark:text-red-400">{formatMoney(total)}</span>
                 </div>
                 <Button
                   onClick={() => setConfirmOpen(true)}
                   disabled={purchasing || outOfStock || !canAfford}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white"
                 >
                   <ShoppingCart className="w-4 h-4 mr-1" />
                   {outOfStock ? 'Sold out' : `Buy ${qty} for ${formatMoney(total)}`}
@@ -471,7 +471,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <ShoppingCart className="w-5 h-5 text-emerald-600" /> Confirm your purchase
+              <ShoppingCart className="w-5 h-5 text-red-600" /> Confirm your purchase
             </DialogTitle>
             <DialogDescription>
               Please review your order before completing the purchase. This action cannot be undone.
@@ -494,14 +494,14 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
               <span className="font-medium">{formatMoney(unitPrice)}</span>
             </div>
             {coupon?.valid && (
-              <div className="flex items-center justify-between text-sm text-emerald-700 dark:text-emerald-400">
+              <div className="flex items-center justify-between text-sm text-red-700 dark:text-red-400">
                 <span>Coupon ({coupon.code})</span>
                 <span className="font-medium">− {formatMoney(coupon.discountValue)}</span>
               </div>
             )}
             <div className="border-t border-zinc-200 dark:border-zinc-800 pt-3 flex items-center justify-between">
               <span className="font-semibold">Total to pay</span>
-              <span className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{formatMoney(total)}</span>
+              <span className="text-xl font-bold text-red-600 dark:text-red-400">{formatMoney(total)}</span>
             </div>
             <div className="flex items-center justify-between text-xs text-zinc-500">
               <span>Balance after purchase</span>
@@ -515,7 +515,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
             <Button
               onClick={confirmPurchase}
               disabled={purchasing}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
               {purchasing ? (
                 <><Loader2 className="w-4 h-4 animate-spin mr-1" /> Processing…</>
