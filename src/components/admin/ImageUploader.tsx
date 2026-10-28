@@ -35,6 +35,8 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
   const [mode, setMode] = useState<'upload' | 'url' | 'emoji'>(isImageUrl(value) ? 'url' : isEmoji(value) ? 'emoji' : 'upload')
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
+  const [urlDraft, setUrlDraft] = useState('')
+  const [emojiDraft, setEmojiDraft] = useState('')
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const uploadFile = useCallback(async (file: File) => {
@@ -90,6 +92,26 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
   function handleDragLeave(e: React.DragEvent) {
     e.preventDefault()
     setDragOver(false)
+  }
+
+  // URL mode: keep the draft local so typing isn't interrupted; only commit
+  // to the parent state via the explicit Use-image action.
+  function applyUrl() {
+    const url = urlDraft.trim()
+    if (!url) return
+    if (!/^(https?:\/\/|\/)/i.test(url)) {
+      toast.error('URL must start with http://, https:// or /')
+      return
+    }
+    onChange(url)
+    setUrlDraft('')
+  }
+
+  function applyEmoji() {
+    const emoji = emojiDraft.trim()
+    if (!emoji) return
+    onChange(emoji.slice(0, 8))
+    setEmojiDraft('')
   }
 
   function removeImage() {
@@ -197,31 +219,42 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
       )}
 
       {!value && mode === 'url' && (
-        <div className="relative">
-          <ImageIcon className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" aria-hidden="true" />
+        <div className="relative space-y-2">
+          <ImageIcon className="w-4 h-4 absolute left-3 top-3 -translate-y-1/2 text-zinc-400" aria-hidden="true" />
           <Input
             type="url"
             placeholder="https://example.com/product.jpg"
-            value=""
-            onChange={(e) => { if (e.target.value) { onChange(e.target.value); } }}
+            value={urlDraft}
+            onChange={(e) => setUrlDraft(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); applyUrl() } }}
             className="pl-9"
-            onBlur={(e) => { if (e.target.value.trim()) onChange(e.target.value.trim()) }}
           />
-          <p className="text-xs text-zinc-400 mt-1">Paste an image URL — a preview will appear above.</p>
+          <div className="flex items-center gap-2">
+            <Button type="button" variant="outline" size="sm" onClick={applyUrl} disabled={!urlDraft.trim()}>
+              Use image
+            </Button>
+            <p className="text-xs text-zinc-400">Paste an image URL, then click Use image.</p>
+          </div>
         </div>
       )}
 
       {!value && mode === 'emoji' && (
-        <div>
+        <div className="space-y-2">
           <Input
             type="text"
             placeholder="📦"
-            value=""
-            onChange={(e) => { if (e.target.value) onChange(e.target.value.slice(0, 8)) }}
+            value={emojiDraft}
+            onChange={(e) => setEmojiDraft(e.target.value.slice(0, 8))}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); applyEmoji() } }}
             className="text-center text-3xl"
             maxLength={8}
           />
-          <p className="text-xs text-zinc-400 mt-1">Type an emoji to use as the product image.</p>
+          <div className="flex items-center gap-2">
+            <Button type="button" variant="outline" size="sm" onClick={applyEmoji} disabled={!emojiDraft.trim()}>
+              Use emoji
+            </Button>
+            <p className="text-xs text-zinc-400">Type an emoji, then click Use emoji.</p>
+          </div>
         </div>
       )}
 

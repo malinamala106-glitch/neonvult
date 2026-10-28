@@ -372,6 +372,22 @@ model LockedBalance {
   @@index([auctionId, status])
 }
 
+// ----- Uploaded media (product / deal images) -----
+//
+// Image files live in the DATABASE instead of the filesystem because Vercel's
+// serverless filesystem is ephemeral and read-only — writes to public/uploads
+// simply vanish between requests, and writing at all fails in production.
+// Uploads are POSTed to /api/admin/products/upload and served back from
+// GET /api/uploads/[id], so every renderer keeps treating them as URLs.
+
+model UploadedImage {
+  id        String   @id @default(cuid())
+  mime      String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
 // ----- Blog -----
 
 model BlogPost {

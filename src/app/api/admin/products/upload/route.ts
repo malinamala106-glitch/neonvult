@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/auth'
 import { rateLimit, clientIp, rateLimitResponse } from '@/lib/rate-limit'
 import { sanitizeHtml } from '@/lib/sanitize'
-import { revalidatePath } from 'next/cache'
-import { mkdir, writeFile } from 'node:fs/promises'
-import path from 'node:path'
 
 // POST /api/admin/products/upload — admin-only product image upload.
 //
 // Accepts multipart/form-data with a `file` field (JPG/PNG/WebP/SVG, max 2MB)
-// and stores it under public/uploads with a random, user-input-free filename.
-// Returns { url: "/uploads/<name>" } — the shape ImageUploader expects to put
-// straight into product.image (existing renderers treat a leading "/" as a URL).
+// and stores the bytes in the database (UploadedImage table), returning
+// { url: "/api/uploads/<id>" } — a stable URL served by GET /api/uploads/[id].
+//
+// Why the database? Serverless hosts (Vercel) have an ephemeral read-only
+// filesystem: writes to public/uploads fail in production and, even where they
+// succeed, the file is gone on the next invocation. Storing bytes in Postgres
+// makes uploads durable with zero external serviços or storage accounts.
 //
 // Security, in order of what actually stops what:
 //   - requireAdmin(): only admins can write files at all (403 otherwise).
@@ -22,9 +24,8 @@ import path from 'node:path'
 //   - SVG is sanitized with DOMPurify before storage — SVG can carry <script>,
 //     event handlers and javascript: links, and it renders in the browser like
 //     any page, so an unsanitized SVG upload is a stored-XSS vector.
-//   - Random filenames (crypto.randomUUID): no path traversal, no overwriting
-//     other uploads, no user-controlled bytes ever touch the filesystem path.
-//   - Only the extension comes from the validated content type.
+//   - The stored URL is /api/uploads/<generated cuid> — no user input ever
+//     becomes a filesystem path or a route parameter.
 
 const MAX_BYTES = 2 * 1024 * 1024 // 2MB, mirrors the client-side cap
 
@@ -109,35 +110,23 @@ export async function POST(req: NextRequest) {
 
     // SVG is active content — strip scripts/handlers/javascript: URLs before
     // it is ever served from our origin.
-    const outBuf = ext === 'svg' ? Buffer.from(sanitizeHtml(buf.toString('utf8'))) : buf
+    const storedBuf = ext === 'svg' ? Buffer.from(sanitizeHtml(buf.toString('utf8'))) : buf
 
-    // Random, content-free filename: no traversal, no collisions, no overwrite.
-    const name = `${Date.now().toString(36)}-${crypto.randomUUID()}.${ext}`
+    const row = await db.uploadedImage.create({
+      data: {
+        mime: declaredMime,
+        size: storedBuf.length,
+        data: storedBuf,
+      },
+    })
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    await mkdir(uploadsDir, { recursive: true })
-    await writeFile(path.join(uploadsDir, name), outBuf)
-
-    // The production build is `output: "standalone"` — Next copies public/ at
-    // build time only. Mirror the file into the standalone copy so uploads
-    // made after a build are still served without a rebuild. Best-effort: dev
-    // and non-standalone deployments don't have that directory.
-    try {
-      const standaloneDir = path.join(process.cwd(), '.next', 'standalone', 'public', 'uploads')
-      await mkdir(standaloneDir, { recursive: true })
-      await writeFile(path.join(standaloneDir, name), outBuf)
-    } catch {}
-
-    // New file — make sure /uploads/<name> serves on the first request.
-    try {
-      revalidatePath('/uploads')
-    } catch {}
-
-    return NextResponse.json({ url: `/uploads/${name}` })
+    return NextResponse.json({ url: `/api/uploads/${row.id}` })
   } catch (e: any) {
     if (e.message === 'FORBIDDEN' || e.message === 'UNAUTHORIZED') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
+    // Temporary: surface the real failure while verifying the DB-backed upload.
+    console.error('[upload] failed:', e?.message, e?.stack?.split('\n')[1])
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
   }
 }

@@ -3285,6 +3285,14 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
     endsAtDays: '1', endsAtHours: '0',
   })
   const [creating, setCreating] = useState(false)
+  const [editOpen, setEditOpen] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState({
+    title: '', description: '', category: 'General',
+    askingPrice: '', image: '', deliveryFormat: '',
+    endsAtDays: '', endsAtHours: '',
+  })
+  const [editing, setEditing] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -3350,6 +3358,86 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
     }
   }
 
+  // Pre-fill the edit dialog from the auction row. Ends-in fields are blank
+  // by default — untouched means "keep the existing deadline".
+  function openEdit(a: any) {
+    setEditId(a.id)
+    setEditForm({
+      title: a.title ?? '',
+      description: a.description ?? '',
+      category: a.category ?? 'General',
+      askingPrice: String(a.askingPrice ?? ''),
+      image: a.image ?? '',
+      deliveryFormat: a.deliveryFormat ?? '',
+      endsAtDays: '',
+      endsAtHours: '',
+    })
+    setEditOpen(true)
+  }
+
+  async function saveEdit() {
+    if (!editId) return
+    if (!editForm.title.trim()) {
+      toast.error('Title is required')
+      return
+    }
+    const days = parseInt(editForm.endsAtDays) || 0
+    const hours = parseInt(editForm.endsAtHours) || 0
+    const payload: Record<string, unknown> = {
+      title: editForm.title.trim(),
+      description: editForm.description || null,
+      category: editForm.category,
+      askingPrice: parseFloat(editForm.askingPrice),
+      image: editForm.image || null,
+      deliveryFormat: editForm.deliveryFormat || null,
+    }
+    if (editForm.endsAtDays !== '' || editForm.endsAtHours !== '') {
+      if (days === 0 && hours === 0) {
+        toast.error('If you change the end time, it must be at least 1 hour ahead')
+        return
+      }
+      payload.endsAt = new Date(Date.now() + days * 86400000 + hours * 3600000).toISOString()
+    }
+    setEditing(true)
+    try {
+      const res = await fetch(`/api/auctions/${editId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        toast.success('Deal updated')
+        setEditOpen(false)
+        await load()
+        await onRefresh()
+      } else {
+        toast.error(data?.error || 'Failed to update deal')
+      }
+    } catch {
+      toast.error('Failed to update deal')
+    } finally {
+      setEditing(false)
+    }
+  }
+
+  async function deleteAuction(auctionId: string) {
+    if (!confirm('Delete this deal permanently? Any already-cancelled bid records are removed too.')) return
+    try {
+      const res = await fetch(`/api/auctions/${auctionId}`, { method: 'DELETE' })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        toast.success('Deal deleted')
+        await load()
+        await onRefresh()
+      } else {
+        toast.error(data?.error || 'Failed to delete deal')
+      }
+    } catch {
+      toast.error('Failed to delete deal')
+    }
+  }
+
   async function unlockBids(auctionId: string) {
     if (!confirm('Unlock all locked bids for this auction? This refunds all bidders.')) return
     try {
@@ -3405,9 +3493,15 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
                   <div className="flex justify-between"><span className="text-zinc-500">Bids:</span><span className="font-medium">{a._count?.bids ?? 0}</span></div>
                   <div className="flex justify-between"><span className="text-zinc-500">Ends:</span><span className="font-medium">{formatDate(a.endsAt)}</span></div>
                 </CardContent>
-                <CardFooter className="pt-2 gap-2">
+                <CardFooter className="pt-2 gap-2 flex-wrap">
                   <Button asChild variant="outline" size="sm" className="flex-1">
                     <a href={`/special-deal/${a.slug}`} target="_blank" rel="noopener noreferrer">View</a>
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => openEdit(a)} className="flex-1">
+                    Edit
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => deleteAuction(a.id)} className="flex-1 border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/40">
+                    Delete
                   </Button>
                   <Button variant="outline" size="sm" onClick={() => unlockBids(a.id)} className="flex-1 border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-800 dark:text-amber-400">
                     Unlock bids
@@ -3424,8 +3518,7 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
           <DialogHeader>
             <DialogTitle>Create new special deal</DialogTitle>
             <DialogDescription>Set up a new auction for users to bid on.</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3">
+          </DialogHeader>          <div className="space-y-3">
             <div className="space-y-1.5">
               <Label htmlFor="a-title">Title *</Label>
               <Input id="a-title" value={createForm.title} onChange={(e) => setCreateForm({ ...createForm, title: e.target.value })} placeholder="e.g. Netflix Premium 4K — 1 month" />
@@ -3467,6 +3560,65 @@ function AuctionsView({ onRefresh }: { onRefresh: () => Promise<void> }) {
             <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
             <Button onClick={createAuction} disabled={creating} className="bg-red-600 hover:bg-red-700 text-white">
               {creating ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null} Create deal
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit deal dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit special deal</DialogTitle>
+            <DialogDescription>Update the deal details. Leaving the end time blank keeps the current deadline.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="e-title">Title *</Label>
+              <Input id="e-title" value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="e-desc">Description</Label>
+              <Textarea id="e-desc" value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} rows={2} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="e-cat">Category</Label>
+                <Input id="e-cat" value={editForm.category} onChange={(e) => setEditForm({ ...editForm, category: e.target.value })} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="e-price">Asking price (USD)</Label>
+                <Input id="e-price" type="number" min="0" step="0.01" value={editForm.askingPrice} onChange={(e) => setEditForm({ ...editForm, askingPrice: e.target.value })} />
+                <p className="text-[10px] text-zinc-400">Locked once the deal has bids.</p>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label>Image</Label>
+              <ImageUploader
+                label=""
+                value={editForm.image}
+                onChange={(v) => setEditForm((f) => ({ ...f, image: v }))}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="e-delivery">Delivery format</Label>
+              <Input id="e-delivery" value={editForm.deliveryFormat} onChange={(e) => setEditForm({ ...editForm, deliveryFormat: e.target.value })} placeholder="e.g. Email + password" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="e-days">New end time (days)</Label>
+                <Input id="e-days" type="number" min="0" value={editForm.endsAtDays} onChange={(e) => setEditForm({ ...editForm, endsAtDays: e.target.value })} placeholder="—" />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="e-hours">New end time (hours)</Label>
+                <Input id="e-hours" type="number" min="0" max="23" value={editForm.endsAtHours} onChange={(e) => setEditForm({ ...editForm, endsAtHours: e.target.value })} placeholder="—" />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditOpen(false)} disabled={editing}>Cancel</Button>
+            <Button onClick={saveEdit} disabled={editing} className="bg-red-600 hover:bg-red-700 text-white">
+              {editing ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null} Save changes
             </Button>
           </DialogFooter>
         </DialogContent>

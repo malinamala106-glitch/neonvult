@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import Image from 'next/image'
 import { api } from '@/lib/api'
+import { isImageUrlValue } from '@/lib/media'
 import type { User, Product, Order, Deposit, CryptoWallet, PublicSettings, Bid } from '@/lib/types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -454,6 +455,7 @@ function NavButton({ active, onClick, icon, label, badge }: { active: boolean; o
 }
 
 function ProductCard({ product, balance, onBuy }: { product: Product; balance: number; onBuy: () => void }) {
+  const isProductImageUrl = isImageUrlValue(product.image)
   const [buying, setBuying] = useState(false)
   const outOfStock = product.stock === 0
   const canAfford = balance >= product.price
@@ -469,8 +471,18 @@ function ProductCard({ product, balance, onBuy }: { product: Product; balance: n
 
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-md transition-shadow border-zinc-200 dark:border-zinc-800">
-      <a href={`/product-details-page?id=${product.id}`} className="aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl hover:opacity-95 transition-opacity" aria-label={`View details for ${product.name}`}>
-        {product.image || '📦'}
+      <a href={`/product-details-page?id=${product.id}`} className="relative aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl hover:opacity-95 transition-opacity" aria-label={`View details for ${product.name}`}>
+        {isProductImageUrl ? (
+          <Image
+            src={product.image!}
+            alt={product.name}
+            fill sizes='(max-width: 768px) 50vw'
+            className="object-cover absolute inset-0 w-full h-full"
+            unoptimized={product.image!.startsWith('http')}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+          />
+        ) : null}
+        <span className={isProductImageUrl ? 'opacity-0' : ''} aria-hidden="true">{product.image || '📦'}</span>
       </a>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
