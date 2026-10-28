@@ -126,7 +126,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
     // Temporary: surface the real failure while verifying the DB-backed upload.
-    console.error('[upload] failed:', e?.message, e?.stack?.split('\n')[1])
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
+    console.error('[upload] failed:', e?.name, e?.message, e?.stack?.split('\n')[1])
+    return NextResponse.json(
+      { error: 'Upload failed', detail: `${e?.name ?? 'Error'}: ${e?.message ?? 'unknown'}` },
+      { status: 500 }
+    )
   }
 }

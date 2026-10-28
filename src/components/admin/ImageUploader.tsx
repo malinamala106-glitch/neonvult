@@ -58,7 +58,7 @@ export function ImageUploader({ value, onChange, label = 'Product image' }: Prop
       const res = await fetch('/api/admin/products/upload', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) {
-        toast.error(data?.error || 'Upload failed')
+        toast.error(data?.detail ? `${data.error || 'Upload failed'} — ${data.detail.slice(0, 140)}` : (data?.error || 'Upload failed'))
         return
       }
       onChange(data.url)
