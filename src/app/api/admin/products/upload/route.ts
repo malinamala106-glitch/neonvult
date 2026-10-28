@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/auth'
 import { rateLimit, clientIp, rateLimitResponse } from '@/lib/rate-limit'
-import { sanitizeHtml } from '@/lib/sanitize'
 
 // POST /api/admin/products/upload — admin-only product image upload.
 //
@@ -60,6 +59,40 @@ function looksLikeSvg(buf: Buffer): boolean {
   return head.startsWith('<?xml') ? head.includes('<svg') : head.startsWith('<svg')
 }
 
+/**
+ * Dependency-free SVG sanitizer (Vercel-safe).
+ *
+ * The previous implementation called isomorphic-dompurify (which bundles
+ * jsdom). That import crashed the serverless function at module-init on
+ * Vercel — every request to this route 500'd with an empty body, even for
+ * plain PNGs, while working fine locally. This keeps the route free of
+ * jsdom entirely.
+ *
+ * Strip the active-content vectors from an SVG: script elements, event
+ * handler attributes, and scriptable URLs inside attributes (href/src with
+ * javascript: or data: text/html along with <foreignObject>). This is a
+ * pragmatic second layer: the first layer is GET /api/uploads/[id], which
+ * serves SVGs with `CSP: default-src 'none'` — a browser rendering that SVG
+ * as a document cannot execute any script regardless of what survived here.
+ */
+function sanitizeSvg(svg: string): string {
+  return svg
+    .replace(/<script[\s\S]*?<\/script\s*>/gi, '')
+    .replace(/<script([^>]*)\/>/gi, '')
+    .replace(/<foreignObject[\s\S]*?<\/foreignObject\s*>/gi, '')
+    // Remove the dangerous attributes (covers on* handlers and the URL scopes),
+    // matched anywhere inside the tag list to also catch ownerSVG/parent forms.
+    .replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, '')
+    .replace(/\son[a-z]+\s*=\s*'[^']*'/gi, '')
+    .replace(/\son[a-z]+\s*=(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '')
+    .replace(/(href|xlink:href|src|style)\s*=\s*"\s*(javascript|data)[^"]*"/gi, '')
+    .replace(/(href|xlink:href|src|style)\s*=\s*'\s*(javascript|data)[^']*'/gi, '')
+    // Comments can hide payloads in some parsers — drop them too.
+    .replace(/<!--[\s\S]*?-->/g, '')
+    // Drop doctype/entity declarations (entity-expansion vectors).
+    .replace(/<!DOCTYPE[^>[]*(\[[\s\S]*?\])?\s*>/gi, '')
+}
+
 export async function POST(req: NextRequest) {
   try {
     await requireAdmin()
@@ -110,7 +143,7 @@ export async function POST(req: NextRequest) {
 
     // SVG is active content — strip scripts/handlers/javascript: URLs before
     // it is ever served from our origin.
-    const storedBuf = ext === 'svg' ? Buffer.from(sanitizeHtml(buf.toString('utf8'))) : buf
+    const storedBuf = ext === 'svg' ? Buffer.from(sanitizeSvg(buf.toString('utf8'))) : buf
 
     const row = await db.uploadedImage.create({
       data: {

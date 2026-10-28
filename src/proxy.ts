@@ -136,7 +136,10 @@ function applySecurityHeaders(res: NextResponse, isDev: boolean): NextResponse {
     `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://static.cloudflareinsights.com`,
     // Inline styles are required by Tailwind runtime + Next inline styles.
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://www.clarity.ms",
+    // `https:` allows admins to paste any external product-image URL into the
+    // media picker (e.g. a hosted PNG). img-src is a low-risk directive to
+    // widen: images are passive content and can't execute script.
+    "img-src 'self' data: blob: https: https://www.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://www.clarity.ms",
     "font-src 'self' data:",
     "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://*.clarity.ms https://www.clarity.ms https://*.ingest.sentry.io",
     "frame-src 'self' https://www.googletagmanager.com",
