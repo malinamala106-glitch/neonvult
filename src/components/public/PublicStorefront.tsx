@@ -276,7 +276,7 @@ const PublicProductCard = memo(function PublicProductCard({ product, onBuy }: { 
   const productUrl = `/product-details-page?id=${product.id}`
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-md transition-shadow border-zinc-200 dark:border-zinc-800">
-      <a href={productUrl} className="aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl overflow-hidden" aria-label={`View details for ${product.name}`}>
+      <a href={productUrl} className="relative aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl overflow-hidden" aria-label={`View details for ${product.name}`}>
         {isImageUrl ? (
           <Image
             src={product.image!}

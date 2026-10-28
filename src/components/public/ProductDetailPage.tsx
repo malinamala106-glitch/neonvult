@@ -44,7 +44,7 @@ export function ProductDetailPage({ product }: { product: Product }) {
       <main className="flex-1 max-w-4xl mx-auto w-full px-3 sm:px-6 py-6 lg:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {/* Image */}
-          <div className="aspect-square bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl">
+          <div className="relative aspect-square bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl">
             {isImageUrl ? (
               // Product hero sits above the fold and is the LCP candidate —
               // next/image prioritizes it (no lazy loading on the first

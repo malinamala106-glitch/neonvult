@@ -199,7 +199,7 @@ const BlogCard = memo(function BlogCard({ post, variant }: { post: BlogListPost;
         className={
           isHero
             ? 'flex-1 bg-slate-100 relative flex items-center justify-center overflow-hidden min-h-[300px]'
-            : 'h-40 bg-slate-100 flex items-center justify-center overflow-hidden'
+            : 'h-40 bg-slate-100 relative flex items-center justify-center overflow-hidden'
         }
       >
         {isImageUrl ? (
@@ -312,7 +312,7 @@ export function BlogPostView({ post, content, siteName = 'AccsPoint' }: { post: 
 
       <article className="flex-1 max-w-3xl w-full mx-auto px-3 sm:px-6 py-8 sm:py-12">
         {/* Cover */}
-        <div className="aspect-[2/1] bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl mb-6">
+        <div className="relative aspect-[2/1] bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 rounded-lg overflow-hidden flex items-center justify-center text-7xl mb-6">
           {isImageUrl ? (
             // Article cover is above the fold and the LCP candidate.
             <Image

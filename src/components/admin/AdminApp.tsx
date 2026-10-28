@@ -707,7 +707,7 @@ function AdminProductCard({ product, onRefresh }: { product: Product; onRefresh:
 
   return (
     <Card>
-      <div className="aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
+      <div className="relative aspect-video bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-5xl rounded-t-lg overflow-hidden">
         {product.image ? (
           (product.image.startsWith('http://') || product.image.startsWith('https://') || product.image.startsWith('/')) ? (
             <Image
