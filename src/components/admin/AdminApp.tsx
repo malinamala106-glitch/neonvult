@@ -1203,6 +1203,10 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
   const [address, setAddress] = useState('')
   const [label, setLabel] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [editOpen, setEditOpen] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState({ network: '', address: '', label: '' })
+  const [editing, setEditing] = useState(false)
 
   async function add() {
     if (!network || !address) { toast.error('Network and address required'); return }
@@ -1231,11 +1235,47 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
   async function remove(w: CryptoWallet) {
     if (!confirm(`Delete wallet ${w.network} - ${w.address.slice(0, 10)}...?`)) return
     try {
-      await api.deleteWallet(w.id)
-      toast.success('Wallet removed')
+      // Surface the server's actual response — a wallet kept alive by deposit
+      // history comes back "deactivated" instead of deleted.
+      const result = await api.deleteWallet(w.id)
+      if (result.deactivated) {
+        toast.info(result.message || 'Wallet deactivated (it is used in deposit history)')
+      } else {
+        toast.success('Wallet removed')
+      }
       onRefresh()
     } catch (e: any) {
-      toast.error(e.message)
+      toast.error(e.message || 'Failed to remove wallet')
+    }
+  }
+
+  // Pre-fill the edit dialog from the wallet row.
+  function openEdit(w: CryptoWallet) {
+    setEditId(w.id)
+    setEditForm({ network: w.network, address: w.address, label: w.label ?? '' })
+    setEditOpen(true)
+  }
+
+  async function saveEdit() {
+    if (!editId) return
+    if (!editForm.network.trim() || !editForm.address.trim()) {
+      toast.error('Network and address are required')
+      return
+    }
+    setEditing(true)
+    try {
+      await api.updateWallet(editId, {
+        network: editForm.network.trim(),
+        address: editForm.address.trim(),
+        label: editForm.label.trim() || undefined,
+      })
+      toast.success('Wallet updated')
+      setEditOpen(false)
+      onRefresh()
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to update wallet')
+    } finally {
+      setEditing(false)
     }
   }
 
@@ -1304,7 +1344,10 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
                   <code className="text-xs font-mono break-all flex-1">{w.address}</code>
                   <CopyButton value={w.address} label="" />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="outline" size="sm" onClick={() => openEdit(w)}>
+                    <Pencil className="w-3.5 h-3.5 mr-1" /> Edit
+                  </Button>
                   <Button variant="outline" size="sm" onClick={() => toggle(w)}>
                     <span className={`inline-block w-3 h-3 rounded-full ${w.isActive ? 'bg-red-500' : 'bg-zinc-300 dark:bg-zinc-600'}`} />
                     <span className="ml-1">{w.isActive ? 'Disable' : 'Enable'}</span>
@@ -1318,6 +1361,36 @@ function WalletsView({ wallets, loading, onRefresh }: { wallets: CryptoWallet[];
           ))}
         </div>
       )}
+
+      {/* Edit wallet dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit wallet</DialogTitle>
+            <DialogDescription>Update the network, address or label. Changes show immediately on the deposit page.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="w-network">Network</Label>
+              <Input id="w-network" value={editForm.network} onChange={(e) => setEditForm({ ...editForm, network: e.target.value })} placeholder="USDT-TRC20" />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="w-address">Wallet address</Label>
+              <Input id="w-address" value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} className="font-mono text-xs" />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="w-label">Label (optional)</Label>
+              <Input id="w-label" value={editForm.label} onChange={(e) => setEditForm({ ...editForm, label: e.target.value })} placeholder="Primary" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditOpen(false)} disabled={editing}>Cancel</Button>
+            <Button onClick={saveEdit} disabled={editing} className="bg-red-600 hover:bg-red-700 text-white">
+              {editing ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null} Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

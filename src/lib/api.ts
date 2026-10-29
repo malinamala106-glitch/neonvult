@@ -187,8 +187,11 @@ export const api = {
     return data.wallet
   },
 
-  async deleteWallet(id: string): Promise<void> {
-    await fetch(`/api/wallets/${id}`, { method: 'DELETE' })
+  async deleteWallet(id: string): Promise<{ ok: boolean; deactivated?: boolean; message?: string }> {
+    const res = await fetch(`/api/wallets/${id}`, { method: 'DELETE' })
+    // Must parse the response: a silent failure here used to make Remove "not
+    // work" with no error shown, because the caller assumed success.
+    return json(res)
   },
 
   // Deposits

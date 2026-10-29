@@ -26,11 +26,6 @@ export default async function Page() {
             'minDepositAmount',
             'siteName',
             'supportEmail',
-            // USDT deposit addresses per network (set by admin via settings)
-            'usdtWalletBEP20',
-            'usdtWalletERC20',
-            'usdtWalletTRX20',
-            'usdtWalletPolygon20',
             // Optional Telegram support link shown on the pending page
             'telegramSupportUrl',
           ],
@@ -48,12 +43,6 @@ export default async function Page() {
       wallets={wallets.map(toWalletProps)}
       minDeposit={parseFloat(settingsMap.minDepositAmount ?? '0') || 0}
       siteName={settingsMap.siteName ?? 'AccsPoint'}
-      usdtAddresses={{
-        usdtWalletBEP20: settingsMap.usdtWalletBEP20 ?? '',
-        usdtWalletERC20: settingsMap.usdtWalletERC20 ?? '',
-        usdtWalletTRX20: settingsMap.usdtWalletTRX20 ?? '',
-        usdtWalletPolygon20: settingsMap.usdtWalletPolygon20 ?? '',
-      }}
       telegramUrl={settingsMap.telegramSupportUrl || null}
     />
   )

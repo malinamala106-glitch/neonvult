@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { BrandLock } from '@/components/shared/BrandName'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
@@ -21,8 +20,8 @@ import { api } from '@/lib/api'
 import { toast } from 'sonner'
 import { QRCodeSVG } from 'qrcode.react'
 import {
-  ArrowRight, Loader2, ArrowDownCircle, CheckCircle2, Copy, QrCode, X,
-  Bitcoin, ShieldCheck, Wallet,
+  ArrowRight, Loader2, ArrowDownCircle, CheckCircle2, QrCode,
+  Bitcoin, ShieldCheck,
 } from 'lucide-react'
 
 interface Props {
@@ -30,30 +29,21 @@ interface Props {
   wallets: CryptoWallet[]
   minDeposit: number
   siteName?: string
-  /** Admin-configured USDT deposit addresses per network. */
-  usdtAddresses: Record<string, string>
   /** Optional Telegram support link URL for the "Contact via Telegram" button. */
   telegramUrl?: string | null
 }
 
-// The 4 networks supported by the deposit flow.
-// Keys are stored under settings as `usdtWalletBEP20`, etc.
-const NETWORKS = [
-  { key: 'BEP20',    label: 'USDT — BEP20 (BSC)',     settingsKey: 'usdtWalletBEP20' },
-  { key: 'ERC20',    label: 'USDT — ERC20 (Ethereum)', settingsKey: 'usdtWalletERC20' },
-  { key: 'TRX20',    label: 'USDT — TRX20 (Tron)',     settingsKey: 'usdtWalletTRX20' },
-  { key: 'Polygon20', label: 'USDT — Polygon20',      settingsKey: 'usdtWalletPolygon20' },
-] as const
-
-type NetworkKey = typeof NETWORKS[number]['key']
-
-export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint', usdtAddresses, telegramUrl }: Props) {
+export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint', telegramUrl }: Props) {
   const router = useRouter()
+
+  // Deposit methods come straight from the admin-managed Crypto Wallets table
+  // (only active wallets with an address are offered).
+  const activeWallets = wallets.filter((w) => w.isActive && !!w.address)
 
   // Flow state
   const [step, setStep] = useState<'amount' | 'network' | 'review' | 'confirm'>('amount')
   const [amount, setAmount] = useState('')
-  const [network, setNetwork] = useState<NetworkKey | ''>('')
+  const [walletId, setWalletId] = useState('')
   const [txHash, setTxHash] = useState('')
   const [showQR, setShowQR] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -61,13 +51,12 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
 
   const numericAmount = parseFloat(amount) || 0
   const amountValid = numericAmount >= Math.max(1, minDeposit)
-  const selectedNetwork = NETWORKS.find((n) => n.key === network)
-  const depositAddress = selectedNetwork ? (usdtAddresses[selectedNetwork.settingsKey] || '') : ''
-  const addressAvailable = depositAddress.length > 0
+  const selectedWallet = activeWallets.find((w) => w.id === walletId) ?? null
+  const depositAddress = selectedWallet?.address ?? ''
 
   function resetFlow() {
     setAmount('')
-    setNetwork('')
+    setWalletId('')
     setTxHash('')
     setShowQR(false)
     setStep('amount')
@@ -79,38 +68,42 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
       toast.error(`Minimum deposit is $${Math.max(1, minDeposit).toFixed(2)}`)
       return
     }
+    if (activeWallets.length === 0) {
+      toast.error('No deposit methods are available right now. Please contact support.')
+      return
+    }
     setStep('network')
   }
 
-  // Step 2 → 3: network selected, show deposit address + review
-  function proceedToReview(n: NetworkKey) {
-    setNetwork(n)
-    if (!usdtAddresses[NETWORKS.find((x) => x.key === n)!.settingsKey]) {
-      toast.error(`No deposit address configured for ${n}. Please contact admin.`)
-      return
-    }
+  // Step 2 → 3: wallet selected, show deposit address + review
+  function proceedToReview(w: CryptoWallet) {
+    setWalletId(w.id)
     setStep('review')
   }
 
   // Step 3 → open confirm dialog (asks for TRX ID)
   function openConfirmDialog() {
+    if (!selectedWallet) return
     setConfirmOpen(true)
   }
 
   // Final submission — second click of "Confirm Deposit"
   async function submitDeposit() {
     if (!txHash.trim()) {
-      toast.error('Please enter the TRX ID / transaction hash')
+      toast.error('Please enter the transaction hash / ID')
+      return
+    }
+    if (!selectedWallet) {
+      toast.error('Select a deposit method first')
       return
     }
     setSubmitting(true)
     try {
-      // Find a matching wallet by network name, if admin configured one in the Wallet table.
-      // The walletId is optional — the API accepts just network + amount + txHash.
-      const wallet = wallets.find((w) => w.isActive && w.network.toUpperCase().includes(network as string))
+      // The exact wallet row backs the submission, so admin sees precisely
+      // which address the user says they paid to.
       const result = await api.createDeposit({
-        walletId: wallet?.id,
-        network: `USDT-${network}`,
+        walletId: selectedWallet.id,
+        network: selectedWallet.network,
         amount: numericAmount,
         txHash: txHash.trim(),
       })
@@ -123,6 +116,11 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
       setSubmitting(false)
     }
   }
+
+  const methodsText =
+    activeWallets.length > 0
+      ? activeWallets.map((w) => w.network).join(', ')
+      : 'the supported networks'
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -154,11 +152,11 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
           <div className="lg:col-span-2 space-y-6">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
-                <ArrowDownCircle className="w-7 h-7 text-red-600" /> Deposit USDT
+                <ArrowDownCircle className="w-7 h-7 text-red-600" /> Deposit Funds
               </h1>
               <p className="text-sm text-zinc-500 mt-1">
-                We accept only USDT across 4 networks: BEP20, ERC20, TRX20, and Polygon20.
-                All deposits are manually verified by an admin before your balance is updated.
+                Pick one of our deposit methods ({methodsText}). All deposits are manually
+                verified by an admin before your balance is updated.
               </p>
             </div>
 
@@ -176,7 +174,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">1. Enter deposit amount</CardTitle>
-                  <CardDescription>How much USDT (in USD value) do you want to deposit? Minimum ${Math.max(1, minDeposit).toFixed(2)}.</CardDescription>
+                  <CardDescription>How much (in USD value) do you want to deposit? Minimum ${Math.max(1, minDeposit).toFixed(2)}.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
@@ -206,7 +204,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
                     </Button>
                     <Button
                       onClick={proceedToNetwork}
-                      disabled={!amountValid}
+                      disabled={!amountValid || activeWallets.length === 0}
                       className="bg-red-600 hover:bg-red-700 text-white flex-1"
                     >
                       Continue
@@ -216,39 +214,31 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
               </Card>
             )}
 
-            {/* STEP 2: Network */}
+            {/* STEP 2: Method (from admin wallets) */}
             {step === 'network' && (
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">2. Select deposit network</CardTitle>
-                  <CardDescription>Choose a USDT network. We'll show the matching deposit address on the next step.</CardDescription>
+                  <CardTitle className="text-lg">2. Select deposit method</CardTitle>
+                  <CardDescription>Choose one of our available deposit methods. We'll show the matching deposit address on the next step.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {NETWORKS.map((n) => {
-                      const hasAddress = !!usdtAddresses[n.settingsKey]
-                      return (
-                        <button
-                          key={n.key}
-                          onClick={() => proceedToReview(n.key)}
-                          disabled={!hasAddress}
-                          className={`text-left px-4 py-3 rounded-lg border-2 transition-all ${
-                            hasAddress
-                              ? 'border-zinc-200 dark:border-zinc-700 hover:border-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20'
-                              : 'border-zinc-200 dark:border-zinc-800 opacity-50 cursor-not-allowed'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <Bitcoin className="w-4 h-4 text-red-600" />
-                            <span className="font-semibold text-sm">{n.key}</span>
-                          </div>
-                          <div className="text-xs text-zinc-500">{n.label}</div>
-                          {!hasAddress && (
-                            <div className="text-[10px] text-amber-600 mt-1">No address configured</div>
-                          )}
-                        </button>
-                      )
-                    })}
+                    {activeWallets.map((w) => (
+                      <button
+                        key={w.id}
+                        onClick={() => proceedToReview(w)}
+                        className={`text-left px-4 py-3 rounded-lg border-2 transition-all border-zinc-200 dark:border-zinc-700 hover:border-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 ${
+                          walletId === w.id ? 'border-red-500 dark:border-red-600' : ''
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <Bitcoin className="w-4 h-4 text-red-600" />
+                          <span className="font-semibold text-sm">{w.network}</span>
+                        </div>
+                        {w.label && <div className="text-xs text-zinc-500">{w.label}</div>}
+                        <div className="text-[10px] text-zinc-400 mt-1 truncate">{w.address}</div>
+                      </button>
+                    ))}
                   </div>
                   <div className="flex gap-2 pt-2">
                     <Button variant="outline" onClick={() => setStep('amount')}>
@@ -261,22 +251,22 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
             )}
 
             {/* STEP 3: Review deposit info */}
-            {step === 'review' && selectedNetwork && (
+            {step === 'review' && selectedWallet && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">3. Review deposit info</CardTitle>
-                  <CardDescription>Send exactly <span className="font-semibold text-red-700 dark:text-red-300">${numericAmount.toFixed(2)}</span> worth of USDT to the address below.</CardDescription>
+                  <CardDescription>Send exactly <span className="font-semibold text-red-700 dark:text-red-300">${numericAmount.toFixed(2)}</span> of crypto (USD value) to the address below.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   {/* Deposit info table */}
                   <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800">
-                    <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
+                    <InfoRow label="Network" value={selectedWallet.network} icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
+                    {selectedWallet.label && <InfoRow label="Label" value={selectedWallet.label} />}
                     <InfoRow
                       label="Amount"
                       value={`$${numericAmount.toFixed(2)} USD`}
                       copyValue={numericAmount.toFixed(2)}
                     />
-                    <InfoRow label="Deposit network" value={selectedNetwork.label} />
                     <InfoRow
                       label="Address"
                       value={depositAddress}
@@ -317,7 +307,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
                     <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold mb-1">Important</p>
-                      <p>Send only USDT via the <span className="font-mono">{selectedNetwork.key}</span> network. Sending other tokens or using a different network may result in permanent loss of funds.</p>
+                      <p>Send funds via the <span className="font-mono">{selectedWallet.network}</span> network shown above. Using a different network or an unsupported token may result in permanent loss of funds.</p>
                     </div>
                   </div>
 
@@ -365,21 +355,21 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
                 <div className="flex items-start gap-3">
                   <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">2</div>
                   <div>
-                    <div className="font-medium">Pick network</div>
-                    <p className="text-xs text-zinc-500">BEP20, ERC20, TRX20, or Polygon20.</p>
+                    <div className="font-medium">Pick method</div>
+                    <p className="text-xs text-zinc-500">{activeWallets.length > 0 ? activeWallets.map((w) => w.network).join(', ') + '.' : 'Choose from the available methods.'}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">3</div>
                   <div>
-                    <div className="font-medium">Send USDT</div>
+                    <div className="font-medium">Send crypto</div>
                     <p className="text-xs text-zinc-500">Send to the address shown (or scan QR).</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 flex items-center justify-center shrink-0 text-xs font-bold">4</div>
                   <div>
-                    <div className="font-medium">Confirm with TRX ID</div>
+                    <div className="font-medium">Confirm with TX ID</div>
                     <p className="text-xs text-zinc-500">Enter the transaction hash and submit.</p>
                   </div>
                 </div>
@@ -417,20 +407,19 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
               <CheckCircle2 className="w-5 h-5 text-red-600" /> Confirm your deposit
             </DialogTitle>
             <DialogDescription>
-              Enter the transaction ID (TRX hash) from your wallet. We'll send all deposit info to the admin for verification.
+              Enter the transaction ID (TX hash) from your wallet. We'll send all deposit info to the admin for verification.
             </DialogDescription>
           </DialogHeader>
 
           {/* Deposit summary inside the dialog */}
           <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-100 dark:divide-zinc-800 text-sm w-full overflow-hidden">
-            <InfoRow label="Currency" value="USDT" icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
+            <InfoRow label="Network" value={selectedWallet?.network || ''} icon={<Bitcoin className="w-4 h-4 text-red-600" />} />
             <InfoRow label="Amount" value={`$${numericAmount.toFixed(2)} USD`} />
-            <InfoRow label="Network" value={selectedNetwork?.label || network} />
             <InfoRow label="Address" value={depositAddress} copyValue={depositAddress} mono />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="txHash">Transaction ID (TRX ID) <span className="text-red-500">*</span></Label>
+            <Label htmlFor="txHash">Transaction ID (TX hash) <span className="text-red-500">*</span></Label>
             <Input
               id="txHash"
               placeholder="e.g. 0x1234... or tx hash"
@@ -439,7 +428,7 @@ export function DepositPage({ user, wallets, minDeposit, siteName = 'AccsPoint',
               autoFocus
               className="font-mono text-sm"
             />
-            <p className="text-xs text-zinc-500">Paste the transaction hash you received from your wallet after sending the USDT.</p>
+            <p className="text-xs text-zinc-500">Paste the transaction hash you received from your wallet after sending the funds.</p>
           </div>
 
           <DialogFooter className="pt-2">
@@ -486,13 +475,9 @@ function InfoRow({ label, value, copyValue, icon, mono }: { label: string; value
         {icon}
         <span>{label}</span>
       </div>
-      <div className="flex items-center gap-2 min-w-0 flex-1 justify-end">
-        <span className={`text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate ${mono ? 'font-mono' : ''}`} title={value}>
-          {value}
-        </span>
-        {copyValue && copyValue.length > 0 && (
-          <CopyButton value={copyValue} />
-        )}
+      <div className="flex items-center gap-2 min-w-0">
+        <span className={`text-sm font-medium text-right break-all ${mono ? 'font-mono text-xs' : ''}`}>{value}</span>
+        {copyValue ? <CopyButton value={copyValue} label="" /> : null}
       </div>
     </div>
   )
