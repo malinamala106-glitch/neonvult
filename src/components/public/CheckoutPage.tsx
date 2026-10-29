@@ -287,7 +287,7 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
                   {product.deliveryFormat && (
                     <div className="mt-2 rounded-md border border-red-200 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 px-3 py-2">
                       <div className="text-[10px] font-medium text-red-700 dark:text-red-400 uppercase tracking-wider">What you&apos;ll receive</div>
-                      <code className="text-xs font-mono text-zinc-700 dark:text-zinc-300">{product.deliveryFormat}</code>
+                      <code className="block mt-0.5 break-all text-xs font-mono text-zinc-700 dark:text-zinc-300">{product.deliveryFormat}</code>
                       <div className="text-[10px] text-zinc-500 mt-0.5">Instantly delivered after purchase.</div>
                     </div>
                   )}
