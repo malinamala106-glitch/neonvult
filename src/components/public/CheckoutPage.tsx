@@ -192,8 +192,8 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
       <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950">
         <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
           <div className="max-w-3xl mx-auto px-3 sm:px-6 py-4 flex items-center justify-between gap-3">
-            <a href="/" className="text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400 inline-flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 rotate-180" /> Back to marketplace
+            <a href="/#orders" className="text-sm font-medium text-zinc-600 hover:text-red-600 dark:text-zinc-400 inline-flex items-center gap-2">
+              <ArrowRight className="w-4 h-4 rotate-180" /> My purchases
             </a>
             <TelegramButton />
           </div>
@@ -223,6 +223,9 @@ export function CheckoutPage({ product, user }: { product: Product; user: User }
                 </ul>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                <Button asChild className="bg-red-600 hover:bg-red-700 text-white">
+                  <a href="/#orders">Go to my purchases</a>
+                </Button>
                 <Button asChild variant="outline">
                   <a href="/">Back to marketplace</a>
                 </Button>

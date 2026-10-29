@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { api } from '@/lib/api'
 import { isImageUrlValue } from '@/lib/media'
 import type { User, Product, Order, Deposit, CryptoWallet, PublicSettings, Bid } from '@/lib/types'
+import { ProductThumb } from '@/components/ProductThumb'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -757,7 +758,7 @@ function BuyerDashboard({ user, orders, deposits, loading }: { user: User; order
               {recent.map((o) => (
                 <div key={o.id} className="flex items-center justify-between gap-3 p-2 rounded-md hover:bg-zinc-50 dark:hover:bg-zinc-900">
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-xl" aria-hidden="true">{o.product?.image || '📦'}</span>
+                    <ProductThumb image={o.product?.image} name={o.product?.name ?? 'Unknown'} className="w-9 h-9 rounded-md" iconClass="text-lg" />
                     <div className="min-w-0">
                       <div className="text-sm font-medium truncate">{o.product?.name ?? 'Unknown'}</div>
                       <div className="text-xs text-zinc-500">{formatDate(o.createdAt)} · {o.keys?.length ?? 0} key{(o.keys?.length ?? 0) !== 1 ? 's' : ''}</div>
@@ -825,9 +826,7 @@ function OrdersView({ orders, loading }: { orders: Order[]; loading: boolean }) 
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-md bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-950/40 dark:to-zinc-900 flex items-center justify-center text-2xl" aria-hidden="true">
-                    {o.product?.image || '📦'}
-                  </div>
+                  <ProductThumb image={o.product?.image} name={o.product?.name || ''} className="w-12 h-12 rounded-md" iconClass="text-2xl" />
                   <div>
                     <CardTitle className="text-base">{o.product?.name || 'Unknown product'}{o.batch?.label ? <span className="ml-2 text-xs text-zinc-500 font-normal font-mono">(batch {o.batch.label})</span> : null}</CardTitle>
                     <CardDescription className="text-xs">

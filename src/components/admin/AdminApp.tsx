@@ -25,6 +25,7 @@ import { RichTextEditor } from '@/components/admin/RichTextEditor'
 import { ImageUploader } from '@/components/admin/ImageUploader'
 import { EntriesModal } from '@/components/admin/EntriesModal'
 import { UserProfileModal } from '@/components/admin/UserProfileModal'
+import { ProductThumb } from '@/components/ProductThumb'
 import { SupportConsoleView } from '@/components/admin/SupportConsoleView'
 import { formatMoney, formatDate, shortId, statusBadgeClass } from '@/lib/format'
 import { toast } from 'sonner'
@@ -397,7 +398,7 @@ function DashboardView({ stats, deposits, orders, products }: { stats: AdminStat
               {lowStock.map((p) => (
                 <div key={p.id} className="flex items-center justify-between p-2 rounded-md bg-amber-50 dark:bg-amber-950/20">
                   <div className="flex items-center gap-2">
-                    <span className="text-xl">{p.image || '📦'}</span>
+                    <ProductThumb image={p.image} name={p.name} className="w-9 h-9 rounded-md" iconClass="text-lg" />
                     <span className="text-sm font-medium">{p.name}</span>
                   </div>
                   <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-200">
